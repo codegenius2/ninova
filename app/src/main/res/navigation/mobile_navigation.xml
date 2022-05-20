@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.armutyus.ninova.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_discovery"
+        android:name="com.armutyus.ninova.ui.discovery.DiscoveryFragment"
+        android:label="@string/title_discovery"
+        tools:layout="@layout/fragment_discovery" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.armutyus.ninova.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_readList"
+        android:name="com.armutyus.ninova.ui.readlist.ReadListFragment"
+        android:label="@string/title_readList"
+        tools:layout="@layout/fragment_readlist" />
 </navigation>

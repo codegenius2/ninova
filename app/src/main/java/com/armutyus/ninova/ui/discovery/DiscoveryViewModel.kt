@@ -1,10 +1,10 @@
-package com.armutyus.ninova.ui.dashboard
+package com.armutyus.ninova.ui.discovery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class DiscoveryViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

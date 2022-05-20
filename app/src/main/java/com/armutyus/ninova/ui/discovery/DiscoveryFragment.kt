@@ -1,4 +1,4 @@
-package com.armutyus.ninova.ui.notifications
+package com.armutyus.ninova.ui.discovery
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.armutyus.ninova.databinding.FragmentNotificationsBinding
+import com.armutyus.ninova.databinding.FragmentDiscoveryBinding
 
-class NotificationsFragment : Fragment() {
+class DiscoveryFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentDiscoveryBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val discoveryViewModel =
+            ViewModelProvider(this).get(DiscoveryViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentDiscoveryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textDashboard
+        discoveryViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
