@@ -15,7 +15,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        setTitle("Ninova")
         setContentView(binding.root)
 
             //Complete and destroy login activity once successful

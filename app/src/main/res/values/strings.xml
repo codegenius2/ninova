@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Ninova</string>
     <string name="title_home">Home</string>
-    <string name="title_discovery">Discovery</string>
+    <string name="title_discover">Discover</string>
     <string name="title_readList">ReadList</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">LOGIN</string>

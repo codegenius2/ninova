@@ -5,10 +5,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.login.LoginActivity">
 
     <EditText
@@ -21,7 +17,8 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/password"
@@ -34,65 +31,58 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        />
+        android:importantForAutofill="no" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login"
-        android:width="120dp"
-        android:height="24dp"
-        app:cornerRadius="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="48dp"
+        android:width="120dp"
+        android:height="24dp"
         android:enabled="true"
         android:text="@string/action_sign_in"
-        app:layout_constraintBottom_toTopOf="@+id/register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-         />
+        android:fontFamily="sans-serif"
+        app:cornerRadius="10dp"
+        app:layout_constraintStart_toStartOf="@+id/withoutRegister"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="48dp"
         android:width="120dp"
         android:height="24dp"
         android:enabled="true"
         android:text="@string/action_register"
-        android:textColor="@color/design_default_color_primary"
         android:textSize="14sp"
+        android:fontFamily="sans-serif"
         app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
-        app:layout_constraintBottom_toTopOf="@+id/withoutRegister"
-        app:strokeColor="@color/design_default_color_primary" />
+        app:layout_constraintEnd_toEndOf="@+id/withoutRegister"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:strokeColor="@color/light_primary" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/withoutRegister"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="180dp"
         android:width="280dp"
         android:height="24dp"
         android:enabled="true"
         android:text="@string/action_without_register"
-        android:textColor="@color/design_default_color_primary"
         android:textSize="14sp"
+        android:fontFamily="sans-serif"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register"
-        app:strokeColor="@color/design_default_color_primary" />
+        app:strokeColor="@color/light_primary" />
 
     <ProgressBar
         android:id="@+id/loading"

@@ -1,4 +1,4 @@
-package com.armutyus.ninova.ui.discovery
+package com.armutyus.ninova.ui.discover
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.armutyus.ninova.databinding.FragmentDiscoveryBinding
+import com.armutyus.ninova.databinding.FragmentDiscoverBinding
 
-class DiscoveryFragment : Fragment() {
+class DiscoverFragment : Fragment() {
 
-    private var _binding: FragmentDiscoveryBinding? = null
+    private var _binding: FragmentDiscoverBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,12 +23,12 @@ class DiscoveryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val discoveryViewModel =
-            ViewModelProvider(this).get(DiscoveryViewModel::class.java)
+            ViewModelProvider(this).get(DiscoverViewModel::class.java)
 
-        _binding = FragmentDiscoveryBinding.inflate(inflater, container, false)
+        _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
+        val textView: TextView = binding.textDiscover
         discoveryViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
