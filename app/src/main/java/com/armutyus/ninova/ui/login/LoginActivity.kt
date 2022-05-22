@@ -1,10 +1,9 @@
 package com.armutyus.ninova.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.EditText
+import com.armutyus.ninova.MainActivity
 import com.armutyus.ninova.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -17,8 +16,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-            //Complete and destroy login activity once successful
-            //finish()
+        binding.withoutRegister.setOnClickListener {
+            startActivity(Intent(this,MainActivity::class.java))
         }
+
+    }
+
 
 }

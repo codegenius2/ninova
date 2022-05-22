@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_discovery"
         android:name="com.armutyus.ninova.ui.discover.DiscoverFragment"
-        android:label="@string/title_discovery"
+        android:label="@string/title_discover"
         tools:layout="@layout/fragment_discover" />
 
     <fragment
