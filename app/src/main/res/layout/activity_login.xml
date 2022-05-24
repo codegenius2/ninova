@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/username"
+        android:drawableStart="@drawable/ic_login_email_gray"
         android:layout_width="229dp"
         android:layout_height="49dp"
         android:layout_marginTop="108dp"
@@ -22,6 +23,7 @@
 
     <EditText
         android:id="@+id/password"
+        android:drawableStart="@drawable/ic_login_lock_gray"
         android:layout_width="229dp"
         android:layout_height="49dp"
         android:layout_marginTop="8dp"
@@ -32,6 +34,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username"
         android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_password"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/register"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login"

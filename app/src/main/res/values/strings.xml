@@ -3,10 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_discover">Discover</string>
     <string name="title_readList">ReadList</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_email">E-mail</string>
     <string name="prompt_password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="action_sign_in">LOGIN</string>
     <string name="action_register">REGISTER</string>
     <string name="action_without_register">CONTINUE WITHOUT AN ACCOUNT</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="forgot_password">Forgot Password?</string>
 </resources>

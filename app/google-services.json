@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1053365433940",
+    "project_id": "ninova-bookshelf-app",
+    "storage_bucket": "ninova-bookshelf-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053365433940:android:87bf5f53d4dfbf6b461fc1",
+        "android_client_info": {
+          "package_name": "com.armutyus.ninova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053365433940-1ap27nlvt0pbdln8jcn14tv03nsutokj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAGdLH3cL4VGrYfejOIuzkhTpP72VYT5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053365433940-1ap27nlvt0pbdln8jcn14tv03nsutokj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
