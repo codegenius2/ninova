@@ -8,7 +8,7 @@
     tools:context=".ui.login.LoginActivity">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/userEmail"
         android:drawableStart="@drawable/ic_login_email_gray"
         android:layout_width="229dp"
         android:layout_height="49dp"
@@ -32,7 +32,7 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/userEmail"
         android:importantForAutofill="no" />
 
     <TextView
