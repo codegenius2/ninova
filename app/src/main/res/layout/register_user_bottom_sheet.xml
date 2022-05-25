@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/prompt_username"
         android:inputType="text"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif"
         android:textSize="16sp"
         android:drawableStart="@drawable/ic_register_username_gray"
         android:layout_gravity="center">
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif"
         android:textSize="16sp"
         android:drawableStart="@drawable/ic_login_email_gray"
         android:layout_gravity="center">
@@ -35,7 +35,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="@string/prompt_password"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif"
         android:textSize="16sp"
         android:drawableStart="@drawable/ic_login_lock_gray"
         android:inputType="textPassword"
@@ -47,7 +47,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="@string/confirm_password"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif"
         android:textSize="16sp"
         android:drawableStart="@drawable/ic_login_lock_gray"
         android:inputType="textPassword"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/action_register"
-        android:fontFamily="monospace">
+        android:fontFamily="sans-serif">
     </com.google.android.material.button.MaterialButton>
 
 </LinearLayout>

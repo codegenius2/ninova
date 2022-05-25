@@ -70,9 +70,11 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
                 .show()
         } else {
+
             auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                progressDialog.setMessage("Logging in..")
+                progressDialog.show()
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }.addOnFailureListener {
                 Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()

@@ -12,4 +12,8 @@
     <string name="action_without_register">CONTINUE WITHOUT AN ACCOUNT</string>
     <string name="login_failed">"Login failed"</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_sign_out">Sign Out</string>
+    <string name="home_button_books">Books</string>
+    <string name="home_button_shelves">Shelves</string>
 </resources>
