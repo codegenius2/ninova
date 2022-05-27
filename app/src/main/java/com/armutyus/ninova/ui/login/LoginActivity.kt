@@ -63,8 +63,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
-        email = binding.userEmail.text.toString().trim()
-        password = binding.password.text.toString().trim()
+        email = binding.userEmailText.text.toString().trim()
+        password = binding.userPasswordText.text.toString().trim()
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
