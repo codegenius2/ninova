@@ -47,9 +47,7 @@ class LoginActivity : AppCompatActivity() {
         progressDialog.setCanceledOnTouchOutside(false)
 
         binding.login.setOnClickListener {
-
             loginUser()
-
         }
 
         binding.register.setOnClickListener {
@@ -161,7 +159,6 @@ class LoginActivity : AppCompatActivity() {
                     "Failed to save user info due to ${it.localizedMessage}",
                     Toast.LENGTH_LONG
                 ).show()
-
             }
     }
 
