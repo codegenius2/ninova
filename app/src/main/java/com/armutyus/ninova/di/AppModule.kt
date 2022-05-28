@@ -7,10 +7,12 @@ import com.armutyus.ninova.MainActivity
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
+import com.armutyus.ninova.constants.Constants.SPLASH_INTENT
 import com.armutyus.ninova.constants.Constants.USERS_REF
 import com.armutyus.ninova.repository.AuthRepository
 import com.armutyus.ninova.repository.AuthRepositoryInterface
 import com.armutyus.ninova.ui.login.LoginActivity
+import com.armutyus.ninova.ui.splash.SplashActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -43,11 +45,11 @@ object AppModule {
         return application.applicationContext
     }
 
-    /*@Provides
+    @Provides
     @Named(SPLASH_INTENT)
     fun provideSplashIntent(context: Context): Intent {
         return Intent(context, SplashActivity::class.java)
-    }*/
+    }
 
     @Provides
     @Named(LOGIN_INTENT)
@@ -70,6 +72,14 @@ object AppModule {
     @Provides
     @Named(USERS_REF)
     fun provideUsersRef(db: FirebaseFirestore) = db.collection(USERS_REF)
+
+    @Singleton
+    @Provides
+    fun provideAuthRepository(
+        auth : FirebaseAuth
+    ) : AuthRepositoryInterface {
+        return AuthRepository(auth)
+    }
 
     @Singleton
     @Provides

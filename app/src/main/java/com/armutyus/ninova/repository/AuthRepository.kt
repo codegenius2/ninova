@@ -1,30 +1,26 @@
 package com.armutyus.ninova.repository
 
-import com.armutyus.ninova.constants.Constants.USERS_REF
+import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.constants.Response
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.flow.flow
-import java.lang.Exception
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import javax.inject.Named
 
 class AuthRepository @Inject constructor(
-    private val auth: FirebaseAuth,
-    @Named(USERS_REF) private val usersRef: CollectionReference
+    private val auth: FirebaseAuth
 ) : AuthRepositoryInterface {
 
-    override suspend fun signInWithEmailPassword(email: String, password: String): Response<Boolean> {
-        return try {
-            val response = auth.signInWithEmailAndPassword(email, password)
-            if (response.isSuccessful) {
-                return Response.success(response.result.additionalUserInfo?.isNewUser)
-            } else {
-                Response.error("Error", null)
+    override suspend fun signInWithEmailPassword(email: String, password: String) = flow {
+        try {
+            emit(Response.loading(null))
+            val authResult = auth.signInWithEmailAndPassword(email, password).await()
+            authResult.user?.apply {
+                emit(Response.success(true))
             }
         } catch (e: Exception) {
-            Response.error("Login failed!", null)
+            Response.error(e.localizedMessage ?: Constants.ERROR_MESSAGE, null)
         }
     }
 
@@ -34,6 +30,7 @@ class AuthRepository @Inject constructor(
 
     override fun signOut() {
         auth.signOut()
+        getCurrentUser()
     }
 
     override fun getCurrentUser(): FirebaseUser? {

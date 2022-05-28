@@ -1,12 +1,14 @@
 package com.armutyus.ninova.ui.login
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.armutyus.ninova.MainActivity
 import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Constants
+import com.armutyus.ninova.constants.Status
 import com.armutyus.ninova.databinding.ActivityLoginBinding
 import com.armutyus.ninova.databinding.RegisterUserBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -25,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var bottomSheetBinding: RegisterUserBottomSheetBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var progressDialog: ProgressDialog
+    private val viewModel by viewModels<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +38,11 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
         db = Firebase.firestore
 
-        val currentUser = auth.currentUser
+        /*val currentUser = auth.currentUser
         if (currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }
-
-        progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("Please wait..")
-        progressDialog.setCanceledOnTouchOutside(false)
+        }*/
 
         binding.login.setOnClickListener {
             loginUser()
@@ -68,15 +66,40 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
                 .show()
         } else {
+            viewModel.signInUser(email, password).observe(this) {
 
-            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                progressDialog.setMessage("Logging in..")
-                progressDialog.show()
+                when (it.status) {
+
+                    Status.SUCCESS -> {
+
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+
+                    }
+
+                    Status.ERROR -> {
+
+                        Toast.makeText(this, Constants.ERROR_MESSAGE, Toast.LENGTH_LONG).show()
+
+                    }
+
+                    Status.LOADING -> {
+
+                        Toast.makeText(this, "Please wait..", Toast.LENGTH_LONG).show()
+                        binding.progressBar.show()
+
+                    }
+
+                }
+
+            }
+
+            /*auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }.addOnFailureListener {
                 Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-            }
+            }*/
         }
     }
 
@@ -113,15 +136,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun createUserProfile() {
-        progressDialog.setMessage("Creating account..")
-        progressDialog.show()
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 saveUserInfo()
             }
             .addOnFailureListener {
-                progressDialog.dismiss()
                 Toast.makeText(
                     this,
                     "Failed to create account due to ${it.localizedMessage}",
@@ -131,7 +151,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun saveUserInfo() {
-        progressDialog.setMessage("Saving user info..")
 
         val timeStamp = com.google.firebase.Timestamp.now()
         val userId = auth.uid
@@ -148,7 +167,6 @@ class LoginActivity : AppCompatActivity() {
         db.collection("users")
             .add(user)
             .addOnSuccessListener {
-                progressDialog.dismiss()
                 Toast.makeText(this, "Account created", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
