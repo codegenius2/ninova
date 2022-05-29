@@ -9,22 +9,13 @@ object Constants {
     const val LOGIN_INTENT = "loginIntent"
     const val MAIN_INTENT = "mainIntent"
 
-    //Bundles
-    const val MOVIE = "movie"
-
-    //Database Types
-    const val PRODUCT_NAME = "productName"
-    const val CLOUD_FIRESTORE = "Cloud Firestore"
-    const val REALTIME_DATABASE = "Realtime Database"
-
     //References
     const val USERS_REF = "users"
-    const val MOVIES_REF = "movies"
+    const val BOOKS_REF = "books"
 
     //Fields
     const val NAME = "name"
     const val EMAIL = "email"
     const val PHOTO_URL = "photoUrl"
     const val CREATED_AT = "createdAt"
-    const val RATING = "rating"
 }

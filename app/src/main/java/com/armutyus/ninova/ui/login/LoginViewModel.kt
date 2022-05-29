@@ -13,7 +13,19 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun signInUser(email: String, password: String) = liveData(Dispatchers.IO) {
-        repository.signInWithEmailPassword(email, password).collect() { response ->
+        repository.signInWithEmailPassword(email, password).collect { response ->
+            emit(response)
+        }
+    }
+
+    fun signUpUser(email: String, password: String) = liveData(Dispatchers.IO) {
+        repository.signUpWithEmailPassword(email, password).collect { response ->
+            emit(response)
+        }
+    }
+
+    fun createUser() = liveData(Dispatchers.IO) {
+        repository.createUserInFirestore().collect { response ->
             emit(response)
         }
     }

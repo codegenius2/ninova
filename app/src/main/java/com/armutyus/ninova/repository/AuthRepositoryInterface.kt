@@ -1,20 +1,20 @@
 package com.armutyus.ninova.repository
 
 import com.armutyus.ninova.constants.Response
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 
 interface AuthRepositoryInterface {
 
-    suspend fun signInWithEmailPassword(email:String , password:String): Flow<Response<Boolean>>
+    suspend fun signInWithEmailPassword(email: String, password: String): Flow<Response<Boolean>>
 
-    suspend fun signUpWithEmailPassword(email: String , password: String)
+    suspend fun signUpWithEmailPassword(email: String, password: String): Flow<Response<Boolean>>
 
-    fun signOut()
+    suspend fun createUserInFirestore(): Flow<Response<Void>>
 
-    fun getCurrentUser(): FirebaseUser?
+    fun signOut(): Flow<Response<Unit>>
 
-    suspend fun sendResetPassword(email : String) : Boolean
+    fun getCurrentUser(): Boolean
+
+    suspend fun sendResetPassword(email: String): Boolean
 
 }

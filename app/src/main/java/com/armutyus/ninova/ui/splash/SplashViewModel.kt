@@ -7,6 +7,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val repository: SplashRepository
-): ViewModel() {
+) : ViewModel() {
     val isUserAuthenticated get() = repository.isUserAuthenticatedInFirebase
 }

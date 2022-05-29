@@ -5,28 +5,26 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.armutyus.ninova.MainActivity
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Constants
-import com.armutyus.ninova.constants.Status
+import com.armutyus.ninova.constants.Constants.MAIN_INTENT
+import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.databinding.ActivityLoginBinding
 import com.armutyus.ninova.databinding.RegisterUserBottomSheetBinding
+import com.armutyus.ninova.ui.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
+    @Named(MAIN_INTENT)
+    @Inject
+    lateinit var mainIntent: Intent
     private lateinit var binding: ActivityLoginBinding
     private lateinit var bottomSheetBinding: RegisterUserBottomSheetBinding
-    private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
     private val viewModel by viewModels<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,15 +32,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        auth = Firebase.auth
-        db = Firebase.firestore
-
-        /*val currentUser = auth.currentUser
-        if (currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }*/
 
         binding.login.setOnClickListener {
             loginUser()
@@ -66,40 +55,19 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
                 .show()
         } else {
-            viewModel.signInUser(email, password).observe(this) {
-
-                when (it.status) {
-
-                    Status.SUCCESS -> {
-
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
-
+            viewModel.signInUser(email, password).observe(this) { response ->
+                when (response) {
+                    is Response.Loading -> binding.progressBar.show()
+                    is Response.Success -> {
+                        goToMainActivity()
+                        binding.progressBar.hide()
                     }
-
-                    Status.ERROR -> {
-
-                        Toast.makeText(this, Constants.ERROR_MESSAGE, Toast.LENGTH_LONG).show()
-
+                    is Response.Failure -> {
+                        print(response.errorMessage)
+                        binding.progressBar.hide()
                     }
-
-                    Status.LOADING -> {
-
-                        Toast.makeText(this, "Please wait..", Toast.LENGTH_LONG).show()
-                        binding.progressBar.show()
-
-                    }
-
                 }
-
             }
-
-            /*auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }.addOnFailureListener {
-                Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-            }*/
         }
     }
 
@@ -116,68 +84,60 @@ class LoginActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private var userName = ""
     private var email = ""
     private var password = ""
 
     private fun registerUser() {
-        userName = bottomSheetBinding.registerUsernameText.text.toString().trim()
         email = bottomSheetBinding.registerEmailText.text.toString().trim()
         password = bottomSheetBinding.registerPasswordText.text.toString().trim()
         val confirmPassword = bottomSheetBinding.registerConfirmPasswordText.text.toString().trim()
 
-        if (userName.isEmpty() || email.isEmpty() || password.isEmpty() || password != confirmPassword) {
+        if (email.isEmpty() || password.isEmpty() || password != confirmPassword) {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
                 .show()
         } else {
-            createUserProfile()
+            signUpUser()
         }
 
     }
 
-    private fun createUserProfile() {
+    private fun signUpUser() {
 
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                saveUserInfo()
+        viewModel.signUpUser(email, password).observe(this) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    createUserProfile()
+                    binding.progressBar.hide()
+                }
+                is Response.Failure -> {
+                    print(response.errorMessage)
+                    binding.progressBar.hide()
+                }
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this,
-                    "Failed to create account due to ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        }
     }
 
-    private fun saveUserInfo() {
+    private fun createUserProfile() {
 
-        val timeStamp = com.google.firebase.Timestamp.now()
-        val userId = auth.uid
-
-        val user = hashMapOf(
-            "userId" to userId,
-            "userName" to userName,
-            "email" to email,
-            "password" to password,
-            "profileImage" to "",
-            "timeStamp" to timeStamp
-        )
-
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Account created", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+        viewModel.createUser().observe(this) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    goToMainActivity()
+                    binding.progressBar.hide()
+                }
+                is Response.Failure -> {
+                    print(response.errorMessage)
+                    binding.progressBar.hide()
+                }
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this,
-                    "Failed to save user info due to ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        }
+    }
+
+    private fun goToMainActivity() {
+        startActivity(mainIntent)
+        finish()
     }
 
 }

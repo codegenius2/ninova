@@ -3,7 +3,6 @@ package com.armutyus.ninova.di
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import com.armutyus.ninova.MainActivity
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
@@ -12,6 +11,7 @@ import com.armutyus.ninova.constants.Constants.USERS_REF
 import com.armutyus.ninova.repository.AuthRepository
 import com.armutyus.ninova.repository.AuthRepositoryInterface
 import com.armutyus.ninova.ui.login.LoginActivity
+import com.armutyus.ninova.ui.main.MainActivity
 import com.armutyus.ninova.ui.splash.SplashActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -77,9 +77,7 @@ object AppModule {
     @Provides
     fun provideAuthRepository(
         auth : FirebaseAuth
-    ) : AuthRepositoryInterface {
-        return AuthRepository(auth)
-    }
+    ) = AuthRepository(auth) as AuthRepositoryInterface
 
     @Singleton
     @Provides
