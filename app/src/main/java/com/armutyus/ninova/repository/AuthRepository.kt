@@ -1,6 +1,5 @@
 package com.armutyus.ninova.repository
 
-import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.constants.Constants.CREATED_AT
 import com.armutyus.ninova.constants.Constants.EMAIL
 import com.armutyus.ninova.constants.Constants.ERROR_MESSAGE
@@ -9,20 +8,17 @@ import com.armutyus.ninova.constants.Constants.PHOTO_URL
 import com.armutyus.ninova.constants.Constants.USERS_REF
 import com.armutyus.ninova.constants.Response
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import javax.inject.Named
 
 class AuthRepository @Inject constructor(
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val db: FirebaseFirestore
 ) : AuthRepositoryInterface {
-
-    @Named(USERS_REF)
-    @Inject
-    lateinit var usersRef: CollectionReference
 
     override suspend fun signInWithEmailPassword(email: String, password: String) = flow {
         try {
@@ -32,7 +28,7 @@ class AuthRepository @Inject constructor(
                 emit(Response.Success(true))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
         }
     }
 
@@ -40,7 +36,7 @@ class AuthRepository @Inject constructor(
         try {
             emit(Response.Loading)
             auth.currentUser?.apply {
-                usersRef.document(uid).set(
+                db.collection(USERS_REF).document(uid).set(
                     mapOf(
                         NAME to displayName,
                         EMAIL to email,
@@ -52,7 +48,7 @@ class AuthRepository @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
         }
     }
 
@@ -64,7 +60,7 @@ class AuthRepository @Inject constructor(
                 emit(Response.Success(true))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
         }
     }
 
@@ -75,12 +71,12 @@ class AuthRepository @Inject constructor(
                 emit(Response.Success(it))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
         }
     }
 
-    override fun getCurrentUser(): Boolean {
-        return false
+    override fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
     }
 
     override suspend fun sendResetPassword(email: String): Boolean {

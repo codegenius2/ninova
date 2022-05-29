@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -14,7 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.databinding.ActivityMainBinding
-import com.armutyus.ninova.ui.login.LoginActivity
+import com.armutyus.ninova.ui.splash.SplashActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             TODO("Implement settings page")
         } else if (item.itemId == R.id.sign_out) {
             signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, SplashActivity::class.java))
             finish()
         }
         return super.onOptionsItemSelected(item)
@@ -69,7 +70,9 @@ class MainActivity : AppCompatActivity() {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> binding.progressBar.hide()
                 is Response.Failure -> {
-                    print(response.errorMessage)
+                    println("Create Error: " + response.errorMessage)
+                    Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
+                        .show()
                     binding.progressBar.hide()
                 }
             }

@@ -7,7 +7,6 @@ import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.SPLASH_INTENT
-import com.armutyus.ninova.constants.Constants.USERS_REF
 import com.armutyus.ninova.repository.AuthRepository
 import com.armutyus.ninova.repository.AuthRepositoryInterface
 import com.armutyus.ninova.ui.login.LoginActivity
@@ -69,15 +68,12 @@ object AppModule {
     @Provides
     fun provideFirebaseFirestore() = FirebaseFirestore.getInstance()
 
-    @Provides
-    @Named(USERS_REF)
-    fun provideUsersRef(db: FirebaseFirestore) = db.collection(USERS_REF)
-
     @Singleton
     @Provides
     fun provideAuthRepository(
-        auth : FirebaseAuth
-    ) = AuthRepository(auth) as AuthRepositoryInterface
+        auth: FirebaseAuth,
+        db: FirebaseFirestore
+    ) = AuthRepository(auth, db) as AuthRepositoryInterface
 
     @Singleton
     @Provides

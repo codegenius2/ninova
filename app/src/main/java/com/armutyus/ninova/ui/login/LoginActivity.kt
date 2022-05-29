@@ -63,7 +63,9 @@ class LoginActivity : AppCompatActivity() {
                         binding.progressBar.hide()
                     }
                     is Response.Failure -> {
-                        print(response.errorMessage)
+                        println("SignIn Error: " + response.errorMessage)
+                        Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
+                            .show()
                         binding.progressBar.hide()
                     }
                 }
@@ -111,11 +113,14 @@ class LoginActivity : AppCompatActivity() {
                     binding.progressBar.hide()
                 }
                 is Response.Failure -> {
-                    print(response.errorMessage)
+                    println("SignUp Error: " + response.errorMessage)
+                    Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
+                        .show()
                     binding.progressBar.hide()
                 }
             }
         }
+
     }
 
     private fun createUserProfile() {
@@ -128,11 +133,17 @@ class LoginActivity : AppCompatActivity() {
                     binding.progressBar.hide()
                 }
                 is Response.Failure -> {
-                    print(response.errorMessage)
+                    println("Create Error: " + response.errorMessage)
+                    Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
+                        .show()
                     binding.progressBar.hide()
                 }
             }
         }
+    }
+
+    private fun currentUserUpdate() {
+        viewModel.getCurrentUser()
     }
 
     private fun goToMainActivity() {
