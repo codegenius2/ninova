@@ -1,10 +1,10 @@
-package com.armutyus.ninova.ui.readlist
+package com.armutyus.ninova.ui.shelves
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ReadListViewModel : ViewModel() {
+class ShelvesViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

@@ -5,7 +5,12 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
-    <include app:graph="@navigation/home"/>
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.armutyus.ninova.ui.books.BooksFragment"
+        android:label="@string/home_button_books"
+        tools:layout="@layout/fragment_books">
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_discovery"
@@ -14,8 +19,8 @@
         tools:layout="@layout/fragment_discover" />
 
     <fragment
-        android:id="@+id/navigation_readList"
-        android:name="com.armutyus.ninova.ui.readlist.ReadListFragment"
-        android:label="@string/title_readList"
-        tools:layout="@layout/fragment_readlist" />
+        android:id="@+id/navigation_shelves"
+        android:name="com.armutyus.ninova.ui.shelves.ShelvesFragment"
+        android:label="@string/title_shelves"
+        tools:layout="@layout/fragment_shelves" />
 </navigation>

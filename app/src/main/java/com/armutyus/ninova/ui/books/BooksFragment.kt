@@ -1,23 +1,23 @@
-package com.armutyus.ninova.ui.discover
+package com.armutyus.ninova.ui.books
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.armutyus.ninova.R
-import com.armutyus.ninova.databinding.FragmentDiscoverBinding
+import com.armutyus.ninova.databinding.FragmentBooksBinding
 
-class DiscoverFragment : Fragment(R.layout.fragment_discover) {
+class BooksFragment : Fragment(R.layout.fragment_books) {
 
-    private var fragmentBinding: FragmentDiscoverBinding? = null
-    private lateinit var discoverViewModel: DiscoverViewModel
+    private var fragmentBinding: FragmentBooksBinding? = null
+    private lateinit var booksViewModel: BooksViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentDiscoverBinding.bind(view)
+        val binding = FragmentBooksBinding.bind(view)
         fragmentBinding = binding
-        discoverViewModel = ViewModelProvider(requireActivity())[DiscoverViewModel::class.java]
+        booksViewModel = ViewModelProvider(requireActivity())[BooksViewModel::class.java]
 
         binding.animationView.visibility = View.VISIBLE
 

@@ -1,26 +1,26 @@
-package com.armutyus.ninova.ui.discover
+package com.armutyus.ninova.ui.shelves
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.armutyus.ninova.R
-import com.armutyus.ninova.databinding.FragmentDiscoverBinding
+import com.armutyus.ninova.databinding.FragmentShelvesBinding
 
-class DiscoverFragment : Fragment(R.layout.fragment_discover) {
 
-    private var fragmentBinding: FragmentDiscoverBinding? = null
-    private lateinit var discoverViewModel: DiscoverViewModel
+class ShelvesFragment : Fragment(R.layout.fragment_shelves) {
+
+    private var fragmentBinding: FragmentShelvesBinding? = null
+    private lateinit var shelvesViewModel: ShelvesViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentDiscoverBinding.bind(view)
+        val binding = FragmentShelvesBinding.bind(view)
         fragmentBinding = binding
-        discoverViewModel = ViewModelProvider(requireActivity())[DiscoverViewModel::class.java]
+        shelvesViewModel = ViewModelProvider(requireActivity())[ShelvesViewModel::class.java]
 
         binding.animationView.visibility = View.VISIBLE
-
     }
 
     override fun onDestroyView() {

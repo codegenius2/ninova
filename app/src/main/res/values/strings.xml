@@ -2,7 +2,7 @@
     <string name="app_name">Ninova</string>
     <string name="title_home">Home</string>
     <string name="title_discover">Discover</string>
-    <string name="title_readList">ReadList</string>
+    <string name="title_shelves">Shelves</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_email">E-mail</string>
     <string name="prompt_password">Password</string>
