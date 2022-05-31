@@ -2,6 +2,7 @@ package com.armutyus.ninova.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -57,16 +58,16 @@ class LoginActivity : AppCompatActivity() {
         } else {
             viewModel.signInUser(email, password).observe(this) { response ->
                 when (response) {
-                    is Response.Loading -> binding.progressBar.show()
+                    is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                     is Response.Success -> {
                         goToMainActivity()
-                        binding.progressBar.hide()
+                        binding.progressBar.visibility = View.GONE
                     }
                     is Response.Failure -> {
                         println("SignIn Error: " + response.errorMessage)
                         Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                             .show()
-                        binding.progressBar.hide()
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
             }
@@ -107,16 +108,16 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.signUpUser(email, password).observe(this) { response ->
             when (response) {
-                is Response.Loading -> binding.progressBar.show()
+                is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
                     createUserProfile()
-                    binding.progressBar.hide()
+                    binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
                     println("SignUp Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
-                    binding.progressBar.hide()
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }
@@ -127,16 +128,16 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.createUser().observe(this) { response ->
             when (response) {
-                is Response.Loading -> binding.progressBar.show()
+                is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
                     goToMainActivity()
-                    binding.progressBar.hide()
+                    binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
                     println("Create Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
-                    binding.progressBar.hide()
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }

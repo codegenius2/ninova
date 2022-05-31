@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.login.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleSmall" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="26dp"
+        android:layout_marginHorizontal="26dp"
         android:hint="@string/prompt_email"
         app:errorEnabled="true"
         app:boxStrokeColor="@color/light_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_login_email_gray">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -37,16 +47,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="26dp"
         android:layout_marginEnd="26dp"
         app:boxStrokeColor="@color/light_primary"
         android:hint="@string/prompt_password"
         app:errorEnabled="true"
         app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmail"
         app:startIconDrawable="@drawable/ic_login_lock_gray">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,74 +65,59 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/forgot_password"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/register"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        android:layout_marginBottom="14dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="48dp"
-        android:width="160dp"
-        android:height="24dp"
-        android:enabled="true"
-        android:fontFamily="sans-serif"
-        android:text="@string/action_sign_in"
-        app:cornerRadius="10dp"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        android:layout_marginHorizontal="26dp"
+        android:orientation="horizontal">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/register"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:width="160dp"
-        android:height="24dp"
-        android:enabled="true"
-        android:fontFamily="sans-serif"
-        android:text="@string/action_register"
-        android:textSize="14sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:strokeColor="@color/light_primary" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="48dp"
+            android:height="24dp"
+            android:enabled="true"
+            android:fontFamily="sans-serif"
+            android:text="@string/action_sign_in"
+            app:cornerRadius="10dp"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/register"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:width="160dp"
+            android:height="24dp"
+            android:enabled="true"
+            android:fontFamily="sans-serif"
+            android:text="@string/action_register"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/light_primary" />
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/withoutRegister"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="26dp"
         android:layout_marginEnd="26dp"
         android:enabled="true"
         android:text="@string/action_without_register"
         android:textSize="14sp"
         android:fontFamily="sans-serif"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register"
         app:strokeColor="@color/light_primary" />
-
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleSmall"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
