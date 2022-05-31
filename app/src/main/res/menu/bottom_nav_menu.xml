@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/home_library"
+        android:icon="@drawable/ic_readlist"
         android:title="@string/title_home" />
 
     <item
@@ -12,8 +12,8 @@
         android:title="@string/title_discover" />
 
     <item
-        android:id="@+id/navigation_readList"
-        android:icon="@drawable/ic_readlist"
-        android:title="@string/title_readList" />
+        android:id="@+id/navigation_shelves"
+        android:icon="@drawable/home_library"
+        android:title="@string/title_shelves" />
 
 </menu>
