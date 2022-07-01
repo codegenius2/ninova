@@ -8,21 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.login.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="gone"
-        tools:visibility="gone">
-
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?android:attr/progressBarStyleSmall" />
-    </LinearLayout>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -77,7 +62,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/forgotPasswordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

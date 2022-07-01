@@ -40,6 +40,9 @@ abstract class FragmentFactoryModule {
 
     @Binds
     @IntoMap
+    @FragmentKey(SettingsFragment::class)
+    abstract fun bindSettingsFragment(fragment: SettingsFragment): Fragment
+    
     @FragmentKey(SearchArchiveFragment::class)
     abstract fun bindSearchArchiveFragment(fragment: SearchArchiveFragment): Fragment
 

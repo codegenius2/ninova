@@ -1,6 +1,11 @@
 package com.armutyus.ninova.constants
 
+import com.armutyus.ninova.BuildConfig
+
 object Constants {
+
+    const val VERSION_NAME = BuildConfig.VERSION_NAME
+
     //Messages
     const val ERROR_MESSAGE = "Unexpected error!"
 

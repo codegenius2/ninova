@@ -19,6 +19,37 @@
         android:keyboardNavigationCluster="true"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/searchButtonToggleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:checkedButton="@+id/localSearchButton"
+        app:selectionRequired="true"
+        app:singleSelection="true"
+        android:visibility="visible">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/localSearchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?attr/materialButtonOutlinedStyle"
+            android:text="@string/your_library"
+            android:textSize="14sp"
+            android:textColor="@color/light_primary"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/light_primary"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/apiSearchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?attr/materialButtonOutlinedStyle"
+            android:text="@string/from_ninova"
+            android:textSize="14sp"
+            android:textColor="@color/light_primary"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/light_primary"/>
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
     <TextView
         android:id="@+id/mainSearchBooksTitle"
         android:layout_width="match_parent"
@@ -29,20 +60,14 @@
         android:text="@string/dusty_shelves"
         android:textColor="#009688"
         android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <View
-        android:id="@+id/item_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/light_primary"/>
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainSearchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -54,18 +79,30 @@
         style="?android:attr/progressBarStyleSmall"
         android:visibility="gone" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/mainSearchTabLayout"
+    <LinearLayout
+        android:id="@+id/linearLayoutSearchError"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/light_primary"
-        app:tabSelectedTextColor="@color/light_primary"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/mainSearchViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nothing_to_show_here"
+            android:textColor="@color/light_primary"
+            android:textSize="16sp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/searchnotfound"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 
 </LinearLayout>

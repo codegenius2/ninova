@@ -3,6 +3,7 @@ package com.armutyus.ninova.ui.search.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -10,13 +11,17 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.model.Books
+import com.armutyus.ninova.model.Book
+import com.armutyus.ninova.roomdb.LocalBook
+import com.armutyus.ninova.ui.search.MainSearchFragment
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
 
 class MainSearchRecyclerViewAdapter @Inject constructor(
     private val glide: RequestManager
 ) : RecyclerView.Adapter<MainSearchRecyclerViewAdapter.MainSearchViewHolder>() {
+
+    private lateinit var searchFragment: MainSearchFragment
 
     class MainSearchViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -32,7 +37,7 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
 
     private val recyclerListDiffer = AsyncListDiffer(this, diffUtil)
 
-    var mainSearchBooksList: List<Books>
+    var mainSearchBooksList: List<Book>
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
@@ -44,25 +49,42 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: MainSearchViewHolder, position: Int) {
-        val booksCover = holder.itemView.findViewById<ImageView>(R.id.bookImage)
-        val booksTitle = holder.itemView.findViewById<TextView>(R.id.bookTitleText)
-        val booksAuthor = holder.itemView.findViewById<TextView>(R.id.bookAuthorText)
-        val booksPages = holder.itemView.findViewById<TextView>(R.id.bookPageText)
-        val booksReleaseDate = holder.itemView.findViewById<TextView>(R.id.bookReleaseDateText)
-        val books = mainSearchBooksList[position]
+        val bookCover = holder.itemView.findViewById<ImageView>(R.id.bookImage)
+        val bookTitle = holder.itemView.findViewById<TextView>(R.id.bookTitleText)
+        val bookAuthor = holder.itemView.findViewById<TextView>(R.id.bookAuthorText)
+        val bookPages = holder.itemView.findViewById<TextView>(R.id.bookPageText)
+        val bookReleaseDate = holder.itemView.findViewById<TextView>(R.id.bookReleaseDateText)
+        val book = mainSearchBooksList[position]
+
+        val addButton = holder.itemView.findViewById<ImageButton>(R.id.main_search_add_button)
+
+        addButton?.setOnClickListener {
+            searchFragment.onClick(
+                LocalBook(
+                    0,
+                    book.bookTitle,
+                    book.bookAuthor,
+                    book.bookPages,
+                    "",
+                    "",
+                    book.releaseDate
+                )
+            )
+        }
 
         holder.itemView.apply {
-
-            booksTitle.text = books.bookTitle
-            booksAuthor.text = books.bookAuthor
-            booksPages.text = books.bookPages
-            booksReleaseDate.text = books.releaseDate
-
+            bookTitle.text = book.bookTitle
+            bookAuthor.text = book.bookAuthor
+            bookPages.text = book.bookPages
+            bookReleaseDate.text = book.releaseDate
         }
+
     }
 
     override fun getItemCount(): Int {
         return mainSearchBooksList.size
     }
 
+    fun setFragment(fragment: MainSearchFragment) {
+        this.searchFragment = fragment
 }

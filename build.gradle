@@ -3,7 +3,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-rc01"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-rc02"
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.42"
         classpath "com.google.firebase:firebase-crashlytics-gradle:2.9.0"
         classpath "com.google.gms:google-services:4.3.10"

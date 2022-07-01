@@ -68,6 +68,8 @@ class MainActivity @Inject constructor(
                     navView.visibility = View.VISIBLE
                 }
 
+            }
+
         }
 
         val appBarConfiguration = AppBarConfiguration(

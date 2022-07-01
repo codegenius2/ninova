@@ -12,19 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.FragmentMainSearchBinding
+import com.armutyus.ninova.model.Book
+import com.armutyus.ninova.roomdb.LocalBook
 import com.armutyus.ninova.ui.search.adapters.MainSearchRecyclerViewAdapter
-import com.armutyus.ninova.ui.search.adapters.MainSearchViewPagerAdapter
-import com.armutyus.ninova.ui.search.adapters.SearchApiRecyclerViewAdapter
-import com.armutyus.ninova.ui.search.adapters.SearchArchiveRecyclerViewAdapter
-import com.armutyus.ninova.ui.search.viewmodels.MainSearchViewModel
-import com.google.android.material.tabs.TabLayoutMediator
+import com.armutyus.ninova.ui.search.listeners.OnBookAddButtonClickListener
 import javax.inject.Inject
 
 class MainSearchFragment @Inject constructor(
-    private val recyclerViewAdapter: MainSearchRecyclerViewAdapter,
-    private val archiveAdapter: SearchArchiveRecyclerViewAdapter,
-    private val apiAdapter: SearchApiRecyclerViewAdapter
-) : Fragment(R.layout.fragment_main_search), SearchView.OnQueryTextListener {
+    private val recyclerViewAdapter: MainSearchRecyclerViewAdapter
+) : Fragment(R.layout.fragment_main_search), SearchView.OnQueryTextListener,
+    OnBookAddButtonClickListener {
 
     private var fragmentBinding: FragmentMainSearchBinding? = null
     private val binding get() = fragmentBinding
@@ -52,45 +49,33 @@ class MainSearchFragment @Inject constructor(
         recyclerView?.adapter = recyclerViewAdapter
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         recyclerView?.visibility = View.VISIBLE
+        recyclerViewAdapter.setFragment(this)
 
+        val toggleButtonGroup = binding?.searchButtonToggleGroup
+        toggleButtonGroup?.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.localSearchButton -> {
+                        /*val list = mainSearchViewModel.fakeBooksArchiveList.value ?: listOf()
+                        mainSearchViewModel.setCurrentList(list)*/
+                    }
+                    R.id.apiSearchButton -> {
+                        val list = mainSearchViewModel.fakeBooksApiList.value ?: listOf()
+                        mainSearchViewModel.setCurrentList(list)
+                    }
+                }
+            }
+        }
+
+        runObservers()
         return binding?.root
     }
 
     override fun onResume() {
         super.onResume()
         mainSearchViewModel.getBooksList()
+        setVisibilitiesForSearchQueryNull()
         getFakeBooksList()
-    }
-
-    private fun showChildSearchFragments() {
-        binding?.mainSearchRecyclerView?.visibility = View.GONE
-        binding?.mainSearchBooksTitle?.visibility = View.GONE
-        binding?.itemDivider?.visibility = View.GONE
-
-        val fragments: ArrayList<Fragment> = arrayListOf(
-            SearchArchiveFragment(archiveAdapter),
-            SearchApiFragment(apiAdapter)
-        )
-
-        val tabLayout = binding?.mainSearchTabLayout
-        val viewPager = binding?.mainSearchViewPager
-        tabLayout?.visibility = View.VISIBLE
-        viewPager?.visibility = View.VISIBLE
-        val vpAdapter = MainSearchViewPagerAdapter(childFragmentManager, lifecycle, fragments)
-        viewPager?.adapter = vpAdapter
-
-        if (tabLayout != null && viewPager != null) {
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                when (position) {
-                    0 -> {
-                        tab.text = "YOUR LIBRARY"
-                    }
-                    1 -> {
-                        tab.text = "FROM NINOVA"
-                    }
-                }
-            }.attach()
-        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -99,36 +84,75 @@ class MainSearchFragment @Inject constructor(
 
     override fun onQueryTextChange(searchQuery: String?): Boolean {
         if (searchQuery?.length!! > 0) {
+            binding?.progressBar?.visibility = View.VISIBLE
+            binding?.mainSearchRecyclerView?.visibility = View.GONE
+            binding?.mainSearchBooksTitle?.visibility = View.GONE
 
-            mainSearchViewModel.getBooksArchiveList(searchQuery)
             mainSearchViewModel.getBooksApiList(searchQuery)
+            //mainSearchViewModel.searchLocalBooks(searchQuery)
 
-            showChildSearchFragments()
+            val toggleButtonGroup = binding?.searchButtonToggleGroup
+            toggleButtonGroup?.visibility = View.VISIBLE
 
         } else if (searchQuery.isNullOrBlank()) {
-
-            binding?.mainSearchRecyclerView?.visibility = View.VISIBLE
-            binding?.mainSearchBooksTitle?.visibility = View.VISIBLE
-            binding?.itemDivider?.visibility = View.VISIBLE
-            binding?.mainSearchTabLayout?.visibility = View.GONE
-            binding?.mainSearchViewPager?.visibility = View.GONE
-
+            mainSearchViewModel.getBooksList()
+            setVisibilitiesForSearchQueryNull()
         }
 
         return true
     }
 
-    private fun getFakeBooksList() {
+    private fun runObservers() {
+        val toggleButtonGroup = binding?.searchButtonToggleGroup
+
+        mainSearchViewModel.currentList.observe(viewLifecycleOwner) {
+            recyclerViewAdapter.mainSearchBooksList = it
+            setVisibilities(it)
+        }
+
+        /*mainSearchViewModel.searchLocalBookList.observe(viewLifecycleOwner) {
+            if (toggleButtonGroup?.checkedButtonId != R.id.localSearchButton) return@observe
+            mainSearchViewModel.setCurrentList(it?.toList() ?: listOf())
+        }*/
+
+        mainSearchViewModel.fakeBooksApiList.observe(viewLifecycleOwner) {
+            if (toggleButtonGroup?.checkedButtonId != R.id.apiSearchButton) return@observe
+            mainSearchViewModel.setCurrentList(it?.toList() ?: listOf())
+        }
 
         mainSearchViewModel.fakeBooksList.observe(viewLifecycleOwner) {
-            val newBooksList = it.toList()
-            recyclerViewAdapter.mainSearchBooksList = newBooksList
+            mainSearchViewModel.setCurrentList(it?.toList() ?: listOf())
         }
+    }
+
+    private fun setVisibilities(bookList: List<Book>) {
+        if (bookList.isEmpty()) {
+            binding?.linearLayoutSearchError?.visibility = View.VISIBLE
+            binding?.progressBar?.visibility = View.GONE
+            binding?.mainSearchRecyclerView?.visibility = View.GONE
+            binding?.mainSearchBooksTitle?.visibility = View.GONE
+        } else {
+            binding?.linearLayoutSearchError?.visibility = View.GONE
+            binding?.progressBar?.visibility = View.GONE
+            binding?.mainSearchBooksTitle?.visibility = View.GONE
+            binding?.mainSearchRecyclerView?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setVisibilitiesForSearchQueryNull() {
+        binding?.mainSearchRecyclerView?.visibility = View.VISIBLE
+        binding?.mainSearchBooksTitle?.visibility = View.VISIBLE
+        binding?.searchButtonToggleGroup?.visibility = View.GONE
+        binding?.linearLayoutSearchError?.visibility = View.GONE
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentBinding = null
+    }
+
+    override fun onClick(localBook: LocalBook) {
+        mainSearchViewModel.insertBook(localBook)
     }
 
 }

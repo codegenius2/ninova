@@ -45,5 +45,11 @@
     <string name="send">SEND</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="enter_your_new_e_mail_address">Enter your new e-mail address</string>
+    <string name="your_library_is_empty">Your library is empty..</string>
+    <string name="sort">Sort</string>
+    <string name="add_new_shelf_to_your_library">Add new shelf to your library</string>
+    <string name="my_shelf">My Shelf</string>
+    <string name="create">CREATE</string>
+    <string name="shelf_title">Shelf title</string>
 
 </resources>

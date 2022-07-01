@@ -14,38 +14,29 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/bookImage"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:id="@+id/shelfCoverImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/example_book"
             tools:ignore="ContentDescription">
         </ImageView>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:orientation="vertical"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/bookTitleText"
+                android:id="@+id/shelfTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:text="@string/name_of_the_book"
+                android:layout_marginBottom="6dp"
+                android:text="@string/my_shelf"
                 android:textColor="@color/light_primary"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/bookAuthorText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:text="@string/author_of_the_book"
-                android:textColor="@color/light_primary_variant"
-                android:textSize="12sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,23 +44,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/bookPageText"
+                    android:id="@+id/booksInShelfText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_number"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
-                    app:drawableStartCompat="@drawable/ic_pages_icon">
+                    app:drawableStartCompat="@drawable/ic_books_in_shelf">
                 </TextView>
 
                 <TextView
-                    android:id="@+id/bookReleaseDateText"
+                    android:id="@+id/shelfCreatedDateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/release_date"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
                     app:drawableStartCompat="@drawable/ic_release_date">
@@ -78,15 +69,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/main_search_add_button"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_add_button"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

@@ -23,7 +23,7 @@
         </ImageView>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:orientation="vertical"
@@ -78,15 +78,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/main_search_add_button"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_add_button"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 

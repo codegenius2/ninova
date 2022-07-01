@@ -1,11 +1,13 @@
 package com.armutyus.ninova.repository
 
 import com.armutyus.ninova.model.Book
+import com.armutyus.ninova.roomdb.LocalBook
+import com.armutyus.ninova.roomdb.NinovaDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class BooksRepository @Inject constructor(
-    
+    private val ninovaDao: NinovaDao
 ) : BooksRepositoryInterface {
 
     //change lists to flow when databases and services are ready
@@ -55,5 +57,25 @@ class BooksRepository @Inject constructor(
         }
 
         return filteredBooks
+    }
+
+    override suspend fun insert(localBook: LocalBook) {
+        ninovaDao.insertBook(localBook)
+    }
+
+    override suspend fun update(localBook: LocalBook) {
+        ninovaDao.updateBook(localBook)
+    }
+
+    override suspend fun delete(localBook: LocalBook) {
+        ninovaDao.deleteBook(localBook)
+    }
+
+    override fun getLocalBooks(): Flow<List<LocalBook>> {
+        return ninovaDao.getLocalBooks()
+    }
+
+    override fun searchLocalBooks(searchString: String): Flow<List<LocalBook>> {
+        return ninovaDao.searchLocalBooks(searchString)
     }
 }

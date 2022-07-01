@@ -8,14 +8,81 @@
     android:orientation="vertical"
     tools:context=".ui.books.BooksFragment">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/homenotfound"
+        android:padding="8dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            style="?attr/materialButtonOutlinedStyle"
+            app:icon="@drawable/ic_sort"
+            android:text="@string/sort"
+            android:textSize="12sp"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
+            app:iconGravity="textEnd"
+            app:strokeColor="@color/light_primary"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+        <ImageButton
+            android:id="@+id/main_shelves_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_add_button"
+            android:contentDescription="@string/add_new_shelf_to_your_library"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mainBooksRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="?actionBarSize"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        style="?android:attr/progressBarStyleSmall"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBooksError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/homenotfound"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_library_is_empty"
+            android:textColor="@color/light_primary"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

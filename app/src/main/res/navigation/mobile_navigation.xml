@@ -34,10 +34,7 @@
         android:id="@+id/searchArchiveFragment"
         android:name="com.armutyus.ninova.ui.search.SearchArchiveFragment"
         android:label="Ninova"
-        tools:layout="@layout/fragment_search_archive" >
-        <action
-            android:id="@+id/action_searchArchiveFragment_to_searchApiFragment"
-            app:destination="@id/searchApiFragment" />
+        tools:layout="@layout/fragment_search_archive" />
     </fragment>
     <fragment
         android:id="@+id/searchApiFragment"
@@ -49,11 +46,6 @@
         android:id="@+id/settingsFragment"
         android:name="com.armutyus.ninova.ui.settings.SettingsFragment"
         android:label="Settings" />
-        tools:layout="@layout/fragment_search_api" >
-        <action
-            android:id="@+id/action_searchApiFragment_to_searchArchiveFragment"
-            app:destination="@id/searchArchiveFragment" />
-    </fragment>
 
     <action
         android:id="@+id/action_main_to_search"

@@ -3,11 +3,13 @@ package com.armutyus.ninova.di
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import androidx.room.Room
 import com.armutyus.ninova.constants.Constants.ABOUT_INTENT
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
 import com.armutyus.ninova.constants.Constants.SPLASH_INTENT
+import com.armutyus.ninova.roomdb.NinovaLocalDB
 import com.armutyus.ninova.ui.about.AboutActivity
 import com.armutyus.ninova.ui.login.LoginActivity
 import com.armutyus.ninova.ui.login.RegisterActivity
@@ -53,6 +55,20 @@ object AppModule {
     }
 
     @Provides
+    @Named(ABOUT_INTENT)
+    fun provideAboutIntent(context: Context): Intent {
+        return Intent(context, AboutActivity::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun injectLocalBooksDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
+        context, NinovaLocalDB::class.java, "NinovaLocalDB"
+    ).build()
+
+    @Provides
+    fun injectNinovaDao(database: NinovaLocalDB) = database.ninovaDao()
+
     @Named(ABOUT_INTENT)
     fun provideAboutIntent(context: Context): Intent {
         return Intent(context, AboutActivity::class.java)
