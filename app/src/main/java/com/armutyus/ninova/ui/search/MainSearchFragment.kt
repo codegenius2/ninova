@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.FragmentMainSearchBinding
 import com.armutyus.ninova.model.Book
-import com.armutyus.ninova.roomdb.LocalBook
+import com.armutyus.ninova.roomdb.entities.LocalBook
 import com.armutyus.ninova.ui.search.adapters.MainSearchRecyclerViewAdapter
 import com.armutyus.ninova.ui.search.listeners.OnBookAddButtonClickListener
 import javax.inject.Inject
 
 class MainSearchFragment @Inject constructor(
-    private val recyclerViewAdapter: MainSearchRecyclerViewAdapter
+    private val searchFragmentAdapter: MainSearchRecyclerViewAdapter
 ) : Fragment(R.layout.fragment_main_search), SearchView.OnQueryTextListener,
     OnBookAddButtonClickListener {
 
@@ -32,7 +32,6 @@ class MainSearchFragment @Inject constructor(
         super.onCreate(savedInstanceState)
         isSearchActive = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
         mainSearchViewModel = ViewModelProvider(requireActivity())[MainSearchViewModel::class.java]
-
     }
 
     override fun onCreateView(
@@ -46,10 +45,10 @@ class MainSearchFragment @Inject constructor(
         searchView?.setIconifiedByDefault(false)
 
         val recyclerView = binding?.mainSearchRecyclerView
-        recyclerView?.adapter = recyclerViewAdapter
+        recyclerView?.adapter = searchFragmentAdapter
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         recyclerView?.visibility = View.VISIBLE
-        recyclerViewAdapter.setFragment(this)
+        searchFragmentAdapter.setFragment(this)
 
         val toggleButtonGroup = binding?.searchButtonToggleGroup
         toggleButtonGroup?.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -68,6 +67,7 @@ class MainSearchFragment @Inject constructor(
         }
 
         runObservers()
+
         return binding?.root
     }
 
@@ -75,7 +75,6 @@ class MainSearchFragment @Inject constructor(
         super.onResume()
         mainSearchViewModel.getBooksList()
         setVisibilitiesForSearchQueryNull()
-        getFakeBooksList()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -106,7 +105,7 @@ class MainSearchFragment @Inject constructor(
         val toggleButtonGroup = binding?.searchButtonToggleGroup
 
         mainSearchViewModel.currentList.observe(viewLifecycleOwner) {
-            recyclerViewAdapter.mainSearchBooksList = it
+            searchFragmentAdapter.mainSearchBooksList = it
             setVisibilities(it)
         }
 

@@ -5,11 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.roomdb.LocalBook
+import com.armutyus.ninova.roomdb.entities.LocalBook
+import com.armutyus.ninova.ui.books.BooksFragmentDirections
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
 
@@ -49,6 +51,13 @@ class BooksRecyclerViewAdapter @Inject constructor(
         val bookPages = holder.itemView.findViewById<TextView>(R.id.bookPageText)
         val bookReleaseDate = holder.itemView.findViewById<TextView>(R.id.bookReleaseDateText)
         val book = mainBooksList[position]
+
+        holder.itemView.setOnLongClickListener {
+            val action =
+                BooksFragmentDirections.actionMainToBookToShelfFragment(book.bookId)
+            Navigation.findNavController(it).navigate(action)
+            true
+        }
 
         holder.itemView.apply {
             bookTitle.text = book.bookTitle

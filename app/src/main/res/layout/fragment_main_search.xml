@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_primary"
         android:iconifiedByDefault="false"
-        style="@style/Theme.Ninova"
         app:defaultQueryHint="@string/search_button_hint"
         app:showAsAction="always"
         android:keyboardNavigationCluster="true"

@@ -1,6 +1,7 @@
 package com.armutyus.ninova.roomdb
 
 import androidx.room.*
+import com.armutyus.ninova.roomdb.entities.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -41,4 +42,20 @@ interface NinovaDao {
 
     @Query("SELECT * FROM Shelf WHERE shelfTitle LIKE :searchString")
     fun searchLocalShelf(searchString: String): Flow<List<LocalShelf>>
+
+    //Cross works
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBookShelfCrossRef(crossRef: BookShelfCrossRef)
+
+    @Delete
+    suspend fun deleteBookShelfCrossRef(crossRef: BookShelfCrossRef)
+
+    @Transaction
+    @Query("SELECT * FROM Shelf WHERE shelfId = :shelfId")
+    fun getBooksOfShelf(shelfId: Int): Flow<List<ShelfWithBooks>>
+
+    @Transaction
+    @Query("SELECT * FROM Book WHERE bookId = :bookId")
+    fun getShelvesOfBook(bookId: Int): Flow<List<BookWithShelves>>
 }

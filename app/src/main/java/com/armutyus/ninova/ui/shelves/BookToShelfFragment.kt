@@ -6,73 +6,59 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.AddNewShelfBottomSheetBinding
-import com.armutyus.ninova.databinding.FragmentShelvesBinding
+import com.armutyus.ninova.databinding.FragmentBookToShelfBinding
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.LocalShelf
-import com.armutyus.ninova.ui.shelves.adapters.ShelvesRecyclerViewAdapter
+import com.armutyus.ninova.ui.shelves.adapters.BookToShelfRecyclerViewAdapter
+import com.armutyus.ninova.ui.shelves.listeners.OnShelfItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class ShelvesFragment @Inject constructor(
-    private val shelvesAdapter: ShelvesRecyclerViewAdapter
-) : Fragment(R.layout.fragment_shelves), SearchView.OnQueryTextListener {
+class BookToShelfFragment @Inject constructor(
+    private val bookToShelfAdapter: BookToShelfRecyclerViewAdapter
+) : Fragment(R.layout.fragment_book_to_shelf), OnShelfItemClickListener,
+    SearchView.OnQueryTextListener {
 
-    private var fragmentBinding: FragmentShelvesBinding? = null
+    private var fragmentBinding: FragmentBookToShelfBinding? = null
     private lateinit var shelvesViewModel: ShelvesViewModel
     private lateinit var bottomSheetBinding: AddNewShelfBottomSheetBinding
-    private val swipeCallBack = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            return true
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val layoutPosition = viewHolder.layoutPosition
-            val swipedShelf = shelvesAdapter.mainShelfList[layoutPosition]
-            shelvesViewModel.deleteShelf(swipedShelf).invokeOnCompletion {
-                Snackbar.make(requireView(), "Shelf deleted from your library", Snackbar.LENGTH_LONG)
-                    .setAction("UNDO") {
-                        shelvesViewModel.insertShelf(swipedShelf)
-                    }.show()
-            }
-        }
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentShelvesBinding.bind(view)
+        val binding = FragmentBookToShelfBinding.bind(view)
         fragmentBinding = binding
+
         shelvesViewModel = ViewModelProvider(requireActivity())[ShelvesViewModel::class.java]
 
-        val recyclerView = binding.mainShelvesRecyclerView
-        recyclerView.adapter = shelvesAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        ItemTouchHelper(swipeCallBack).attachToRecyclerView(recyclerView)
-
-        val searchView = binding.shelvesSearch
+        val searchView = binding.bookToShelfSearch
         searchView.setOnQueryTextListener(this)
         searchView.setIconifiedByDefault(false)
 
-        binding.mainShelvesAddButton.setOnClickListener {
+        val recyclerView = binding.addShelvesRecyclerView
+        recyclerView.adapter = bookToShelfAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        bookToShelfAdapter.setFragment(this)
+
+        binding.addShelfButton.setOnClickListener {
             showAddShelfDialog()
         }
 
         observeShelfList()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shelvesViewModel.getShelfList()
     }
 
     private fun showAddShelfDialog() {
@@ -103,17 +89,13 @@ class ShelvesFragment @Inject constructor(
             }
 
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        shelvesViewModel.getShelfList()
     }
 
     private fun observeShelfList() {
-        shelvesViewModel.currentShelfList.observe(viewLifecycleOwner) { currentShelfList ->
-            shelvesAdapter.mainShelfList = currentShelfList
-            setVisibilities(currentShelfList)
+        shelvesViewModel.currentShelfList.observe(viewLifecycleOwner) {
+            bookToShelfAdapter.bookToShelfList = it
+            setVisibilities(it)
         }
 
         shelvesViewModel.shelfList.observe(viewLifecycleOwner) {
@@ -123,6 +105,29 @@ class ShelvesFragment @Inject constructor(
         shelvesViewModel.searchShelvesList.observe(viewLifecycleOwner) {
             shelvesViewModel.setCurrentList(it?.toList() ?: listOf())
         }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fragmentBinding = null
+    }
+
+    override fun onClick(localShelf: LocalShelf) {
+        val args: BookToShelfFragmentArgs by navArgs()
+        val bookId = args.currentBookId
+        val shelfId = localShelf.shelfId
+        val crossRef = BookShelfCrossRef(bookId, shelfId)
+        shelvesViewModel.insertBookShelfCrossRef(crossRef)
+        /*shelvesViewModel.shelfWithBooksList.observe(viewLifecycleOwner) { booksOfShelfList ->
+            if (booksOfShelfList.isNotEmpty()) {
+                booksOfShelfList.forEach {
+                    localShelf.booksInShelf = it.book.size
+                    shelvesViewModel.updateShelf(localShelf)
+                }
+            }
+        }*/
+        findNavController().popBackStack()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -132,7 +137,7 @@ class ShelvesFragment @Inject constructor(
     override fun onQueryTextChange(searchQuery: String?): Boolean {
         if (searchQuery?.length!! > 0) {
             fragmentBinding?.progressBar?.visibility = View.VISIBLE
-            fragmentBinding?.mainShelvesRecyclerView?.visibility = View.GONE
+            fragmentBinding?.addShelvesRecyclerView?.visibility = View.GONE
             shelvesViewModel.searchShelves("%$searchQuery%")
 
         } else if (searchQuery.isNullOrBlank()) {
@@ -142,20 +147,16 @@ class ShelvesFragment @Inject constructor(
         return true
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentBinding = null
-    }
-
     private fun setVisibilities(shelfList: List<LocalShelf>) {
         if (shelfList.isEmpty()) {
             fragmentBinding?.linearLayoutShelvesError?.visibility = View.VISIBLE
             fragmentBinding?.progressBar?.visibility = View.GONE
-            fragmentBinding?.mainShelvesRecyclerView?.visibility = View.GONE
+            fragmentBinding?.addShelvesRecyclerView?.visibility = View.GONE
         } else {
             fragmentBinding?.linearLayoutShelvesError?.visibility = View.GONE
             fragmentBinding?.progressBar?.visibility = View.GONE
-            fragmentBinding?.mainShelvesRecyclerView?.visibility = View.VISIBLE
+            fragmentBinding?.addShelvesRecyclerView?.visibility = View.VISIBLE
         }
     }
+
 }

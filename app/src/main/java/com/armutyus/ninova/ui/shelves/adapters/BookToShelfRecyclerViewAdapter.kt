@@ -5,23 +5,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Constants.currentShelf
 import com.armutyus.ninova.roomdb.entities.LocalShelf
-import com.armutyus.ninova.ui.shelves.ShelvesFragmentDirections
+import com.armutyus.ninova.ui.shelves.BookToShelfFragment
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
 
-class ShelvesRecyclerViewAdapter @Inject constructor(
+class BookToShelfRecyclerViewAdapter @Inject constructor(
     private val glide: RequestManager
 ) :
-    RecyclerView.Adapter<ShelvesRecyclerViewAdapter.ShelvesViewHolder>() {
+    RecyclerView.Adapter<BookToShelfRecyclerViewAdapter.BookToShelfViewHolder>() {
 
-    class ShelvesViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    private lateinit var bookToShelfFragment: BookToShelfFragment
+
+    class BookToShelfViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     private val diffUtil = object : DiffUtil.ItemCallback<LocalShelf>() {
         override fun areItemsTheSame(oldItem: LocalShelf, newItem: LocalShelf): Boolean {
@@ -35,30 +35,23 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
 
     private val recyclerListDiffer = AsyncListDiffer(this, diffUtil)
 
-    var mainShelfList: List<LocalShelf>
+    var bookToShelfList: List<LocalShelf>
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShelvesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookToShelfViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.shelves_main_row, parent, false)
 
-        return ShelvesViewHolder(view)
+        return BookToShelfViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ShelvesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BookToShelfViewHolder, position: Int) {
         val shelfCover = holder.itemView.findViewById<ImageView>(R.id.shelfCoverImage)
         val shelfTitle = holder.itemView.findViewById<TextView>(R.id.shelfTitleText)
         val booksInShelf = holder.itemView.findViewById<TextView>(R.id.booksInShelfText)
         val shelfCreatedDate = holder.itemView.findViewById<TextView>(R.id.shelfCreatedDateText)
-        val shelf = mainShelfList[position]
-
-        holder.itemView.setOnClickListener {
-            currentShelf = shelf
-            val action =
-                ShelvesFragmentDirections.actionNavigationShelvesToShelfWithBooksFragment(shelf.shelfId)
-            Navigation.findNavController(it).navigate(action)
-        }
+        val shelf = bookToShelfList[position]
 
         holder.itemView.apply {
             shelfTitle.text = shelf.shelfTitle
@@ -66,10 +59,17 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
             booksInShelf.text = shelf.booksInShelf.toString()
         }
 
+        holder.itemView.setOnClickListener {
+            bookToShelfFragment.onClick(shelf)
+        }
     }
 
     override fun getItemCount(): Int {
-        return mainShelfList.size
+        return bookToShelfList.size
+    }
+
+    fun setFragment(fragment: BookToShelfFragment) {
+        this.bookToShelfFragment = fragment
     }
 
 }

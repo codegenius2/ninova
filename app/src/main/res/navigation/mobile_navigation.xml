@@ -22,7 +22,11 @@
         android:id="@+id/navigation_shelves"
         android:name="com.armutyus.ninova.ui.shelves.ShelvesFragment"
         android:label="@string/title_shelves"
-        tools:layout="@layout/fragment_shelves" />
+        tools:layout="@layout/fragment_shelves" >
+        <action
+            android:id="@+id/action_navigation_shelves_to_shelfWithBooksFragment"
+            app:destination="@id/shelfWithBooksFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/mainSearchFragment"
@@ -31,21 +35,32 @@
         tools:layout="@layout/fragment_main_search" />
 
     <fragment
-        android:id="@+id/searchArchiveFragment"
-        android:name="com.armutyus.ninova.ui.search.SearchArchiveFragment"
-        android:label="Ninova"
-        tools:layout="@layout/fragment_search_archive" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchApiFragment"
-        android:name="com.armutyus.ninova.ui.search.SearchApiFragment"
-        android:label="Ninova"
-        tools:layout="@layout/fragment_search_api" />
-
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.armutyus.ninova.ui.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="@string/title_settings" />
+
+    <fragment
+        android:id="@+id/shelfWithBooksFragment"
+        android:name="com.armutyus.ninova.ui.shelves.ShelfWithBooksFragment"
+        tools:layout="@layout/fragment_shelf_with_books" >
+        <argument
+            android:name="currentShelfId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookToShelfFragment"
+        android:name="com.armutyus.ninova.ui.shelves.BookToShelfFragment"
+        android:label="@string/title_shelves"
+        tools:layout="@layout/fragment_book_to_shelf" >
+        <argument
+            android:name="currentBookId"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_main_to_bookToShelfFragment"
+        app:destination="@id/bookToShelfFragment" />
 
     <action
         android:id="@+id/action_main_to_search"
