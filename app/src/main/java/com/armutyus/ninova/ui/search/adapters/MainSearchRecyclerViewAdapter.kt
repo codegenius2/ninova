@@ -6,13 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
 import com.armutyus.ninova.model.Book
-import com.armutyus.ninova.roomdb.LocalBook
+import com.armutyus.ninova.roomdb.entities.LocalBook
 import com.armutyus.ninova.ui.search.MainSearchFragment
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
@@ -25,12 +24,12 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
 
     class MainSearchViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Books>() {
-        override fun areItemsTheSame(oldItem: Books, newItem: Books): Boolean {
+    private val diffUtil = object : DiffUtil.ItemCallback<Book>() {
+        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Books, newItem: Books): Boolean {
+        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
             return oldItem == newItem
         }
     }
@@ -87,4 +86,6 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
 
     fun setFragment(fragment: MainSearchFragment) {
         this.searchFragment = fragment
+    }
+
 }

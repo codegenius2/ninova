@@ -6,7 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.shelves.ShelvesFragment">
+    tools:context=".ui.shelves.BookToShelfFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_shelf_to_add_your_book"
+        android:textSize="14sp"
+        android:textColor="@color/light_primary"
+        android:gravity="center"
+        android:layout_margin="32dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +26,7 @@
         android:gravity="center_horizontal">
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/shelvesSearch"
+            android:id="@+id/bookToShelfSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -31,7 +40,7 @@
             app:showAsAction="always" />
 
         <ImageButton
-            android:id="@+id/main_shelves_add_button"
+            android:id="@+id/add_shelf_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,14 +54,11 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainShelvesRecyclerView"
+        android:id="@+id/addShelvesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="?actionBarSize"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="16dp"
+        android:padding="16dp"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -67,26 +73,26 @@
     <LinearLayout
         android:id="@+id/linearLayoutShelvesError"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animationView"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/homenotfound"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/your_library_is_empty"
+            android:text="@string/nothing_to_show_here"
             android:textColor="@color/light_primary"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/searchnotfound"/>
 
     </LinearLayout>
 

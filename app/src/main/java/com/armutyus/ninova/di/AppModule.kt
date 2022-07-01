@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.room.Room
 import com.armutyus.ninova.constants.Constants.ABOUT_INTENT
+import com.armutyus.ninova.constants.Constants.BOOK_DETAILS_INTENT
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
 import com.armutyus.ninova.constants.Constants.SPLASH_INTENT
 import com.armutyus.ninova.roomdb.NinovaLocalDB
 import com.armutyus.ninova.ui.about.AboutActivity
+import com.armutyus.ninova.ui.books.BookDetailsActivity
 import com.armutyus.ninova.ui.login.LoginActivity
 import com.armutyus.ninova.ui.login.RegisterActivity
 import com.armutyus.ninova.ui.main.MainActivity
@@ -18,8 +20,10 @@ import com.armutyus.ninova.ui.splash.SplashActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -60,18 +64,20 @@ object AppModule {
         return Intent(context, AboutActivity::class.java)
     }
 
+    @Provides
+    @Named(BOOK_DETAILS_INTENT)
+    fun provideBookDetailsIntent(context: Context): Intent {
+        return Intent(context, BookDetailsActivity::class.java)
+    }
+
     @Singleton
     @Provides
     fun injectLocalBooksDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
         context, NinovaLocalDB::class.java, "NinovaLocalDB"
     ).build()
 
+    @Singleton
     @Provides
     fun injectNinovaDao(database: NinovaLocalDB) = database.ninovaDao()
-
-    @Named(ABOUT_INTENT)
-    fun provideAboutIntent(context: Context): Intent {
-        return Intent(context, AboutActivity::class.java)
-    }
 
 }

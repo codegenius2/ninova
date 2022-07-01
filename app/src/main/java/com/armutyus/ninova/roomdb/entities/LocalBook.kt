@@ -1,4 +1,4 @@
-package com.armutyus.ninova.roomdb
+package com.armutyus.ninova.roomdb.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class BooksFragment @Inject constructor(
     private val booksAdapter: BooksRecyclerViewAdapter
-    ): Fragment(R.layout.fragment_books) {
+) : Fragment(R.layout.fragment_books) {
 
     private var fragmentBinding: FragmentBooksBinding? = null
     private lateinit var booksViewModel: BooksViewModel
@@ -53,18 +53,18 @@ class BooksFragment @Inject constructor(
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         ItemTouchHelper(swipeCallBack).attachToRecyclerView(recyclerView)
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-
         booksViewModel.getBookList()
         observeBookList()
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        booksViewModel.getBookList()
+    }
+
     private fun observeBookList() {
-        booksViewModel.bookList.observe(this) { localBookList ->
+        booksViewModel.bookList.observe(viewLifecycleOwner) { localBookList ->
             if (localBookList.isEmpty()) {
                 fragmentBinding?.linearLayoutBooksError?.visibility = View.VISIBLE
             } else {

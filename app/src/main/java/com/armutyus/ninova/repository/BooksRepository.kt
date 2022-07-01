@@ -1,8 +1,9 @@
 package com.armutyus.ninova.repository
 
 import com.armutyus.ninova.model.Book
-import com.armutyus.ninova.roomdb.LocalBook
 import com.armutyus.ninova.roomdb.NinovaDao
+import com.armutyus.ninova.roomdb.entities.BookWithShelves
+import com.armutyus.ninova.roomdb.entities.LocalBook
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -78,4 +79,9 @@ class BooksRepository @Inject constructor(
     override fun searchLocalBooks(searchString: String): Flow<List<LocalBook>> {
         return ninovaDao.searchLocalBooks(searchString)
     }
+
+    override suspend fun getBookWithShelves(bookId: Int): Flow<List<BookWithShelves>> {
+        return ninovaDao.getShelvesOfBook(bookId)
+    }
+
 }

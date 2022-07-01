@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.search.SearchArchiveFragment">
+    tools:context=".ui.shelves.ShelfWithBooksFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchArchiveRecyclerView"
+        android:id="@+id/shelfWithBooksRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_marginBottom="?actionBarSize"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
@@ -22,7 +27,7 @@
         android:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/linearLayoutSearchError"
+        android:id="@+id/linearLayoutShelfWithBooksError"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -30,21 +35,23 @@
         android:visibility="gone"
         tools:visibility="visible">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/homenotfound"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nothing_to_show_here"
+            android:text="@string/your_shelf_is_empty"
             android:textColor="@color/light_primary"
             android:textSize="16sp" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/searchnotfound"
-            android:layout_gravity="center"/>
 
     </LinearLayout>
 
 </LinearLayout>
+
+
