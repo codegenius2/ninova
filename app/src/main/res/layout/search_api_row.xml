@@ -15,37 +15,39 @@
 
         <ImageView
             android:id="@+id/bookImage"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_width="64dp"
+            android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/example_book"
             tools:ignore="ContentDescription">
         </ImageView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:gravity="bottom">
 
             <TextView
                 android:id="@+id/bookTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="sans-serif-condensed"
                 android:text="@string/name_of_the_book"
                 android:textColor="@color/light_primary"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/bookAuthorText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="sans-serif-condensed"
                 android:text="@string/author_of_the_book"
                 android:textColor="@color/light_primary_variant"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +59,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_number"
-                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="12sp"
                     android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
                     app:drawableStartCompat="@drawable/ic_pages_icon">
@@ -69,7 +72,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/release_date"
-                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="12sp"
                     android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
                     app:drawableStartCompat="@drawable/ic_release_date">
@@ -79,12 +83,24 @@
 
         </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/search_api_add_button"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_add_button"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_margin="16dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/light_primary"/>
 
 </LinearLayout>

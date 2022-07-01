@@ -1,8 +1,6 @@
 package com.armutyus.ninova.constants
 
 import com.armutyus.ninova.BuildConfig
-import com.armutyus.ninova.roomdb.entities.LocalShelf
-import com.armutyus.ninova.roomdb.entities.ShelfWithBooks
 
 object Constants {
 
@@ -17,7 +15,6 @@ object Constants {
     const val MAIN_INTENT = "mainIntent"
     const val REGISTER_INTENT = "registerIntent"
     const val ABOUT_INTENT = "aboutIntent"
-    const val BOOK_DETAILS_INTENT = "bookDetailsIntent"
 
     //Preferences
     const val REGISTER = "register"
@@ -39,7 +36,4 @@ object Constants {
     const val PHOTO_URL = "photoUrl"
     const val CREATED_AT = "createdAt"
     const val USER_TYPE = "userType"
-
-    //Items
-    var currentShelf: LocalShelf? = null
 }

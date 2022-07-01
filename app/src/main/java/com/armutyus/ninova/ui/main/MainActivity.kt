@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -12,9 +13,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Constants.currentShelf
 import com.armutyus.ninova.databinding.ActivityMainBinding
 import com.armutyus.ninova.fragmentfactory.NinovaFragmentFactoryEntryPoint
+import com.armutyus.ninova.ui.fragmentfactory.NinovaFragmentFactoryEntryPoint
+import com.armutyus.ninova.ui.splash.SplashActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
@@ -59,12 +61,6 @@ class MainActivity @Inject constructor(
                 R.id.settingsFragment -> {
                     supportActionBar?.show()
                     navView.visibility = View.GONE
-                }
-
-                R.id.shelfWithBooksFragment -> {
-                    supportActionBar?.show()
-                    navView.visibility = View.VISIBLE
-                    supportActionBar?.title = currentShelf?.shelfTitle
                 }
 
                 else -> {

@@ -51,7 +51,6 @@
                     android:textSize="12sp"
                     android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
-                    android:drawablePadding="4dp"
                     app:drawableStartCompat="@drawable/ic_books_in_shelf">
                 </TextView>
 
@@ -64,7 +63,6 @@
                     android:textSize="12sp"
                     android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
-                    android:drawablePadding="4dp"
                     app:drawableStartCompat="@drawable/ic_release_date">
                 </TextView>
 

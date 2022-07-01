@@ -8,13 +8,46 @@
     android:orientation="vertical"
     tools:context=".ui.books.BooksFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            style="?attr/materialButtonOutlinedStyle"
+            app:icon="@drawable/ic_sort"
+            android:text="@string/sort"
+            android:textSize="12sp"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
+            app:iconGravity="textEnd"
+            app:strokeColor="@color/light_primary"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+        <ImageButton
+            android:id="@+id/main_shelves_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_add_button"
+            android:contentDescription="@string/add_new_shelf_to_your_library"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainBooksRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="?actionBarSize"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:visibility="gone"
         tools:visibility="visible"/>
 

@@ -4,6 +4,10 @@ import android.content.Context
 import com.armutyus.ninova.R
 import com.armutyus.ninova.repository.*
 import com.armutyus.ninova.roomdb.NinovaDao
+import com.armutyus.ninova.repository.AuthRepository
+import com.armutyus.ninova.repository.AuthRepositoryInterface
+import com.armutyus.ninova.repository.BooksRepository
+import com.armutyus.ninova.repository.BooksRepositoryInterface
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -52,6 +56,9 @@ object NetworkModule {
     @Provides
     fun provideShelfRepository(ninovaDao: NinovaDao) =
         ShelfRepository(ninovaDao) as ShelfRepositoryInterface
+    fun provideBooksRepository(
+
+    ) = BooksRepository() as BooksRepositoryInterface
 
     @Singleton
     @Provides
