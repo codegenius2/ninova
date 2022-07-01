@@ -9,9 +9,8 @@
         />
     <item
         android:id="@+id/settings"
-        android:title="@string/menu_settings" />
-    <item
-        android:id="@+id/sign_out"
-        android:title="@string/menu_sign_out" />
+        android:title="@string/menu_settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom"/>
 
 </menu>

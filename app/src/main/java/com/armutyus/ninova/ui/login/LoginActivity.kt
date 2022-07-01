@@ -8,10 +8,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
+import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.databinding.ActivityLoginBinding
 import com.armutyus.ninova.databinding.RegisterUserBottomSheetBinding
-import com.armutyus.ninova.ui.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +24,11 @@ class LoginActivity : AppCompatActivity() {
     @Named(MAIN_INTENT)
     @Inject
     lateinit var mainIntent: Intent
+
+    @Named(REGISTER_INTENT)
+    @Inject
+    lateinit var registerIntent: Intent
+
     private lateinit var binding: ActivityLoginBinding
     private lateinit var bottomSheetBinding: RegisterUserBottomSheetBinding
     private val viewModel by viewModels<LoginViewModel>()
@@ -34,6 +39,10 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.forgotPasswordText.setOnClickListener {
+            goToForgotPasswordPage()
+        }
+
         binding.login.setOnClickListener {
             loginUser()
         }
@@ -43,10 +52,13 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.withoutRegister.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            anonymousSignIn()
         }
 
     }
+
+    private var email = ""
+    private var password = ""
 
     private fun loginUser() {
         email = binding.userEmailText.text.toString().trim()
@@ -74,6 +86,25 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun anonymousSignIn() {
+        viewModel.signInAnonymously().observe(this) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
+                is Response.Success -> {
+                    createUserProfile()
+                    goToMainActivity()
+                    binding.progressBar.visibility = View.GONE
+                }
+                is Response.Failure -> {
+                    println("SignIn Error: " + response.errorMessage)
+                    Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
+                        .show()
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+    }
+
     private fun showRegisterDialog() {
         val dialog = BottomSheetDialog(this)
         bottomSheetBinding = RegisterUserBottomSheetBinding.inflate(layoutInflater)
@@ -86,9 +117,6 @@ class LoginActivity : AppCompatActivity() {
 
         dialog.show()
     }
-
-    private var email = ""
-    private var password = ""
 
     private fun registerUser() {
         email = bottomSheetBinding.registerEmailText.text.toString().trim()
@@ -143,13 +171,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun currentUserUpdate() {
-        viewModel.getCurrentUser()
-    }
-
     private fun goToMainActivity() {
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(mainIntent)
         finish()
+    }
+
+    private fun goToForgotPasswordPage() {
+        registerIntent.putExtra("action", "forgot_password")
+        startActivity(registerIntent)
     }
 
 }

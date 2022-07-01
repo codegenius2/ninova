@@ -25,4 +25,25 @@
     <string name="author_of_the_book">Author of the Book</string>
     <string name="page_number">320</string>
     <string name="release_date">01.01.2010</string>
+    <string name="register">Register</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="about">About Ninova</string>
+    <string name="theme">Theme</string>
+    <string name="profile_settings">Profile Settings</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_e_mail">Change E-mail</string>
+    <string name="sign_in_with_another_account">Sign in with Another Account</string>
+    <string name="approve">APPROVE</string>
+    <string name="new_password">New Password</string>
+    <string name="change_your_e_mail">Change your e-mail</string>
+    <string name="enter_your_password_to_change_your_e_mail">Enter your password to change your e-mail</string>
+    <string name="current_password">Current Password</string>
+    <string name="save">SAVE</string>
+    <string name="enter_your_e_mail_to_reset_your_password">Enter your e-mail to reset your password</string>
+    <string name="send">SEND</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="enter_your_new_e_mail_address">Enter your new e-mail address</string>
+
 </resources>

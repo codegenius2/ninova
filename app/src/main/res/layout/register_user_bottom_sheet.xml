@@ -17,9 +17,6 @@
         android:hint="@string/prompt_email"
         app:errorEnabled="true"
         app:boxStrokeColor="@color/light_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_login_email_gray">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -41,10 +38,6 @@
         android:hint="@string/prompt_password"
         app:errorEnabled="true"
         app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmail"
         app:startIconDrawable="@drawable/ic_login_lock_gray">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -66,10 +59,6 @@
         android:hint="@string/confirm_password"
         app:errorEnabled="true"
         app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmail"
         app:startIconDrawable="@drawable/ic_login_lock_gray">
 
         <com.google.android.material.textfield.TextInputEditText

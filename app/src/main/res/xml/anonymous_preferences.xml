@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Profile" app:allowDividerBelow="true" >
+
+        <ListPreference
+            app:defaultValue="system"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:title="@string/theme"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="About" app:allowDividerBelow="true" >
+
+        <Preference
+            app:key="about_ninova"
+            app:title="@string/about"
+            app:allowDividerBelow="true"
+            app:summary="AppVersion"/>
+        <Preference
+            app:key="privacy_policy"
+            app:title="@string/privacy_policy"
+            app:allowDividerBelow="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Account" app:allowDividerBelow="true" >
+
+        <Preference
+            app:key="register"
+            app:title="@string/register"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_register_account">
+        </Preference>
+
+        <Preference
+            app:key="switch_account"
+            app:title="@string/sign_in_with_another_account"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_switch_account">
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

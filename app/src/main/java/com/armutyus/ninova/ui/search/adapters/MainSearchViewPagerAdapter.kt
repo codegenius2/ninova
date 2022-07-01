@@ -22,15 +22,16 @@ class MainSearchViewPagerAdapter @Inject constructor(
     override fun createFragment(position: Int): Fragment {
         return fragments[position]
 
-    /*when (position) {
-            0 -> {
-                SearchArchiveFragment()
-            }
+        /*when (position) {
+                0 -> {
+                    SearchArchiveFragment()
+                }
 
-            else -> {
-                SearchApiFragment()
-            }
-        }*/
+                else -> {
+                    SearchApiFragment()
+                }
+            }*/
+
     }
 
 }

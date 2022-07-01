@@ -7,6 +7,7 @@ import com.armutyus.ninova.constants.Constants.NAME
 import com.armutyus.ninova.constants.Constants.PHOTO_URL
 import com.armutyus.ninova.constants.Constants.USERS_REF
 import com.armutyus.ninova.constants.Response
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
@@ -24,6 +25,30 @@ class AuthRepository @Inject constructor(
         try {
             emit(Response.Loading)
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
+            authResult.apply {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
+        }
+    }
+
+    override suspend fun anonymousToPermanent(credential: AuthCredential) = flow {
+        try {
+            emit(Response.Loading)
+            val authResult = auth.currentUser!!.linkWithCredential(credential).await()
+            authResult.apply {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
+        }
+    }
+
+    override suspend fun signInAnonymous() = flow {
+        try {
+            emit(Response.Loading)
+            val authResult = auth.signInAnonymously().await()
             authResult.apply {
                 emit(Response.Success(true))
             }
@@ -64,7 +89,7 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    override fun signOut() = flow {
+    override suspend fun signOut() = flow {
         try {
             emit(Response.Loading)
             auth.signOut().also {
@@ -75,13 +100,56 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    override fun getCurrentUser(): FirebaseUser? {
-        return auth.currentUser
+    override suspend fun reAuthUser(credential: AuthCredential) = flow {
+        try {
+            emit(Response.Loading)
+            val reAuthResult = auth.currentUser!!.reauthenticate(credential).await()
+            reAuthResult.apply {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
+        }
     }
 
-    override suspend fun sendResetPassword(email: String): Boolean {
-        auth.sendPasswordResetEmail(email)
-        return true
+    override suspend fun changeUserEmail(email: String) = flow {
+        try {
+            emit(Response.Loading)
+            val reAuthResult = auth.currentUser!!.updateEmail(email).await()
+            reAuthResult.apply {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
+        }
+    }
+
+    override suspend fun changeUserPassword(password: String) = flow {
+        try {
+            emit(Response.Loading)
+            val reAuthResult = auth.currentUser!!.updatePassword(password).await()
+            reAuthResult.apply {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
+        }
+    }
+
+    override suspend fun sendResetPassword(email: String) = flow {
+        try {
+            emit(Response.Loading)
+            auth.sendPasswordResetEmail(email).await().apply {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.localizedMessage ?: ERROR_MESSAGE))
+        }
+    }
+
+
+    override fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
     }
 
 }
