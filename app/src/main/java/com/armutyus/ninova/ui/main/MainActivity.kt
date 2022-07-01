@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,18 +16,29 @@ import androidx.navigation.ui.setupWithNavController
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.databinding.ActivityMainBinding
+import com.armutyus.ninova.ui.fragmentfactory.NinovaFragmentFactoryEntryPoint
 import com.armutyus.ninova.ui.splash.SplashActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity @Inject constructor(
+) : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val entryPoint = EntryPointAccessors.fromActivity(
+            this,
+            NinovaFragmentFactoryEntryPoint::class.java
+        )
+        supportFragmentManager.fragmentFactory = entryPoint.getFragmentFactory()
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -38,9 +50,21 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            if (destination.id == R.id.mainSearchFragment) {
+                supportActionBar?.hide()
+                navView.visibility = View.GONE
+            } else {
+                supportActionBar?.show()
+                navView.visibility = View.VISIBLE
+            }
+
+        }
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_discovery, R.id.navigation_shelves
+                R.id.navigation_books, R.id.navigation_discovery, R.id.navigation_shelves
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -48,19 +72,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
+
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.settings_menu, menu)
+
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.settings) {
-            TODO("Implement settings page")
-        } else if (item.itemId == R.id.sign_out) {
-            signOut()
-            startActivity(Intent(this, SplashActivity::class.java))
-            finish()
+
+        when (item.itemId) {
+
+            R.id.menu_search -> {
+                navController.navigate(R.id.action_main_to_search)
+            }
+
+            R.id.settings -> {
+                TODO("Implement settings page")
+            }
+
+            R.id.sign_out -> {
+                signOut()
+                startActivity(Intent(this, SplashActivity::class.java))
+                finish()
+            }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -80,6 +118,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+        return navController.navigateUp()
+                || super.onSupportNavigateUp()
     }
 }

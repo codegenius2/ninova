@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Ninova</string>
-    <string name="title_home">Home</string>
+    <string name="title_books">Books</string>
     <string name="title_discover">Discover</string>
     <string name="title_shelves">Shelves</string>
     <string name="prompt_username">Username</string>
@@ -10,10 +10,19 @@
     <string name="action_sign_in">LOGIN</string>
     <string name="action_register">REGISTER</string>
     <string name="action_without_register">CONTINUE WITHOUT AN ACCOUNT</string>
+    <string name="search_button_hint">Books, Authors and More</string>
+    <string name="search_button_title">Search</string>
     <string name="login_failed">"Login failed"</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_sign_out">Sign Out</string>
-    <string name="home_button_books">Books</string>
-    <string name="home_button_shelves">Shelves</string>
+    <string name="title_search">Search</string>
+    <string name="your_library">YOUR LIBRARY</string>
+    <string name="from_ninova">FROM NINOVA</string>
+    <string name="nothing_to_show_here">We look far and wide but.. Nothing to show here..</string>
+    <string name="dusty_shelves">Dusty Shelves</string>
+    <string name="name_of_the_book">Name of the Book</string>
+    <string name="author_of_the_book">Author of the Book</string>
+    <string name="page_number">320</string>
+    <string name="release_date">01.01.2010</string>
 </resources>

@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.FragmentShelvesBinding
+import javax.inject.Inject
 
+class ShelvesFragment @Inject constructor(
 
-class ShelvesFragment : Fragment(R.layout.fragment_shelves) {
+) : Fragment(R.layout.fragment_shelves) {
 
     private var fragmentBinding: FragmentShelvesBinding? = null
     private lateinit var shelvesViewModel: ShelvesViewModel

@@ -5,12 +5,14 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.15109749872383868" />
         <entry key="app/src/main/res/drawable/home_library.xml" value="0.127" />
+        <entry key="app/src/main/res/drawable/ic_add_button.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/ic_login_email_gray.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_login_lock_gray.xml" value="0.16" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.127" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.164453125" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1437841530054645" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_books.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.19067028985507245" />
@@ -19,9 +21,16 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_home_book_item.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_home_book_item_list.xml" value="0.2682291666666667" />
+        <entry key="app/src/main/res/layout/fragment_main_search.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.19067028985507245" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_search_api.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_search_archive.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_shelves.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/register_user_bottom_sheet.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/search_api_row.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/search_archive_row.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/search_main_row.xml" value="0.28125" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/settings_menu.xml" value="0.28125" />
       </map>

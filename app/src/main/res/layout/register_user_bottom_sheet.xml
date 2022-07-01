@@ -63,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="26dp"
         app:boxStrokeColor="@color/light_primary"
-        android:hint="@string/prompt_password"
+        android:hint="@string/confirm_password"
         app:errorEnabled="true"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"

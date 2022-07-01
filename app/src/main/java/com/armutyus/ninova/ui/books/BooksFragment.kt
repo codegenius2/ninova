@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.FragmentBooksBinding
+import javax.inject.Inject
 
-class BooksFragment : Fragment(R.layout.fragment_books) {
+class BooksFragment @Inject constructor(
+
+) : Fragment(R.layout.fragment_books) {
 
     private var fragmentBinding: FragmentBooksBinding? = null
     private lateinit var booksViewModel: BooksViewModel
