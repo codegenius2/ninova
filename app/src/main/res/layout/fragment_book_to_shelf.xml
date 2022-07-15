@@ -57,7 +57,6 @@
         android:id="@+id/addShelvesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="?actionBarSize"
         android:padding="16dp"
         android:visibility="gone"
         tools:visibility="visible"/>

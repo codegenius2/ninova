@@ -55,4 +55,24 @@
     <string name="shelf_title">Shelf title</string>
     <string name="search_shelves">Search your shelves</string>
     <string name="choose_shelf_to_add_your_book">Choose shelf to add your book</string>
+    <string name="subtitle_of_the_book">subtitle of the book</string>
+    <string name="info">INFO</string>
+    <string name="notes">NOTES</string>
+    <string name="first_second_third">First, Second, Third</string>
+    <string name="your_notes">Your Notes</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="pages">Pages</string>
+    <string name="categories">Categories</string>
+    <string name="action_comedy_horror">Action, Comedy, Horror</string>
+    <string name="publisher">Publisher</string>
+    <string name="awesome_inc">Awesome Inc.</string>
+    <string name="published_date">Published Date</string>
+    <string name="_01_01_0001">01.01.0001</string>
+    <string name="description">Description</string>
+    <string name="something_went_wrong">Something went wrong..</string>
+    <string name="add_your_notes_here">Add your notes here</string>
+    <string name="add_this_book_to_a_shelf">Add this book to a shelf</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_your_notes_here">Enter your notes here</string>
 </resources>

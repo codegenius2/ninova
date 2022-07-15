@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_add_button.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/ic_baseline_format_paint_24.xml" value="0.1455" />
         <entry key="app/src/main/res/drawable/ic_books_in_shelf.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_done.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_login_email_gray.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_login_lock_gray.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_pages_icon.xml" value="0.1935" />
@@ -22,6 +23,7 @@
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.164453125" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1437841530054645" />
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/activity_book_details.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.28229166666666666" />
@@ -29,6 +31,7 @@
         <entry key="app/src/main/res/layout/add_new_shelf_bottom_sheet.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/books_main_row.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_book_to_shelf.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_book_user_notes.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_books.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_books_in_shelf.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.19067028985507245" />

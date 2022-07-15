@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Constants.currentShelf
 import com.armutyus.ninova.databinding.FragmentShelfWithBooksBinding
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.ui.books.adapters.BooksRecyclerViewAdapter
@@ -66,19 +67,21 @@ class ShelfWithBooksFragment @Inject constructor(
 
     override fun onResume() {
         super.onResume()
-        shelvesViewModel.getShelfWithBookList(currentShelfId)
+        shelvesViewModel.getShelfWithBookList()
     }
 
     private fun observeBookList() {
         shelvesViewModel.shelfWithBooksList.observe(viewLifecycleOwner) { booksOfShelfList ->
-            booksOfShelfList.forEach {
-                if (it.book.isEmpty()) {
+            val currentBookList = booksOfShelfList.find { it.shelf.shelfId == currentShelfId }?.book
+            currentBookList?.let {
+                if (it.isEmpty()) {
                     fragmentBinding?.shelfWithBooksRecyclerView?.visibility = View.GONE
                     fragmentBinding?.linearLayoutShelfWithBooksError?.visibility = View.VISIBLE
+
                 } else {
                     fragmentBinding?.linearLayoutShelfWithBooksError?.visibility = View.GONE
                     fragmentBinding?.shelfWithBooksRecyclerView?.visibility = View.VISIBLE
-                    booksAdapter.mainBooksList = it.book.toList()
+                    booksAdapter.mainBooksList = it
                 }
             }
         }

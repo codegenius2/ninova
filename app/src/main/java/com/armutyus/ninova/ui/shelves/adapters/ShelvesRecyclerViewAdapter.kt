@@ -13,6 +13,7 @@ import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants.currentShelf
 import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.armutyus.ninova.ui.shelves.ShelvesFragmentDirections
+import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
 
@@ -22,6 +23,8 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
     RecyclerView.Adapter<ShelvesRecyclerViewAdapter.ShelvesViewHolder>() {
 
     class ShelvesViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+    private lateinit var viewModel: ShelvesViewModel
 
     private val diffUtil = object : DiffUtil.ItemCallback<LocalShelf>() {
         override fun areItemsTheSame(oldItem: LocalShelf, newItem: LocalShelf): Boolean {
@@ -63,7 +66,7 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
         holder.itemView.apply {
             shelfTitle.text = shelf.shelfTitle
             shelfCreatedDate.text = shelf.createdAt
-            booksInShelf.text = shelf.booksInShelf.toString()
+            booksInShelf.text = shelf.getBookCount(viewModel).toString()
         }
 
     }
@@ -72,4 +75,7 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
         return mainShelfList.size
     }
 
+    fun setViewModel(shelvesViewModel: ShelvesViewModel) {
+        this.viewModel = shelvesViewModel
+    }
 }

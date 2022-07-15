@@ -5,21 +5,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
 import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.armutyus.ninova.ui.shelves.BookToShelfFragment
+import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
 
 class BookToShelfRecyclerViewAdapter @Inject constructor(
     private val glide: RequestManager
-) :
-    RecyclerView.Adapter<BookToShelfRecyclerViewAdapter.BookToShelfViewHolder>() {
+) : RecyclerView.Adapter<BookToShelfRecyclerViewAdapter.BookToShelfViewHolder>() {
 
     private lateinit var bookToShelfFragment: BookToShelfFragment
+    private lateinit var viewModel: ShelvesViewModel
 
     class BookToShelfViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -56,7 +58,7 @@ class BookToShelfRecyclerViewAdapter @Inject constructor(
         holder.itemView.apply {
             shelfTitle.text = shelf.shelfTitle
             shelfCreatedDate.text = shelf.createdAt
-            booksInShelf.text = shelf.booksInShelf.toString()
+            booksInShelf.text = shelf.getBookCount(viewModel).toString()
         }
 
         holder.itemView.setOnClickListener {
@@ -70,6 +72,10 @@ class BookToShelfRecyclerViewAdapter @Inject constructor(
 
     fun setFragment(fragment: BookToShelfFragment) {
         this.bookToShelfFragment = fragment
+    }
+
+    fun setViewModel(shelvesViewModel: ShelvesViewModel) {
+        this.viewModel = shelvesViewModel
     }
 
 }

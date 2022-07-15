@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.constants.Constants.DARK_THEME
 import com.armutyus.ninova.constants.Constants.LIGHT_THEME
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
@@ -43,12 +42,12 @@ class SplashActivity : AppCompatActivity() {
 
         when (themePref) {
             LIGHT_THEME -> {
-                sharedPreferences?.edit()?.putString("theme", Constants.LIGHT_THEME)?.apply()
+                sharedPreferences?.edit()?.putString("theme", LIGHT_THEME)?.apply()
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
 
             DARK_THEME -> {
-                sharedPreferences?.edit()?.putString("theme", Constants.DARK_THEME)?.apply()
+                sharedPreferences?.edit()?.putString("theme", DARK_THEME)?.apply()
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
 

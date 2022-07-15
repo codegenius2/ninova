@@ -1,8 +1,8 @@
 package com.armutyus.ninova.constants
 
 import com.armutyus.ninova.BuildConfig
+import com.armutyus.ninova.roomdb.entities.LocalBook
 import com.armutyus.ninova.roomdb.entities.LocalShelf
-import com.armutyus.ninova.roomdb.entities.ShelfWithBooks
 
 object Constants {
 
@@ -28,6 +28,10 @@ object Constants {
     const val LIGHT_THEME = "light"
     const val DARK_THEME = "dark"
     const val SYSTEM_THEME = "system"
+    const val FROM_DETAILS_ACTIVITY = "bookDetailsActivity"
+    const val DETAILS_INT_EXTRA = "fromDetails"
+    const val DETAILS_STRING_EXTRA = "detailsActivity"
+    const val FROM_DETAILS_TO_NOTES_EXTRA = 99
 
     //References
     const val USERS_REF = "users"
@@ -40,6 +44,8 @@ object Constants {
     const val CREATED_AT = "createdAt"
     const val USER_TYPE = "userType"
 
-    //Items &
+    //Items
     var currentShelf: LocalShelf? = null
+    var currentBook: LocalBook? = null
+    //var currentRemoteBook: RemoteBook? = null
 }

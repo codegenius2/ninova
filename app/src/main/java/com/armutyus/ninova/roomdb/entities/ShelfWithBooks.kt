@@ -12,4 +12,7 @@ data class ShelfWithBooks(
         associateBy = Junction(BookShelfCrossRef::class)
     )
     val book: List<LocalBook>
-)
+) {
+    val booksCount: Int
+        get() = book.size
+}

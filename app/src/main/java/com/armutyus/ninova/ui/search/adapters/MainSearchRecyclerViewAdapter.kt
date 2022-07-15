@@ -1,26 +1,36 @@
 package com.armutyus.ninova.ui.search.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Constants.BOOK_DETAILS_INTENT
 import com.armutyus.ninova.model.Book
 import com.armutyus.ninova.roomdb.entities.LocalBook
+import com.armutyus.ninova.ui.books.BooksViewModel
 import com.armutyus.ninova.ui.search.MainSearchFragment
 import com.bumptech.glide.RequestManager
 import javax.inject.Inject
+import javax.inject.Named
 
 class MainSearchRecyclerViewAdapter @Inject constructor(
     private val glide: RequestManager
 ) : RecyclerView.Adapter<MainSearchRecyclerViewAdapter.MainSearchViewHolder>() {
 
+    @Named(BOOK_DETAILS_INTENT)
+    @Inject
+    lateinit var bookDetailsIntent: Intent
+
     private lateinit var searchFragment: MainSearchFragment
+    private lateinit var booksViewModel: BooksViewModel
 
     class MainSearchViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -56,24 +66,53 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
         val book = mainSearchBooksList[position]
 
         val addButton = holder.itemView.findViewById<ImageButton>(R.id.main_search_add_button)
+        val addedButton =
+            holder.itemView.findViewById<ImageButton>(R.id.main_search_add_checked_button)
+
+        if (book.isBookAddedCheck(booksViewModel)) {
+            addButton.visibility = View.GONE
+            addedButton.visibility = View.VISIBLE
+        } else {
+            addButton.visibility = View.VISIBLE
+            addedButton.visibility = View.GONE
+        }
 
         addButton?.setOnClickListener {
             searchFragment.onClick(
                 LocalBook(
                     0,
                     book.bookTitle,
+                    "",
                     book.bookAuthor,
                     book.bookPages,
                     "",
                     "",
-                    book.releaseDate
+                    book.releaseDate,
+                    listOf(),
+                    "",
+                    ""
                 )
             )
+            addButton.visibility = View.GONE
+            addedButton.visibility = View.VISIBLE
+        }
+
+        addedButton?.setOnClickListener {
+            Toast.makeText(
+                holder.itemView.context,
+                "Already added to your library",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        holder.itemView.setOnClickListener {
+            //currentBook = book
+            holder.itemView.context.startActivity(bookDetailsIntent)
         }
 
         holder.itemView.apply {
             bookTitle.text = book.bookTitle
-            bookAuthor.text = book.bookAuthor
+            bookAuthor.text = book.bookAuthor.joinToString(", ")
             bookPages.text = book.bookPages
             bookReleaseDate.text = book.releaseDate
         }
@@ -86,6 +125,10 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
 
     fun setFragment(fragment: MainSearchFragment) {
         this.searchFragment = fragment
+    }
+
+    fun setViewModel(booksViewModel: BooksViewModel) {
+        this.booksViewModel = booksViewModel
     }
 
 }

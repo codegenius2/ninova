@@ -1,6 +1,7 @@
 package com.armutyus.ninova.di
 
 import androidx.fragment.app.Fragment
+import com.armutyus.ninova.ui.books.BookUserNotesFragment
 import com.armutyus.ninova.ui.books.BooksFragment
 import com.armutyus.ninova.ui.discover.DiscoverFragment
 import com.armutyus.ninova.ui.search.MainSearchFragment
@@ -52,4 +53,9 @@ abstract class FragmentFactoryModule {
     @IntoMap
     @FragmentKey(BookToShelfFragment::class)
     abstract fun bindBookToShelfFragment(fragment: BookToShelfFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(BookUserNotesFragment::class)
+    abstract fun bindBookUserNotesFragment(fragment: BookUserNotesFragment): Fragment
 }

@@ -14,6 +14,7 @@ import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.FragmentMainSearchBinding
 import com.armutyus.ninova.model.Book
 import com.armutyus.ninova.roomdb.entities.LocalBook
+import com.armutyus.ninova.ui.books.BooksViewModel
 import com.armutyus.ninova.ui.search.adapters.MainSearchRecyclerViewAdapter
 import com.armutyus.ninova.ui.search.listeners.OnBookAddButtonClickListener
 import javax.inject.Inject
@@ -27,11 +28,13 @@ class MainSearchFragment @Inject constructor(
     private val binding get() = fragmentBinding
     private lateinit var isSearchActive: SharedPreferences
     private lateinit var mainSearchViewModel: MainSearchViewModel
+    private lateinit var booksViewModel: BooksViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isSearchActive = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
         mainSearchViewModel = ViewModelProvider(requireActivity())[MainSearchViewModel::class.java]
+        booksViewModel = ViewModelProvider(requireActivity())[BooksViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -49,6 +52,7 @@ class MainSearchFragment @Inject constructor(
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         recyclerView?.visibility = View.VISIBLE
         searchFragmentAdapter.setFragment(this)
+        searchFragmentAdapter.setViewModel(booksViewModel)
 
         val toggleButtonGroup = binding?.searchButtonToggleGroup
         toggleButtonGroup?.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -73,6 +77,7 @@ class MainSearchFragment @Inject constructor(
 
     override fun onResume() {
         super.onResume()
+        booksViewModel.getBookList()
         mainSearchViewModel.getBooksList()
         setVisibilitiesForSearchQueryNull()
     }

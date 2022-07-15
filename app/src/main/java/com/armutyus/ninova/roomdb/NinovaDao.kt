@@ -23,7 +23,7 @@ interface NinovaDao {
     @Query("SELECT * FROM Book")
     fun getLocalBooks(): Flow<List<LocalBook>>
 
-    @Query("SELECT * FROM Book WHERE bookAuthor LIKE :searchString OR bookTitle LIKE :searchString")
+    @Query("SELECT * FROM Book WHERE bookAuthors LIKE :searchString OR bookTitle LIKE :searchString")
     fun searchLocalBooks(searchString: String): Flow<List<LocalBook>>
 
     //Shelf works
@@ -52,8 +52,8 @@ interface NinovaDao {
     suspend fun deleteBookShelfCrossRef(crossRef: BookShelfCrossRef)
 
     @Transaction
-    @Query("SELECT * FROM Shelf WHERE shelfId = :shelfId")
-    fun getBooksOfShelf(shelfId: Int): Flow<List<ShelfWithBooks>>
+    @Query("SELECT * FROM Shelf")
+    fun getBooksOfShelf(): Flow<List<ShelfWithBooks>>
 
     @Transaction
     @Query("SELECT * FROM Book WHERE bookId = :bookId")

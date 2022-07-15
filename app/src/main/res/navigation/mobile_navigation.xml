@@ -58,6 +58,12 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/bookUserNotesFragment"
+        android:name="com.armutyus.ninova.ui.books.BookUserNotesFragment"
+        tools:layout="@layout/fragment_book_user_notes" >
+    </fragment>
+
     <action
         android:id="@+id/action_main_to_bookToShelfFragment"
         app:destination="@id/bookToShelfFragment" />
@@ -69,5 +75,9 @@
     <action
         android:id="@+id/action_main_to_settings"
         app:destination="@id/settingsFragment" />
+
+    <action
+        android:id="@+id/action_main_to_bookUserNotesFragment"
+        app:destination="@id/bookUserNotesFragment" />
 
 </navigation>

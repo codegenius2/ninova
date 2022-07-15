@@ -52,11 +52,11 @@ class ShelvesViewModel @Inject constructor(
         shelfRepositoryInterface.insert(localShelf)
     }
 
-    fun updateShelf(localShelf: LocalShelf) = viewModelScope.launch {
+    fun updateShelf(localShelf: LocalShelf) = CoroutineScope(Dispatchers.IO).launch {
         shelfRepositoryInterface.update(localShelf)
     }
 
-    fun deleteShelf(localShelf: LocalShelf) = viewModelScope.launch {
+    fun deleteShelf(localShelf: LocalShelf) = CoroutineScope(Dispatchers.IO).launch {
         shelfRepositoryInterface.delete(localShelf)
     }
 
@@ -71,18 +71,16 @@ class ShelvesViewModel @Inject constructor(
         }
 
     fun searchShelves(searchString: String) {
-
         CoroutineScope(Dispatchers.IO).launch {
             shelfRepositoryInterface.searchLocalShelves(searchString).collectLatest {
                 _searchShelvesList.postValue(it)
             }
         }
-
     }
 
-    fun getShelfWithBookList(shelfId: Int) {
+    fun getShelfWithBookList() {
         CoroutineScope(Dispatchers.IO).launch {
-            shelfRepositoryInterface.getShelfWithBooks(shelfId).collectLatest {
+            shelfRepositoryInterface.getShelfWithBooks().collectLatest {
                 _shelfWithBooksList.postValue(it)
             }
         }

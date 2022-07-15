@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
 import com.armutyus.ninova.databinding.FragmentBooksBinding
 import com.armutyus.ninova.ui.books.adapters.BooksRecyclerViewAdapter
+import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -18,7 +19,9 @@ class BooksFragment @Inject constructor(
 ) : Fragment(R.layout.fragment_books) {
 
     private var fragmentBinding: FragmentBooksBinding? = null
+    private lateinit var shelvesViewModel: ShelvesViewModel
     private lateinit var booksViewModel: BooksViewModel
+
     private val swipeCallBack = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         override fun onMove(
             recyclerView: RecyclerView,
@@ -47,6 +50,7 @@ class BooksFragment @Inject constructor(
         val binding = FragmentBooksBinding.bind(view)
         fragmentBinding = binding
         booksViewModel = ViewModelProvider(requireActivity())[BooksViewModel::class.java]
+        shelvesViewModel = ViewModelProvider(requireActivity())[ShelvesViewModel::class.java]
 
         val recyclerView = binding.mainBooksRecyclerView
         recyclerView.adapter = booksAdapter
@@ -61,12 +65,14 @@ class BooksFragment @Inject constructor(
     override fun onResume() {
         super.onResume()
         booksViewModel.getBookList()
+        shelvesViewModel.getShelfWithBookList()
     }
 
     private fun observeBookList() {
         booksViewModel.bookList.observe(viewLifecycleOwner) { localBookList ->
             if (localBookList.isEmpty()) {
                 fragmentBinding?.linearLayoutBooksError?.visibility = View.VISIBLE
+                fragmentBinding?.mainBooksRecyclerView?.visibility = View.GONE
             } else {
                 fragmentBinding?.linearLayoutBooksError?.visibility = View.GONE
                 fragmentBinding?.mainBooksRecyclerView?.visibility = View.VISIBLE
