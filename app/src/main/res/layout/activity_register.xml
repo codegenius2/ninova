@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/Theme.Ninova"
     tools:context=".ui.login.RegisterActivity">
 
     <LinearLayout
@@ -14,10 +15,12 @@
         android:layout_gravity="center"
         android:visibility="gone">
 
-        <androidx.core.widget.ContentLoadingProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/progressBarStyleSmall" />
+            android:indeterminate="true"
+            style="@style/Widget.Material3.CircularProgressIndicator.Small" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,15 +32,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userEmail"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="26dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="24dp"
             android:hint="@string/prompt_email"
-            app:errorEnabled="true"
-            app:boxStrokeColor="@color/light_primary"
+            app:errorEnabled="false"
             app:startIconDrawable="@drawable/ic_login_email_gray">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -49,15 +50,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            app:boxStrokeColor="@color/light_primary"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
             android:hint="@string/prompt_password"
-            app:errorEnabled="true"
+            app:errorEnabled="false"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -70,15 +69,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            app:boxStrokeColor="@color/light_primary"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
             android:hint="@string/confirm_password"
-            app:errorEnabled="true"
+            app:errorEnabled="false"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -94,11 +91,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            android:text="@string/action_register"
-            android:fontFamily="sans-serif">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/action_register">
         </com.google.android.material.button.MaterialButton>
 
     </LinearLayout>
@@ -112,15 +107,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/changeUserEmail"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="26dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="24dp"
             android:hint="@string/enter_your_new_e_mail_address"
-            app:errorEnabled="true"
-            app:boxStrokeColor="@color/light_primary"
+            app:errorEnabled="false"
             app:startIconDrawable="@drawable/ic_login_email_gray">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -132,15 +125,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordToReAuth"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            app:boxStrokeColor="@color/light_primary"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
             android:hint="@string/current_password"
-            app:errorEnabled="true"
+            app:errorEnabled="false"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -156,11 +147,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            android:text="@string/approve"
-            android:fontFamily="sans-serif">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/approve">
         </com.google.android.material.button.MaterialButton>
 
     </LinearLayout>
@@ -174,15 +163,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userCurrentPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            app:boxStrokeColor="@color/light_primary"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="24dp"
             android:hint="@string/current_password"
-            app:errorEnabled="true"
+            app:errorEnabled="false"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -195,15 +182,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/newPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            app:boxStrokeColor="@color/light_primary"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
             android:hint="@string/new_password"
-            app:errorEnabled="true"
+            app:errorEnabled="false"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -216,15 +201,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmNewPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            app:boxStrokeColor="@color/light_primary"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
             android:hint="@string/confirm_new_password"
-            app:errorEnabled="true"
+            app:errorEnabled="false"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -240,11 +223,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            android:text="@string/save"
-            android:fontFamily="sans-serif">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/save">
         </com.google.android.material.button.MaterialButton>
 
     </LinearLayout>
@@ -258,15 +239,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/forgotPasswordEmail"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="26dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="24dp"
             android:hint="@string/enter_your_e_mail_to_reset_your_password"
-            app:errorEnabled="true"
-            app:boxStrokeColor="@color/light_primary"
+            app:errorEnabled="false"
             app:startIconDrawable="@drawable/ic_login_email_gray">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -281,11 +260,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="26dp"
-            android:text="@string/send"
-            android:fontFamily="sans-serif">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/send">
         </com.google.android.material.button.MaterialButton>
 
     </LinearLayout>

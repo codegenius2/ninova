@@ -2,19 +2,13 @@ package com.armutyus.ninova.ui.search.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Constants.BOOK_DETAILS_INTENT
-import com.armutyus.ninova.model.Book
-import com.armutyus.ninova.roomdb.entities.LocalBook
+import com.armutyus.ninova.constants.Constants
+import com.armutyus.ninova.constants.Constants.GOOGLE_BOOK_TYPE
+import com.armutyus.ninova.constants.Constants.LOCAL_BOOK_TYPE
+import com.armutyus.ninova.model.DataModel
 import com.armutyus.ninova.ui.books.BooksViewModel
 import com.armutyus.ninova.ui.search.MainSearchFragment
 import com.bumptech.glide.RequestManager
@@ -23,104 +17,81 @@ import javax.inject.Named
 
 class MainSearchRecyclerViewAdapter @Inject constructor(
     private val glide: RequestManager
-) : RecyclerView.Adapter<MainSearchRecyclerViewAdapter.MainSearchViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    @Named(BOOK_DETAILS_INTENT)
+    @Named(Constants.BOOK_DETAILS_INTENT)
     @Inject
     lateinit var bookDetailsIntent: Intent
 
     private lateinit var searchFragment: MainSearchFragment
     private lateinit var booksViewModel: BooksViewModel
+    private val adapterData = mutableListOf<DataModel>()
 
-    class MainSearchViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    private val diffUtil = object : DiffUtil.ItemCallback<Book>() {
-        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-            return oldItem == newItem
+    init {
+        try {
+            setHasStableIds(true)
+        } catch (exception: Exception) {
+            exception.printStackTrace()
         }
     }
 
-    private val recyclerListDiffer = AsyncListDiffer(this, diffUtil)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
 
-    var mainSearchBooksList: List<Book>
-        get() = recyclerListDiffer.currentList
-        set(value) = recyclerListDiffer.submitList(value)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainSearchViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.search_main_row, parent, false)
-
-        return MainSearchViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: MainSearchViewHolder, position: Int) {
-        val bookCover = holder.itemView.findViewById<ImageView>(R.id.bookImage)
-        val bookTitle = holder.itemView.findViewById<TextView>(R.id.bookTitleText)
-        val bookAuthor = holder.itemView.findViewById<TextView>(R.id.bookAuthorText)
-        val bookPages = holder.itemView.findViewById<TextView>(R.id.bookPageText)
-        val bookReleaseDate = holder.itemView.findViewById<TextView>(R.id.bookReleaseDateText)
-        val book = mainSearchBooksList[position]
-
-        val addButton = holder.itemView.findViewById<ImageButton>(R.id.main_search_add_button)
-        val addedButton =
-            holder.itemView.findViewById<ImageButton>(R.id.main_search_add_checked_button)
-
-        if (book.isBookAddedCheck(booksViewModel)) {
-            addButton.visibility = View.GONE
-            addedButton.visibility = View.VISIBLE
-        } else {
-            addButton.visibility = View.VISIBLE
-            addedButton.visibility = View.GONE
-        }
-
-        addButton?.setOnClickListener {
-            searchFragment.onClick(
-                LocalBook(
-                    0,
-                    book.bookTitle,
-                    "",
-                    book.bookAuthor,
-                    book.bookPages,
-                    "",
-                    "",
-                    book.releaseDate,
-                    listOf(),
-                    "",
-                    ""
+        return when (viewType) {
+            GOOGLE_BOOK_TYPE -> ApiBookRowViewHolder(
+                layoutInflater.inflate(
+                    R.layout.search_main_row,
+                    parent,
+                    false
                 )
             )
-            addButton.visibility = View.GONE
-            addedButton.visibility = View.VISIBLE
+            LOCAL_BOOK_TYPE -> LocalBookRowViewHolder(
+                layoutInflater.inflate(
+                    R.layout.search_local_book_row,
+                    parent,
+                    false
+                )
+            )
+            else -> throw IllegalArgumentException("Invalid view type")
         }
-
-        addedButton?.setOnClickListener {
-            Toast.makeText(
-                holder.itemView.context,
-                "Already added to your library",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        holder.itemView.setOnClickListener {
-            //currentBook = book
-            holder.itemView.context.startActivity(bookDetailsIntent)
-        }
-
-        holder.itemView.apply {
-            bookTitle.text = book.bookTitle
-            bookAuthor.text = book.bookAuthor.joinToString(", ")
-            bookPages.text = book.bookPages
-            bookReleaseDate.text = book.releaseDate
-        }
-
     }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        return when (holder.itemViewType) {
+            GOOGLE_BOOK_TYPE -> {
+                holder as ApiBookRowViewHolder
+                holder.bindApiBook(
+                    adapterData[position] as DataModel.GoogleBookItem,
+                    glide,
+                    searchFragment,
+                    booksViewModel,
+                    bookDetailsIntent
+                )
+            }
+
+            LOCAL_BOOK_TYPE -> {
+                holder as LocalBookRowViewHolder
+                holder.bindLocalBook(
+                    adapterData[position] as DataModel.LocalBook,
+                    glide,
+                    bookDetailsIntent
+                )
+            }
+
+            else -> throw IllegalArgumentException("Unsupported type")
+        }
+    }
+
+    override fun getItemViewType(position: Int) = when (adapterData[position]) {
+        is DataModel.GoogleBookItem -> GOOGLE_BOOK_TYPE
+        is DataModel.LocalBook -> LOCAL_BOOK_TYPE
+    }
+
+    override fun getItemId(position: Int): Long = adapterData[position].hashCode().toLong()
+
     override fun getItemCount(): Int {
-        return mainSearchBooksList.size
+        return adapterData.size
     }
 
     fun setFragment(fragment: MainSearchFragment) {
@@ -131,4 +102,11 @@ class MainSearchRecyclerViewAdapter @Inject constructor(
         this.booksViewModel = booksViewModel
     }
 
+    fun setDataType(data: List<DataModel>) {
+        adapterData.apply {
+            clear()
+            addAll(data)
+        }
+        notifyDataSetChanged()
+    }
 }

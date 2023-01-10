@@ -9,14 +9,12 @@ import com.armutyus.ninova.constants.Constants.BOOK_DETAILS_INTENT
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
-import com.armutyus.ninova.constants.Constants.SPLASH_INTENT
 import com.armutyus.ninova.roomdb.NinovaLocalDB
 import com.armutyus.ninova.ui.about.AboutActivity
 import com.armutyus.ninova.ui.books.BookDetailsActivity
 import com.armutyus.ninova.ui.login.LoginActivity
 import com.armutyus.ninova.ui.login.RegisterActivity
 import com.armutyus.ninova.ui.main.MainActivity
-import com.armutyus.ninova.ui.splash.SplashActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,12 +30,6 @@ object AppModule {
     @Provides
     fun provideContext(application: Application): Context {
         return application.applicationContext
-    }
-
-    @Provides
-    @Named(SPLASH_INTENT)
-    fun provideSplashIntent(context: Context): Intent {
-        return Intent(context, SplashActivity::class.java)
     }
 
     @Provides
@@ -70,14 +62,14 @@ object AppModule {
         return Intent(context, BookDetailsActivity::class.java)
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun injectLocalBooksDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
         context, NinovaLocalDB::class.java, "NinovaLocalDB"
     ).build()
 
-    @Singleton
     @Provides
+    @Singleton
     fun injectNinovaDao(database: NinovaLocalDB) = database.ninovaDao()
 
 }

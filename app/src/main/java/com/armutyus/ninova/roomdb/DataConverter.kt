@@ -9,7 +9,7 @@ class DataConverter {
     }
 
     @TypeConverter
-    fun toString(stringList: List<String>): String {
+    fun toString(stringList: List<String?>): String {
         return stringList.joinToString(separator = ",")
     }
 }

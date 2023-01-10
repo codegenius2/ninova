@@ -5,12 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/Theme.Ninova">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -18,7 +18,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/example_book"
+            android:src="@drawable/ic_shelf_cover"
             tools:ignore="ContentDescription">
         </ImageView>
 
@@ -33,9 +33,10 @@
                 android:id="@+id/shelfTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/my_shelf"
-                android:textColor="@color/light_primary"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -49,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/page_number"
                     android:textSize="12sp"
-                    android:textColor="@color/light_primary_variant"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:gravity="bottom"
                     android:drawablePadding="4dp"
                     app:drawableStartCompat="@drawable/ic_books_in_shelf">
@@ -59,10 +61,10 @@
                     android:id="@+id/shelfCreatedDateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:text="@string/release_date"
                     android:textSize="12sp"
-                    android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
                     android:drawablePadding="4dp"
                     app:drawableStartCompat="@drawable/ic_release_date">
@@ -74,10 +76,10 @@
 
     </LinearLayout>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
+        style="@style/Widget.Material3.MaterialDivider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_margin="16dp"
-        android:background="@color/light_primary"/>
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp" />
 
 </LinearLayout>

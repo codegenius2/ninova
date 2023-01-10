@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:key="root_preference">
 
     <PreferenceCategory app:title="Profile" app:allowDividerBelow="true" >
 
@@ -11,7 +12,7 @@
             app:title="@string/change_password"
             app:allowDividerBelow="true"/>
 
-        <ListPreference
+        <com.armutyus.ninova.ui.settings.CustomListPreference
             app:defaultValue="system"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
@@ -36,6 +37,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Account" app:allowDividerBelow="true" >
+
+        <Preference
+            app:key="upload_library"
+            app:title="@string/upload_library"
+            app:summary="Link your library with your account"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_baseline_upload_24">
+        </Preference>
 
         <Preference
             app:key="sign_out"

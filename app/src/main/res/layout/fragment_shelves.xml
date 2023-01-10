@@ -1,68 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:theme="@style/Theme.Ninova"
     tools:context=".ui.shelves.ShelvesFragment">
 
-    <LinearLayout
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/shelvesSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:padding="8dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/shelvesSearch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/light_primary"
-            android:iconifiedByDefault="false"
-            android:keyboardNavigationCluster="true"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"
-            app:defaultQueryHint="@string/search_shelves"
-            app:showAsAction="always" />
-
-        <ImageButton
-            android:id="@+id/main_shelves_add_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.2"
-            android:layout_marginEnd="16dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/add_new_shelf_to_your_library"
-            android:src="@drawable/ic_add_button"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-    </LinearLayout>
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:iconifiedByDefault="false"
+        android:keyboardNavigationCluster="true"
+        android:paddingStart="4dp"
+        android:paddingEnd="8dp"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:defaultQueryHint="@string/search_shelves"
+        app:showAsAction="always" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/shelvesSearch"
         android:id="@+id/mainShelvesRecyclerView"
+        android:layout_marginBottom="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="?actionBarSize"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="16dp"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="16dp"/>
 
-    <androidx.core.widget.ContentLoadingProgressBar
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/mainShelvesFab"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="16dp"
+        app:elevation="6dp"
+        android:src="@drawable/ic_add_button_white"
+        app:fabSize="mini"
+        android:contentDescription="@string/add_shelves">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <LinearLayout
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="?android:attr/progressBarStyleSmall"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="@style/Widget.Material3.CircularProgressIndicator.Small" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutShelvesError"
@@ -70,8 +68,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
@@ -85,9 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/your_library_is_empty"
-            android:textColor="@color/light_primary"
             android:textSize="16sp" />
-
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -45,28 +45,8 @@
         tools:layout="@layout/fragment_shelf_with_books" >
         <argument
             android:name="currentShelfId"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
-
-    <fragment
-        android:id="@+id/bookToShelfFragment"
-        android:name="com.armutyus.ninova.ui.shelves.BookToShelfFragment"
-        android:label="@string/title_shelves"
-        tools:layout="@layout/fragment_book_to_shelf" >
-        <argument
-            android:name="currentBookId"
-            app:argType="integer" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/bookUserNotesFragment"
-        android:name="com.armutyus.ninova.ui.books.BookUserNotesFragment"
-        tools:layout="@layout/fragment_book_user_notes" >
-    </fragment>
-
-    <action
-        android:id="@+id/action_main_to_bookToShelfFragment"
-        app:destination="@id/bookToShelfFragment" />
 
     <action
         android:id="@+id/action_main_to_search"
@@ -75,9 +55,5 @@
     <action
         android:id="@+id/action_main_to_settings"
         app:destination="@id/settingsFragment" />
-
-    <action
-        android:id="@+id/action_main_to_bookUserNotesFragment"
-        app:destination="@id/bookUserNotesFragment" />
 
 </navigation>

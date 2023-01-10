@@ -1,11 +1,22 @@
 package com.armutyus.ninova.ui.settings
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -17,11 +28,14 @@ import com.armutyus.ninova.constants.Constants.DARK_THEME
 import com.armutyus.ninova.constants.Constants.LIGHT_THEME
 import com.armutyus.ninova.constants.Constants.LOGIN_INTENT
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
+import com.armutyus.ninova.constants.Constants.PRIVACY_POLICY_URL
 import com.armutyus.ninova.constants.Constants.REGISTER
 import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
 import com.armutyus.ninova.constants.Constants.SETTINGS_ACTION_KEY
 import com.armutyus.ninova.constants.Constants.SYSTEM_THEME
+import com.armutyus.ninova.constants.Constants.VERSION_NAME
 import com.armutyus.ninova.constants.Response
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,7 +43,7 @@ import javax.inject.Named
 
 @AndroidEntryPoint
 class SettingsFragment @Inject constructor(
-    private val auth: FirebaseAuth
+    auth: FirebaseAuth
 ) : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Named(LOGIN_INTENT)
@@ -48,81 +62,95 @@ class SettingsFragment @Inject constructor(
     @Inject
     lateinit var aboutIntent: Intent
 
-    private var sharedPreferences: SharedPreferences? = null
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel by activityViewModels<SettingsViewModel>()
+    private val user = auth.currentUser!!
+
+    private val sharedPreferences: SharedPreferences
+        get() = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        val user = auth.currentUser!!
-
         if (user.isAnonymous) {
-            setPreferencesFromResource(R.xml.anonymous_preferences, rootKey)
+            setPreferencesFromResource(R.xml.anonymous_preferences, "anonymous_preference")
         } else {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            setPreferencesFromResource(R.xml.root_preferences, "root_preference")
         }
 
-        settingsViewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val aboutNinova = findPreference<Preference>("about_ninova")
+        val changeEmail = findPreference<Preference>("change_email")
+        val changePassword = findPreference<Preference>("change_password")
+        val privacyPolicy = findPreference<Preference>("privacy_policy")
+        val register = findPreference<Preference>("register")
+        val signOut = findPreference<Preference>("sign_out")
+        val switchAccount = findPreference<Preference>("switch_account")
+        val uploadLibrary = findPreference<Preference>("upload_library")
 
         val changeEmailListener = Preference.OnPreferenceClickListener {
             registerIntent.putExtra(SETTINGS_ACTION_KEY, CHANGE_EMAIL)
             goToRegisterActivity()
             true
         }
-        findPreference<Preference>("change_email")?.onPreferenceClickListener = changeEmailListener
+        changeEmail?.onPreferenceClickListener = changeEmailListener
 
         val changePasswordListener = Preference.OnPreferenceClickListener {
             registerIntent.putExtra(SETTINGS_ACTION_KEY, CHANGE_PASSWORD)
             goToRegisterActivity()
             true
         }
-        findPreference<Preference>("change_password")?.onPreferenceClickListener =
-            changePasswordListener
+        changePassword?.onPreferenceClickListener = changePasswordListener
 
         val aboutNinovaListener = Preference.OnPreferenceClickListener {
             goToAboutActivity()
             true
         }
-        findPreference<Preference>("about_ninova")?.onPreferenceClickListener = aboutNinovaListener
+        aboutNinova?.onPreferenceClickListener = aboutNinovaListener
+        aboutNinova?.summary = "Version: $VERSION_NAME"
 
         val privacyPolicyListener = Preference.OnPreferenceClickListener {
-            //intent to privacy policy
-            println("Privacy policy")
+            val privacyPolicyIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY_URL))
+            ContextCompat.startActivity(requireContext(), privacyPolicyIntent, null)
             true
         }
-        findPreference<Preference>("privacy_policy")?.onPreferenceClickListener =
-            privacyPolicyListener
+        privacyPolicy?.onPreferenceClickListener = privacyPolicyListener
 
         val signOutListener = Preference.OnPreferenceClickListener {
-            signOut()
+            showSignOutDialog()
             true
         }
-        findPreference<Preference>("sign_out")?.onPreferenceClickListener = signOutListener
+        signOut?.onPreferenceClickListener = signOutListener
+
+        val uploadLibraryListener = Preference.OnPreferenceClickListener {
+            uploadDataAndSignOut(shouldSignOut = false)
+            true
+        }
+        uploadLibrary?.onPreferenceClickListener = uploadLibraryListener
+        uploadLibrary?.summary = "Link your library with your account: ${user.email}"
 
         val registerListener = Preference.OnPreferenceClickListener {
             registerIntent.putExtra(SETTINGS_ACTION_KEY, REGISTER)
             goToRegisterActivity()
             true
         }
-        findPreference<Preference>("register")?.onPreferenceClickListener = registerListener
+        register?.onPreferenceClickListener = registerListener
 
         val switchAccountListener = Preference.OnPreferenceClickListener {
             startActivity(loginIntent)
             true
         }
-        findPreference<Preference>("switch_account")?.onPreferenceClickListener =
-            switchAccountListener
+        switchAccount?.onPreferenceClickListener = switchAccountListener
 
     }
 
     override fun onResume() {
         super.onResume()
-        sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        removeBackButtonAndMenu()
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+        removeBackButtonAndMenu()
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
@@ -148,18 +176,100 @@ class SettingsFragment @Inject constructor(
         }
     }
 
-    private fun signOut() {
-        settingsViewModel.signOut().observe(viewLifecycleOwner) { response ->
+    private fun removeBackButtonAndMenu() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.CREATED)
+    }
+
+    private fun uploadDataAndSignOut(
+        dialog: DialogInterface? = null,
+        shouldSignOut: Boolean = false
+    ) {
+        settingsViewModel.uploadUserData { response ->
             when (response) {
-                is Response.Loading -> println("Loading")
-                is Response.Success -> goToLogInActivity()
+                is Response.Loading -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Library uploading, please wait..",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.i("libraryUpload", "Library uploading")
+                }
+                is Response.Success -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Library uploaded",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.i("libraryUpload", "Library uploaded")
+                }
                 is Response.Failure -> {
-                    println("Create Error: " + response.errorMessage)
+                    Log.e("Library Upload Error", response.errorMessage)
+                    Toast.makeText(
+                        requireContext(),
+                        response.errorMessage,
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+            }
+        }.invokeOnCompletion {
+            if (shouldSignOut) {
+                signOut()
+            }
+            dialog?.dismiss()
+        }
+    }
+
+    private fun signOut() {
+        settingsViewModel.signOut { response ->
+            when (response) {
+                is Response.Loading ->
+                    Toast.makeText(requireContext(), "Please wait..", Toast.LENGTH_SHORT).show()
+                is Response.Success -> {
+                    Toast.makeText(requireContext(), "Signed out!", Toast.LENGTH_SHORT).show()
+                    Log.i("signOut", "Signed out successfully")
+                    clearDatabase()
+                    goToLogInActivity()
+                }
+                is Response.Failure -> {
+                    Log.e("Sign Out Error", response.errorMessage)
                     Toast.makeText(requireContext(), response.errorMessage, Toast.LENGTH_LONG)
                         .show()
                 }
             }
         }
+    }
+
+    private fun showSignOutDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.sign_out))
+            .setMessage(resources.getString(R.string.upload_library_message))
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                dialog.cancel()
+            }
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, _ ->
+                signOut()
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, _ ->
+                uploadDataAndSignOut(dialog, true)
+            }
+            .show()
+    }
+
+    private fun clearDatabase() {
+        settingsViewModel.clearDatabase()
     }
 
     private fun goToLogInActivity() {

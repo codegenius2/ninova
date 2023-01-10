@@ -1,22 +1,25 @@
 package com.armutyus.ninova.ui.search
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Cache
+import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.constants.Util.Companion.fadeIn
 import com.armutyus.ninova.databinding.FragmentMainSearchBinding
-import com.armutyus.ninova.model.Book
-import com.armutyus.ninova.roomdb.entities.LocalBook
+import com.armutyus.ninova.model.DataModel
 import com.armutyus.ninova.ui.books.BooksViewModel
 import com.armutyus.ninova.ui.search.adapters.MainSearchRecyclerViewAdapter
 import com.armutyus.ninova.ui.search.listeners.OnBookAddButtonClickListener
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import javax.inject.Inject
 
 class MainSearchFragment @Inject constructor(
@@ -26,16 +29,8 @@ class MainSearchFragment @Inject constructor(
 
     private var fragmentBinding: FragmentMainSearchBinding? = null
     private val binding get() = fragmentBinding
-    private lateinit var isSearchActive: SharedPreferences
-    private lateinit var mainSearchViewModel: MainSearchViewModel
-    private lateinit var booksViewModel: BooksViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        isSearchActive = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
-        mainSearchViewModel = ViewModelProvider(requireActivity())[MainSearchViewModel::class.java]
-        booksViewModel = ViewModelProvider(requireActivity())[BooksViewModel::class.java]
-    }
+    private val booksViewModel by activityViewModels<BooksViewModel>()
+    private val mainSearchViewModel by activityViewModels<MainSearchViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,17 +54,18 @@ class MainSearchFragment @Inject constructor(
             if (isChecked) {
                 when (checkedId) {
                     R.id.localSearchButton -> {
-                        /*val list = mainSearchViewModel.fakeBooksArchiveList.value ?: listOf()
-                        mainSearchViewModel.setCurrentList(list)*/
+                        val list = mainSearchViewModel.currentLocalBookList.value ?: listOf()
+                        mainSearchViewModel.setCurrentLocalBookList(list)
                     }
                     R.id.apiSearchButton -> {
-                        val list = mainSearchViewModel.fakeBooksApiList.value ?: listOf()
+                        val list = mainSearchViewModel.currentList.value ?: listOf()
                         mainSearchViewModel.setCurrentList(list)
                     }
                 }
             }
         }
 
+        mainSearchViewModel.randomBooksFromApi()
         runObservers()
 
         return binding?.root
@@ -77,8 +73,7 @@ class MainSearchFragment @Inject constructor(
 
     override fun onResume() {
         super.onResume()
-        booksViewModel.getBookList()
-        mainSearchViewModel.getBooksList()
+        booksViewModel.loadBookList()
         setVisibilitiesForSearchQueryNull()
     }
 
@@ -90,16 +85,15 @@ class MainSearchFragment @Inject constructor(
         if (searchQuery?.length!! > 0) {
             binding?.progressBar?.visibility = View.VISIBLE
             binding?.mainSearchRecyclerView?.visibility = View.GONE
-            binding?.mainSearchBooksTitle?.visibility = View.GONE
 
-            mainSearchViewModel.getBooksApiList(searchQuery)
-            //mainSearchViewModel.searchLocalBooks(searchQuery)
+            mainSearchViewModel.searchLocalBooks("%$searchQuery%")
+            mainSearchViewModel.searchBooksFromApi(searchQuery)
 
             val toggleButtonGroup = binding?.searchButtonToggleGroup
             toggleButtonGroup?.visibility = View.VISIBLE
 
-        } else if (searchQuery.isNullOrBlank()) {
-            mainSearchViewModel.getBooksList()
+        } else if (searchQuery.isBlank()) {
+            mainSearchViewModel.randomBooksFromApi()
             setVisibilitiesForSearchQueryNull()
         }
 
@@ -109,45 +103,111 @@ class MainSearchFragment @Inject constructor(
     private fun runObservers() {
         val toggleButtonGroup = binding?.searchButtonToggleGroup
 
+        mainSearchViewModel.searchLocalBookList.observe(viewLifecycleOwner) {
+            mainSearchViewModel.setCurrentLocalBookList(it.toList())
+        }
+
+        mainSearchViewModel.randomBooksResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> {
+                    binding?.progressBar?.visibility = View.VISIBLE
+                }
+
+                is Response.Success -> {
+                    val bookItemsList = response.data.items?.toList() ?: listOf()
+                    mainSearchViewModel.setCurrentList(bookItemsList)
+                }
+
+                is Response.Failure -> {
+                    setVisibilitiesForFailure()
+                }
+            }
+        }
+
+        mainSearchViewModel.searchBooksResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> {
+                    binding?.progressBar?.visibility = View.VISIBLE
+                }
+
+                is Response.Success -> {
+                    val bookItemsList = response.data.items?.toList() ?: listOf()
+                    mainSearchViewModel.setCurrentList(bookItemsList)
+                }
+
+                is Response.Failure -> {
+                    setVisibilitiesForFailure()
+                }
+            }
+        }
+
         mainSearchViewModel.currentList.observe(viewLifecycleOwner) {
-            searchFragmentAdapter.mainSearchBooksList = it
             setVisibilities(it)
-        }
-
-        /*mainSearchViewModel.searchLocalBookList.observe(viewLifecycleOwner) {
-            if (toggleButtonGroup?.checkedButtonId != R.id.localSearchButton) return@observe
-            mainSearchViewModel.setCurrentList(it?.toList() ?: listOf())
-        }*/
-
-        mainSearchViewModel.fakeBooksApiList.observe(viewLifecycleOwner) {
             if (toggleButtonGroup?.checkedButtonId != R.id.apiSearchButton) return@observe
-            mainSearchViewModel.setCurrentList(it?.toList() ?: listOf())
+            searchFragmentAdapter.setDataType(it)
         }
 
-        mainSearchViewModel.fakeBooksList.observe(viewLifecycleOwner) {
-            mainSearchViewModel.setCurrentList(it?.toList() ?: listOf())
+        mainSearchViewModel.currentLocalBookList.observe(viewLifecycleOwner) {
+            setVisibilities(it)
+            if (toggleButtonGroup?.checkedButtonId != R.id.localSearchButton) return@observe
+            searchFragmentAdapter.setDataType(it)
+        }
+
+        booksViewModel.localBookList.observe(viewLifecycleOwner) {
+            Cache.currentBook?.isBookAddedCheck(booksViewModel).also {
+                searchFragmentAdapter.notifyDataSetChanged()
+            }
         }
     }
 
-    private fun setVisibilities(bookList: List<Book>) {
+    private fun deleteBookFromFirestore(bookId: String) {
+        booksViewModel.deleteBookFromFirestore(bookId) { response ->
+            when (response) {
+                is Response.Loading ->
+                    Log.i("bookDelete", "Deleting from firestore")
+                is Response.Success ->
+                    Log.i("bookDelete", "Deleted from firestore")
+                is Response.Failure ->
+                    Log.e("bookDelete", response.errorMessage)
+            }
+        }
+    }
+
+    private fun uploadBookToFirestore(localBook: DataModel.LocalBook) {
+        booksViewModel.uploadBookToFirestore(localBook) { response ->
+            when (response) {
+                is Response.Loading ->
+                    Log.i("bookUpload", "Uploading to firestore")
+                is Response.Success ->
+                    Log.i("bookUpload", "Uploaded to firestore")
+                is Response.Failure ->
+                    Log.e("bookUpload", response.errorMessage)
+            }
+        }
+    }
+
+    private fun setVisibilities(bookList: List<DataModel>) {
         if (bookList.isEmpty()) {
             binding?.linearLayoutSearchError?.visibility = View.VISIBLE
             binding?.progressBar?.visibility = View.GONE
             binding?.mainSearchRecyclerView?.visibility = View.GONE
-            binding?.mainSearchBooksTitle?.visibility = View.GONE
         } else {
             binding?.linearLayoutSearchError?.visibility = View.GONE
             binding?.progressBar?.visibility = View.GONE
-            binding?.mainSearchBooksTitle?.visibility = View.GONE
             binding?.mainSearchRecyclerView?.visibility = View.VISIBLE
         }
     }
 
     private fun setVisibilitiesForSearchQueryNull() {
         binding?.mainSearchRecyclerView?.visibility = View.VISIBLE
-        binding?.mainSearchBooksTitle?.visibility = View.VISIBLE
         binding?.searchButtonToggleGroup?.visibility = View.GONE
         binding?.linearLayoutSearchError?.visibility = View.GONE
+    }
+
+    private fun setVisibilitiesForFailure() {
+        binding?.linearLayoutSearchError?.visibility = View.VISIBLE
+        binding?.progressBar?.visibility = View.GONE
+        binding?.mainSearchRecyclerView?.visibility = View.GONE
     }
 
     override fun onDestroyView() {
@@ -155,8 +215,36 @@ class MainSearchFragment @Inject constructor(
         fragmentBinding = null
     }
 
-    override fun onClick(localBook: LocalBook) {
-        mainSearchViewModel.insertBook(localBook)
+    override fun onAddButtonClick(
+        localBook: DataModel.LocalBook,
+        addButton: ImageButton,
+        addedButton: ImageButton,
+        progressBar: CircularProgressIndicator
+    ) {
+        mainSearchViewModel.insertBook(localBook).invokeOnCompletion {
+            uploadBookToFirestore(localBook)
+            booksViewModel.loadBookList()
+            addButton.visibility = View.GONE
+            addedButton.visibility = View.VISIBLE
+            addedButton.fadeIn(1000)
+            progressBar.visibility = View.GONE
+        }
+    }
+
+    override fun onAddedButtonClick(
+        id: String,
+        addButton: ImageButton,
+        addedButton: ImageButton,
+        progressBar: CircularProgressIndicator
+    ) {
+        mainSearchViewModel.deleteBookById(id).invokeOnCompletion {
+            deleteBookFromFirestore(id)
+            booksViewModel.loadBookList()
+            addButton.visibility = View.VISIBLE
+            addButton.fadeIn(1000)
+            addedButton.visibility = View.GONE
+            progressBar.visibility = View.GONE
+        }
     }
 
 }

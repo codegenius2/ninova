@@ -4,32 +4,53 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.15109749872383868" />
+        <entry key="app/src/main/res/drawable-anydpi-v26/ic_launcher_foreground.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable-v24/ic_add_button_white.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.165" />
+        <entry key="app/src/main/res/drawable/gradient_background.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/home_library.xml" value="0.127" />
         <entry key="app/src/main/res/drawable/ic_action_arrow.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/ic_add_button.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/ic_add_button_white.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_baseline_format_paint_24.xml" value="0.1455" />
+        <entry key="app/src/main/res/drawable/ic_baseline_upload_24.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_books_in_shelf.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_discover.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_done.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/ic_login_email_gray.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_login_lock_gray.xml" value="0.16" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_pages_icon.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_placeholder_book_icon.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/ic_readlist.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_register_account.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/ic_register_username_gray.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_release_date.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.127" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/ic_shelf_cover.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_sign_out.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/ic_sort.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_switch_account.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/ic_theme_settings.xml" value="0.1935" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.164453125" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1437841530054645" />
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_book_details.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/add_book_to_shelf.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/add_book_to_shelf_bottom_sheet.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/add_book_to_shelf_row.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/add_new_shelf_bottom_sheet.xml" value="0.28125" />
-        <entry key="app/src/main/res/layout/books_main_row.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/books_main_row.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_book_to_shelf.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_book_user_notes.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_books.xml" value="0.28229166666666666" />
@@ -40,27 +61,32 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_home_book_item.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_home_book_item_list.xml" value="0.2682291666666667" />
-        <entry key="app/src/main/res/layout/fragment_main_search.xml" value="0.23348017621145375" />
+        <entry key="app/src/main/res/layout/fragment_main_search.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_search_api.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_search_archive.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/fragment_shelf_with_books.xml" value="0.13229166666666667" />
-        <entry key="app/src/main/res/layout/fragment_shelves.xml" value="0.2682291666666667" />
+        <entry key="app/src/main/res/layout/fragment_shelf_with_books.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_shelves.xml" value="0.335" />
         <entry key="app/src/main/res/layout/register_user_bottom_sheet.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/search_api_row.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/search_archive_row.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/search_local_book_row.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/search_main_row.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/shelves_main_row.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/settings_menu.xml" value="0.28125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_error_outlined_round.xml" value="0.1935" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1425" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.165" />
         <entry key="app/src/main/res/xml/anonymous_preferences.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/xml/provider_paths.xml" value="0.28125" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.335" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

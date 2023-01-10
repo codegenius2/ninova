@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/Theme.Ninova">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,14 +17,14 @@
             android:id="@+id/bookImage"
             android:layout_width="40dp"
             android:layout_height="60dp"
-            android:layout_marginStart="16dp"
             android:src="@drawable/example_book"
             tools:ignore="ContentDescription">
         </ImageView>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:orientation="vertical"
             android:gravity="center_vertical">
@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:text="@string/name_of_the_book"
-                android:textColor="@color/light_primary"
+                android:maxLines="1"
+                android:ellipsize="marquee"
                 android:textSize="14sp" />
 
             <TextView
@@ -44,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:text="@string/author_of_the_book"
-                android:textColor="@color/light_primary_variant"
+                android:maxLines="1"
+                android:ellipsize="marquee"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -58,7 +60,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/page_number"
                     android:textSize="11sp"
-                    android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
                     android:drawablePadding="4dp"
                     app:drawableStartCompat="@drawable/ic_pages_icon">
@@ -71,7 +72,6 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/release_date"
                     android:textSize="11sp"
-                    android:textColor="@color/light_primary_variant"
                     android:gravity="bottom"
                     android:drawablePadding="4dp"
                     app:drawableStartCompat="@drawable/ic_release_date">
@@ -81,18 +81,31 @@
 
         </LinearLayout>
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="0"
+            android:indeterminate="true"
+            android:visibility="gone"
+            style="@style/Widget.Material3.CircularProgressIndicator.Small" />
+
         <ImageButton
             android:id="@+id/main_search_add_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="36dp"
+            android:layout_weight="0"
             android:layout_gravity="center"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_add_button"
             tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
         <ImageButton
             android:id="@+id/main_search_add_checked_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="36dp"
+            android:layout_weight="0"
             android:layout_gravity="center"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_done"
@@ -101,10 +114,10 @@
 
     </LinearLayout>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
+        style="@style/Widget.Material3.MaterialDivider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_margin="16dp"
-        android:background="@color/light_primary"/>
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp" />
 
 </LinearLayout>

@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Constants.currentShelf
+import com.armutyus.ninova.constants.Cache.currentShelf
 import com.armutyus.ninova.roomdb.entities.LocalShelf
+import com.armutyus.ninova.ui.shelves.ShelvesFragment
 import com.armutyus.ninova.ui.shelves.ShelvesFragmentDirections
 import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.bumptech.glide.RequestManager
@@ -25,6 +26,7 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
     class ShelvesViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     private lateinit var viewModel: ShelvesViewModel
+    private lateinit var shelvesFragment: ShelvesFragment
 
     private val diffUtil = object : DiffUtil.ItemCallback<LocalShelf>() {
         override fun areItemsTheSame(oldItem: LocalShelf, newItem: LocalShelf): Boolean {
@@ -64,15 +66,25 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
         }
 
         holder.itemView.apply {
+            glide.load(shelf.shelfCover).centerCrop().into(shelfCover)
             shelfTitle.text = shelf.shelfTitle
             shelfCreatedDate.text = shelf.createdAt
             booksInShelf.text = shelf.getBookCount(viewModel).toString()
+        }
+
+        shelfCover.setOnClickListener {
+            currentShelf = shelf
+            shelvesFragment.onClick()
         }
 
     }
 
     override fun getItemCount(): Int {
         return mainShelfList.size
+    }
+
+    fun setFragment(fragment: ShelvesFragment) {
+        this.shelvesFragment = fragment
     }
 
     fun setViewModel(shelvesViewModel: ShelvesViewModel) {

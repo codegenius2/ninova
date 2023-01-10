@@ -1,7 +1,21 @@
 package com.armutyus.ninova.ui.search.listeners
 
-import com.armutyus.ninova.roomdb.entities.LocalBook
+import android.widget.ImageButton
+import com.armutyus.ninova.model.DataModel
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 interface OnBookAddButtonClickListener {
-    fun onClick(localBook: LocalBook)
+    fun onAddButtonClick(
+        localBook: DataModel.LocalBook,
+        addButton: ImageButton,
+        addedButton: ImageButton,
+        progressBar: CircularProgressIndicator
+    )
+
+    fun onAddedButtonClick(
+        id: String,
+        addButton: ImageButton,
+        addedButton: ImageButton,
+        progressBar: CircularProgressIndicator
+    )
 }

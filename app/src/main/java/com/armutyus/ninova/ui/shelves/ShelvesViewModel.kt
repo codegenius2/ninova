@@ -4,21 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.repository.FirebaseRepositoryInterface
 import com.armutyus.ninova.repository.ShelfRepositoryInterface
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.armutyus.ninova.roomdb.entities.ShelfWithBooks
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ShelvesViewModel @Inject constructor(
-    private val shelfRepositoryInterface: ShelfRepositoryInterface
+    private val shelfRepositoryInterface: ShelfRepositoryInterface,
+    private val firebaseRepository: FirebaseRepositoryInterface
 ) : ViewModel() {
+    //Local Shelf Works
 
     private val _currentShelfList = MutableLiveData<List<LocalShelf>>()
     val currentShelfList: LiveData<List<LocalShelf>>
@@ -36,54 +37,72 @@ class ShelvesViewModel @Inject constructor(
     val shelfWithBooksList: LiveData<List<ShelfWithBooks>>
         get() = _shelfWithBooksList
 
-    fun getShelfList() {
-        CoroutineScope(Dispatchers.IO).launch {
-            shelfRepositoryInterface.getLocalShelves().collectLatest {
-                _shelfList.postValue(it)
-            }
-        }
-    }
-
     fun setCurrentList(shelfList: List<LocalShelf>) {
         _currentShelfList.value = shelfList
     }
 
-    fun insertShelf(localShelf: LocalShelf) = CoroutineScope(Dispatchers.IO).launch {
+    fun loadShelfList() = viewModelScope.launch {
+        _shelfList.value = shelfRepositoryInterface.getLocalShelves()
+    }
+
+    fun insertShelf(localShelf: LocalShelf) = viewModelScope.launch {
         shelfRepositoryInterface.insert(localShelf)
     }
 
-    fun updateShelf(localShelf: LocalShelf) = CoroutineScope(Dispatchers.IO).launch {
+    fun updateShelf(localShelf: LocalShelf) = viewModelScope.launch {
         shelfRepositoryInterface.update(localShelf)
     }
 
-    fun deleteShelf(localShelf: LocalShelf) = CoroutineScope(Dispatchers.IO).launch {
+    fun deleteShelf(localShelf: LocalShelf) = viewModelScope.launch {
         shelfRepositoryInterface.delete(localShelf)
     }
 
-    fun insertBookShelfCrossRef(crossRef: BookShelfCrossRef) =
-        CoroutineScope(Dispatchers.IO).launch {
-            shelfRepositoryInterface.insertBookShelfCrossRef(crossRef)
-        }
-
-    fun deleteBookShelfCrossRef(crossRef: BookShelfCrossRef) =
-        CoroutineScope(Dispatchers.IO).launch {
-            shelfRepositoryInterface.deleteBookShelfCrossRef(crossRef)
-        }
-
-    fun searchShelves(searchString: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            shelfRepositoryInterface.searchLocalShelves(searchString).collectLatest {
-                _searchShelvesList.postValue(it)
-            }
-        }
+    fun insertBookShelfCrossRef(crossRef: BookShelfCrossRef) = viewModelScope.launch {
+        shelfRepositoryInterface.insertBookShelfCrossRef(crossRef)
     }
 
-    fun getShelfWithBookList() {
-        CoroutineScope(Dispatchers.IO).launch {
-            shelfRepositoryInterface.getShelfWithBooks().collectLatest {
-                _shelfWithBooksList.postValue(it)
-            }
-        }
+    fun deleteBookShelfCrossRef(crossRef: BookShelfCrossRef) = viewModelScope.launch {
+        shelfRepositoryInterface.deleteBookShelfCrossRef(crossRef)
     }
+
+    fun searchShelves(searchString: String) = viewModelScope.launch {
+        _searchShelvesList.value = shelfRepositoryInterface.searchLocalShelves(searchString)
+    }
+
+    fun loadShelfWithBookList() = viewModelScope.launch {
+        _shelfWithBooksList.value = shelfRepositoryInterface.getShelfWithBooks()
+    }
+
+    // Firebase Works
+
+    fun deleteCrossRefFromFirestore(crossRefId: String, onComplete: (Response<Boolean>) -> Unit) =
+        viewModelScope.launch {
+            val response = firebaseRepository.deleteUserCrossRefFromFirestore(crossRefId)
+            onComplete(response)
+        }
+
+    fun deleteShelfFromFirestore(shelfId: String, onComplete: (Response<Boolean>) -> Unit) =
+        viewModelScope.launch {
+            val response = firebaseRepository.deleteUserShelfFromFirestore(shelfId)
+            onComplete(response)
+        }
+
+    fun uploadShelfToFirestore(
+        localShelf: LocalShelf,
+        onComplete: (Response<Boolean>) -> Unit
+    ) =
+        viewModelScope.launch {
+            val response = firebaseRepository.uploadUserShelvesToFirestore(localShelf)
+            onComplete(response)
+        }
+
+    fun uploadCrossRefToFirestore(
+        crossRef: BookShelfCrossRef,
+        onComplete: (Response<Boolean>) -> Unit
+    ) =
+        viewModelScope.launch {
+            val response = firebaseRepository.uploadUserCrossRefToFirestore(crossRef)
+            onComplete(response)
+        }
 
 }

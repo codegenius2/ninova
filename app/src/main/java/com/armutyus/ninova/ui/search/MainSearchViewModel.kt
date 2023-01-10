@@ -4,76 +4,77 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.armutyus.ninova.model.Book
-import com.armutyus.ninova.repository.BooksRepositoryInterface
-import com.armutyus.ninova.roomdb.entities.LocalBook
+import com.armutyus.ninova.constants.Constants.randomWordList
+import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.GoogleApiBooks
+import com.armutyus.ninova.repository.ApiBooksRepositoryInterface
+import com.armutyus.ninova.repository.LocalBooksRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainSearchViewModel @Inject constructor(
-    private val booksRepository: BooksRepositoryInterface
+    private val apiBooksRepository: ApiBooksRepositoryInterface,
+    private val booksRepository: LocalBooksRepositoryInterface
 ) : ViewModel() {
 
-    private val _currentList = MutableLiveData<List<Book>>()
-    val currentList: LiveData<List<Book>>
-        get() = _currentList
+    //LocalBook Works
 
-    private val booksList = MutableLiveData<List<Book>>()
-    val fakeBooksList: LiveData<List<Book>>
-        get() = booksList
+    private val _currentLocalBookList = MutableLiveData<List<DataModel.LocalBook>>()
+    val currentLocalBookList: LiveData<List<DataModel.LocalBook>>
+        get() = _currentLocalBookList
 
-    fun getBooksList() {
-        viewModelScope.launch {
-            booksList.value = booksRepository.getBookList()
-        }
-    }
-
-    private val _searchLocalBookList = MutableLiveData<List<LocalBook>>()
-    val searchLocalBookList: LiveData<List<LocalBook>>
+    private val _searchLocalBookList = MutableLiveData<List<DataModel.LocalBook>>()
+    val searchLocalBookList: LiveData<List<DataModel.LocalBook>>
         get() = _searchLocalBookList
 
-    fun searchLocalBooks(searchString: String) {
-
-        /*viewModelScope.launch {
-            booksArchiveList.value = booksRepository.searchBookFromLocal(searchString)
-        }*/
-
-        CoroutineScope(Dispatchers.IO).launch {
-            booksRepository.searchLocalBooks(searchString).collectLatest {
-                _searchLocalBookList.postValue(it)
-            }
-        }
-
+    fun searchLocalBooks(searchString: String) = viewModelScope.launch {
+        _searchLocalBookList.value = booksRepository.searchLocalBooks(searchString)
     }
 
-    private val booksApiList = MutableLiveData<List<Book>>()
-    val fakeBooksApiList: LiveData<List<Book>>
-        get() = booksApiList
-
-    fun getBooksApiList(searchString: String) {
-
-        viewModelScope.launch {
-            booksApiList.value = booksRepository.searchBookFromApi(searchString)
-        }
-
-        /*CoroutineScope(Dispatchers.IO).launch {
-            booksRepository.searchBookFromApi(searchString).collectLatest {
-                booksApiList.postValue(it)
-            }
-        }*/
-
+    fun setCurrentLocalBookList(bookList: List<DataModel.LocalBook>) {
+        _currentLocalBookList.value = bookList
     }
 
-    fun insertBook(localBook: LocalBook) = CoroutineScope(Dispatchers.IO).launch {
+    fun insertBook(localBook: DataModel.LocalBook) = viewModelScope.launch {
         booksRepository.insert(localBook)
     }
 
-    fun setCurrentList(bookList: List<Book>) {
-        _currentList.value = bookList
+    fun deleteBookById(id: String) = viewModelScope.launch {
+        booksRepository.deleteBookById(id)
     }
+
+    //GoogleBook Works
+
+    private val _currentList = MutableLiveData<List<DataModel.GoogleBookItem>>()
+    val currentList: LiveData<List<DataModel.GoogleBookItem>>
+        get() = _currentList
+
+    private val _searchBooksResponse = MutableLiveData<Response<GoogleApiBooks>>()
+    val searchBooksResponse: LiveData<Response<GoogleApiBooks>>
+        get() = _searchBooksResponse
+
+    private val _randomBooksResponse = MutableLiveData<Response<GoogleApiBooks>>()
+    val randomBooksResponse: LiveData<Response<GoogleApiBooks>>
+        get() = _randomBooksResponse
+
+    fun searchBooksFromApi(searchQuery: String) = viewModelScope.launch {
+        apiBooksRepository.searchBooksFromApi(searchQuery).collectLatest { response ->
+            _searchBooksResponse.postValue(response)
+        }
+    }
+
+    fun randomBooksFromApi() = viewModelScope.launch {
+        apiBooksRepository.searchBooksFromApi(randomWordList.random()).collectLatest { response ->
+            _randomBooksResponse.postValue(response)
+        }
+    }
+
+    fun setCurrentList(bookList: List<DataModel.GoogleBookItem>) {
+        _currentList.postValue(bookList)
+    }
+
 }

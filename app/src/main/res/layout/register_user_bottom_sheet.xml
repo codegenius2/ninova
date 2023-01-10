@@ -8,15 +8,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="26dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="24dp"
         android:hint="@string/prompt_email"
-        app:errorEnabled="true"
-        app:boxStrokeColor="@color/light_primary"
+        app:errorEnabled="false"
         app:startIconDrawable="@drawable/ic_login_email_gray">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -28,15 +26,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="26dp"
-        app:boxStrokeColor="@color/light_primary"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
         android:hint="@string/prompt_password"
-        app:errorEnabled="true"
+        app:errorEnabled="false"
         app:endIconMode="password_toggle"
         app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -49,15 +45,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="26dp"
-        app:boxStrokeColor="@color/light_primary"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
         android:hint="@string/confirm_password"
-        app:errorEnabled="true"
+        app:errorEnabled="false"
         app:endIconMode="password_toggle"
         app:startIconDrawable="@drawable/ic_login_lock_gray">
 
@@ -73,11 +67,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="26dp"
-        android:text="@string/action_register"
-        android:fontFamily="sans-serif">
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/action_register">
     </com.google.android.material.button.MaterialButton>
 
 </LinearLayout>

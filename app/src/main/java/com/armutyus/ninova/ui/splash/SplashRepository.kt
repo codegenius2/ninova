@@ -9,4 +9,6 @@ class SplashRepository @Inject constructor(
     private val auth: FirebaseAuth
 ) {
     val isUserAuthenticatedInFirebase get() = auth.currentUser != null
+
+    val isUserAnonymous get() = auth.currentUser!!.isAnonymous
 }

@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.Ninova"
     tools:context=".ui.search.MainSearchFragment"
     android:orientation="vertical">
 
@@ -11,7 +12,8 @@
         android:id="@+id/main_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/light_primary"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
         android:iconifiedByDefault="false"
         app:defaultQueryHint="@string/search_button_hint"
         app:showAsAction="always"
@@ -23,48 +25,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:checkedButton="@+id/localSearchButton"
+        app:checkedButton="@+id/apiSearchButton"
         app:selectionRequired="true"
         app:singleSelection="true"
         android:visibility="visible"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/localSearchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:text="@string/your_library"
             android:textSize="14sp"
-            android:textColor="@color/light_primary"
-            app:cornerRadius="10dp"
-            app:strokeColor="@color/light_primary"/>
+            app:cornerRadius="10dp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/apiSearchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:text="@string/from_ninova"
             android:textSize="14sp"
-            android:textColor="@color/light_primary"
-            app:cornerRadius="10dp"
-            app:strokeColor="@color/light_primary"/>
+            app:cornerRadius="10dp" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <TextView
-        android:id="@+id/mainSearchBooksTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="4dp"
-        android:text="@string/dusty_shelves"
-        android:textColor="#009688"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainSearchRecyclerView"
@@ -72,15 +59,22 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
-    <androidx.core.widget.ContentLoadingProgressBar
+    <LinearLayout
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="?android:attr/progressBarStyleSmall"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="@style/Widget.Material3.CircularProgressIndicator.Small" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutSearchError"
@@ -92,10 +86,10 @@
         tools:visibility="visible">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/nothing_to_show_here"
-            android:textColor="@color/light_primary"
             android:textSize="16sp" />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -104,7 +98,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/searchnotfound"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
     </LinearLayout>
 

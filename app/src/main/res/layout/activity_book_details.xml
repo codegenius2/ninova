@@ -6,67 +6,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/Theme.Ninova"
     tools:context=".ui.books.BookDetailsActivity">
 
     <LinearLayout
-        android:layout_margin="16dp"
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:visibility="visible">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="12dp"
         android:id="@+id/bookDetailGeneralLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/bookCoverImageView"
             android:layout_margin="2dp"
             android:layout_width="80dp"
             android:layout_height="120dp"
-            android:src="@drawable/example_book"
-            tools:ignore="ContentDescription" />
+            android:src="@drawable/ic_placeholder_book_icon"
+            tools:ignore="ContentDescription"
+            app:strokeColor="@color/md_theme_light_primary"
+            app:strokeWidth="0.5dp"
+            />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:id="@+id/bookDetailTitleText"
-                android:layout_width="wrap_content"
+            android:padding="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/name_of_the_book"
-                android:textColor="@color/light_primary"
-                android:textSize="16sp"
-                android:layout_margin="4dp"/>
+                android:orientation="vertical"
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/bookDetailSubTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/subtitle_of_the_book"
-                android:textColor="@color/light_primary_variant"
-                android:textSize="12sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginEnd="8dp" />
+                <TextView
+                    android:id="@+id/bookDetailTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_text"
+                    android:textSize="16sp"
+                    android:padding="4dp"/>
 
-            <TextView
-                android:id="@+id/bookDetailAuthorsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/author_of_the_book"
-                android:textColor="@color/light_primary"
-                android:textSize="14sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="16dp"/>
+                <TextView
+                    android:id="@+id/bookDetailSubTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_text"
+                    android:textSize="12sp"
+                    android:paddingStart="8dp"
+                    android:paddingBottom="0dp"
+                    android:paddingEnd="8dp" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/bookDetailAuthorsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_text"
+                    android:textSize="14sp"
+                    android:paddingTop="16dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="16dp"/>
+
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addBookToLibraryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/add_this_book_to_your_library">
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/removeBookFromLibraryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:visibility="gone"
+        android:text="@string/remove_this_book_from_your_library">
+    </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/bookDetailTabLayout"
@@ -76,86 +109,33 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notes" />
+            android:text="@string/info" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/info" />
+            android:text="@string/notes" />
 
     </com.google.android.material.tabs.TabLayout>
 
     <LinearLayout
         android:id="@+id/bookDetailNotesLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="16dp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/bookDetailShelvesTextViews"
+        <EditText
+            android:id="@+id/userBookNotesEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/bookDetailShelvesTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_shelves"
-                android:textColor="@color/light_primary"
-                android:textSize="14sp"
-                android:paddingTop="12dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"/>
-
-            <TextView
-                android:id="@+id/shelvesOfBooks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_this_book_to_a_shelf"
-                android:textColorHint="@color/light_primary_variant"
-                android:textColor="@color/light_primary_variant"
-                android:textSize="16sp"
-                android:background="?attr/selectableItemBackground"
-                android:paddingTop="8dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                app:drawableEndCompat="@drawable/ic_action_arrow"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bookDetailUserNotesLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/bookDetailUserNotesTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/your_notes"
-                android:textColor="@color/light_primary"
-                android:textSize="14sp"
-                android:paddingTop="12dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"/>
-
-            <TextView
-                android:id="@+id/bookDetailUserNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="4"
-                android:ellipsize="end"
-                android:textColor="@color/light_primary_variant"
-                android:textSize="16sp"
-                android:hint="@string/add_your_notes_here"
-                android:textColorHint="@color/light_primary_variant"
-                android:background="?attr/selectableItemBackground"
-                android:paddingTop="8dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                app:drawableEndCompat="@drawable/ic_action_arrow" />
-        </LinearLayout>
+            android:hint="@string/enter_your_notes_here"
+            android:scrollbars="vertical"
+            android:gravity="top"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine"
+            android:autofillHints="name" />
 
     </LinearLayout>
 
@@ -163,7 +143,7 @@
         android:id="@+id/bookDetailInfoLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,12 +151,41 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
+            <LinearLayout
+                android:id="@+id/bookDetailShelvesTextViews"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/bookDetailShelvesTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_shelves"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:paddingTop="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"/>
+
+                <TextView
+                    android:id="@+id/shelvesOfBooks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_this_book_to_a_shelf"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingTop="8dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:drawableEndCompat="@drawable/ic_action_arrow"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/bookDetailPagesTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/pages"
-                android:textColor="@color/light_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
@@ -187,8 +196,7 @@
                 android:id="@+id/bookDetailPagesNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/page_number"
-                android:textColor="@color/light_primary_variant"
+                android:text="@string/empty_text"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
@@ -199,7 +207,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/categories"
-                android:textColor="@color/light_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
@@ -210,8 +217,7 @@
                 android:id="@+id/bookDetailCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_comedy_horror"
-                android:textColor="@color/light_primary_variant"
+                android:text="@string/empty_text"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
@@ -222,7 +228,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/publisher"
-                android:textColor="@color/light_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
@@ -233,8 +238,7 @@
                 android:id="@+id/bookDetailPublisher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/awesome_inc"
-                android:textColor="@color/light_primary_variant"
+                android:text="@string/empty_text"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
@@ -245,7 +249,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/published_date"
-                android:textColor="@color/light_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
@@ -256,8 +259,7 @@
                 android:id="@+id/bookDetailPublishDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/_01_01_0001"
-                android:textColor="@color/light_primary_variant"
+                android:text="@string/empty_text"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
@@ -268,7 +270,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/description"
-                android:textColor="@color/light_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp"
@@ -279,8 +280,7 @@
                 android:id="@+id/bookDetailDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
-                android:textColor="@color/light_primary_variant"
+                android:text="@string/empty_text"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
@@ -303,7 +303,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/something_went_wrong"
-            android:textColor="@color/light_primary"
             android:textSize="16sp" />
 
         <com.airbnb.lottie.LottieAnimationView

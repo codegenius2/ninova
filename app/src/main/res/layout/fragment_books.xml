@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/Theme.Ninova"
     tools:context=".ui.books.BooksFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,18 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="?actionBarSize"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="16dp"
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <androidx.core.widget.ContentLoadingProgressBar
+    <LinearLayout
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="?android:attr/progressBarStyleSmall"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="@style/Widget.Material3.CircularProgressIndicator.Small" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutBooksError"
@@ -47,7 +55,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/your_library_is_empty"
-            android:textColor="@color/light_primary"
             android:textSize="16sp" />
 
     </LinearLayout>

@@ -1,17 +1,23 @@
 package com.armutyus.ninova.ui.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
 import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.constants.Util.Companion.fadeIn
 import com.armutyus.ninova.databinding.ActivityLoginBinding
 import com.armutyus.ninova.databinding.RegisterUserBottomSheetBinding
+import com.armutyus.ninova.ui.settings.SettingsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,13 +37,20 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var bottomSheetBinding: RegisterUserBottomSheetBinding
-    private val viewModel by viewModels<LoginViewModel>()
+    private val sharedPreferences: SharedPreferences
+        get() = this.getSharedPreferences(Constants.MAIN_SHARED_PREF, Context.MODE_PRIVATE)
+
+    private val loginViewModel by viewModels<LoginViewModel>()
+    private val settingsViewModel by viewModels<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.welcomeTextView.fadeIn(1500)
+        binding.loginLayout.fadeIn(2000)
 
         binding.forgotPasswordText.setOnClickListener {
             goToForgotPasswordPage()
@@ -68,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
                 .show()
         } else {
-            viewModel.signInUser(email, password).observe(this) { response ->
+            loginViewModel.signInUser(email, password) { response ->
                 when (response) {
                     is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                     is Response.Success -> {
@@ -76,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.GONE
                     }
                     is Response.Failure -> {
-                        println("SignIn Error: " + response.errorMessage)
+                        Log.e("LoginActivity", "SignIn Error: " + response.errorMessage)
                         Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                             .show()
                         binding.progressBar.visibility = View.GONE
@@ -87,16 +100,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun anonymousSignIn() {
-        viewModel.signInAnonymously().observe(this) { response ->
+        loginViewModel.signInAnonymously { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
                     createUserProfile()
-                    goToMainActivity()
-                    binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
-                    println("SignIn Error: " + response.errorMessage)
+                    Log.e("LoginActivity", "AnonymousSignIn Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
                     binding.progressBar.visibility = View.GONE
@@ -133,28 +144,24 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signUpUser() {
-
-        viewModel.signUpUser(email, password).observe(this) { response ->
+        loginViewModel.signUpUser(email, password) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
                     createUserProfile()
-                    binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
-                    println("SignUp Error: " + response.errorMessage)
+                    Log.e("LoginActivity", "SignUp Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
                     binding.progressBar.visibility = View.GONE
                 }
             }
         }
-
     }
 
     private fun createUserProfile() {
-
-        viewModel.createUser().observe(this) { response ->
+        loginViewModel.createUser { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
@@ -162,17 +169,27 @@ class LoginActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
-                    println("Create Error: " + response.errorMessage)
+                    Log.e("LoginActivity", "CreateProfile Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
                     binding.progressBar.visibility = View.GONE
                 }
             }
+
         }
     }
 
     private fun goToMainActivity() {
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        with(sharedPreferences.edit()) {
+            putBoolean("first_time", true).apply()
+        }
+        clearDatabase()
+        mainIntent.addFlags(
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    or Intent.FLAG_ACTIVITY_NEW_TASK
+        )
+        finishAffinity()
         startActivity(mainIntent)
         finish()
     }
@@ -180,6 +197,10 @@ class LoginActivity : AppCompatActivity() {
     private fun goToForgotPasswordPage() {
         registerIntent.putExtra("action", "forgot_password")
         startActivity(registerIntent)
+    }
+
+    private fun clearDatabase() {
+        settingsViewModel.clearDatabase()
     }
 
 }

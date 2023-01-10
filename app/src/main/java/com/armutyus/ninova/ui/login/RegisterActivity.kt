@@ -2,6 +2,7 @@ package com.armutyus.ninova.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -33,9 +34,9 @@ class RegisterActivity : AppCompatActivity() {
     @Inject
     lateinit var mainIntent: Intent
 
+    private val auth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivityRegisterBinding
     private val viewModel by viewModels<LoginViewModel>()
-    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +57,12 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.changeEmailButton.setOnClickListener {
             password = binding.reAuthPasswordText.text.toString().trim()
-            reAuthUser().also {
-                updateUserEmail()
-            }
+            reAuthUserAndChangeEmail()
         }
 
         binding.changePasswordButton.setOnClickListener {
             password = binding.userCurrentPasswordText.text.toString().trim()
-            reAuthUser().also {
-                updateUserPassword()
-            }
-
+            reAuthUserAndChangePassword()
         }
 
         binding.sendResetPasswordButton.setOnClickListener {
@@ -77,25 +73,69 @@ class RegisterActivity : AppCompatActivity() {
     private var email = ""
     private var password = ""
 
-    private fun reAuthUser() {
-        if (password.isNotEmpty()) {
-            val credential = EmailAuthProvider.getCredential(auth.currentUser!!.email!!, password)
-            viewModel.reAuthUser(credential).observe(this) { response ->
-                when (response) {
-                    is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is Response.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(this, "Account confirmed.", Toast.LENGTH_LONG).show()
-                    }
-                    is Response.Failure -> {
-                        Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG).show()
-                        binding.progressBar.visibility = View.GONE
-                    }
-                }
-            }
-        } else {
+    private fun reAuthUserAndChangeEmail() {
+        email = binding.changeEmailText.text.toString().trim()
+        if (email.isEmpty()) {
             Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
                 .show()
+        } else {
+            if (password.isNotEmpty()) {
+                val credential = EmailAuthProvider.getCredential(auth.currentUser!!.email!!, password)
+                viewModel.reAuthUserAndChangeEmail(credential, email) { response ->
+                    when (response) {
+                        is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
+                        is Response.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(this, "E-mail updated successfully.", Toast.LENGTH_LONG).show()
+                        }
+                        is Response.Failure -> {
+                            Log.e("RegisterActivity", "ReAuth & Change E-mail Error: " + response.errorMessage)
+                            Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG).show()
+                            binding.progressBar.visibility = View.GONE
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
+
+    private fun reAuthUserAndChangePassword() {
+        val newPassword = binding.newPasswordText.text.toString().trim()
+        val confirmNewPassword = binding.confirmNewPasswordText.text.toString().trim()
+
+        if (newPassword.isEmpty() || confirmNewPassword.isEmpty() || newPassword != confirmNewPassword) {
+            Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
+                .show()
+        } else {
+            if (password.isNotEmpty()) {
+                val credential = EmailAuthProvider.getCredential(auth.currentUser!!.email!!, password)
+                viewModel.reAuthUserAndChangePassword(credential, newPassword) { response ->
+                    when (response) {
+                        is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
+                        is Response.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(
+                                this,
+                                "Password changed, please login again.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            signOut()
+                        }
+                        is Response.Failure -> {
+                            Log.e("RegisterActivity", "ReAuth & Change Password Error: " + response.errorMessage)
+                            Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG).show()
+                            binding.progressBar.visibility = View.GONE
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
+                    .show()
+            }
         }
     }
 
@@ -114,15 +154,14 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerAnonymousUser(credential: AuthCredential) {
-        viewModel.registerAnonymousUser(credential).observe(this) { response ->
+        viewModel.registerAnonymousUser(credential) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
                     createUserProfile()
-                    binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
-                    println("SignUp Error: " + response.errorMessage)
+                    Log.e("RegisterActivity", "AnonymousSignUp Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG).show()
                     binding.progressBar.visibility = View.GONE
                 }
@@ -131,76 +170,23 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun createUserProfile() {
-        viewModel.createUser().observe(this) { response ->
+        viewModel.createUser { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Response.Success -> {
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    mainIntent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                or Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
                     goToMainActivity()
                     binding.progressBar.visibility = View.GONE
                 }
                 is Response.Failure -> {
-                    println("Create Error: " + response.errorMessage)
+                    Log.e("RegisterActivity", "CreateProfile Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
                     binding.progressBar.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun updateUserEmail() {
-        email = binding.changeEmailText.text.toString().trim()
-
-        if (email.isEmpty()) {
-            Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
-                .show()
-        } else {
-            viewModel.changeUserEmail(email).observe(this) { response ->
-                when (response) {
-                    is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is Response.Success -> {
-                        Toast.makeText(this, "E-mail updated.", Toast.LENGTH_LONG)
-                            .show()
-                        binding.progressBar.visibility = View.GONE
-                        goToMainActivity()
-                    }
-                    is Response.Failure -> {
-                        Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
-                            .show()
-                        binding.progressBar.visibility = View.GONE
-                    }
-                }
-            }
-        }
-
-    }
-
-    private fun updateUserPassword() {
-        val newPassword = binding.newPasswordText.text.toString().trim()
-        val confirmNewPassword = binding.confirmNewPasswordText.text.toString().trim()
-
-        if (newPassword.isEmpty() || confirmNewPassword.isEmpty() || newPassword != confirmNewPassword) {
-            Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
-                .show()
-        } else {
-            viewModel.changeUserPassword(newPassword).observe(this) { response ->
-                when (response) {
-                    is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is Response.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(
-                            this,
-                            "Password changed, please login again.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        signOut()
-                    }
-                    is Response.Failure -> {
-                        Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG).show()
-                        binding.progressBar.visibility = View.GONE
-                    }
                 }
             }
         }
@@ -210,7 +196,7 @@ class RegisterActivity : AppCompatActivity() {
         email = binding.forgotPasswordEmailText.text.toString().trim()
 
         if (email.isNotEmpty()) {
-            viewModel.sendPasswordEmail(email).observe(this) { response ->
+            viewModel.sendPasswordEmail(email) { response ->
                 when (response) {
                     is Response.Loading -> binding.progressBar.visibility = View.VISIBLE
                     is Response.Success -> {
@@ -220,6 +206,10 @@ class RegisterActivity : AppCompatActivity() {
                         goToLogInActivity()
                     }
                     is Response.Failure -> {
+                        Log.e(
+                            "RegisterActivity",
+                            "SendPassword Error: " + response.errorMessage
+                        )
                         Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                             .show()
                         binding.progressBar.visibility = View.GONE
@@ -233,12 +223,12 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
-        viewModel.signOut().observe(this) { response ->
+        viewModel.signOut { response ->
             when (response) {
                 is Response.Loading -> println("Loading")
                 is Response.Success -> goToLogInActivity()
                 is Response.Failure -> {
-                    println("Create Error: " + response.errorMessage)
+                    Log.e("RegisterActivity", "SignOut Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
                         .show()
                 }
@@ -247,11 +237,13 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun goToMainActivity() {
+        finishAffinity()
         startActivity(mainIntent)
         finish()
     }
 
     private fun goToLogInActivity() {
+        finishAffinity()
         startActivity(loginIntent)
         finish()
     }

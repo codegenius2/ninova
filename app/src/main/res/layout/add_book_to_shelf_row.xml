@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.Ninova"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/bottomSheetShelfCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_library"
+        >
+    </CheckBox>
+
+</LinearLayout>

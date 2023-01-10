@@ -30,6 +30,7 @@
     <string name="sign_out">Sign Out</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="about">About Ninova</string>
+    <string name="upload_library">Upload Library</string>
     <string name="theme">Theme</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="reset_password">Reset Password</string>
@@ -72,7 +73,22 @@
     <string name="something_went_wrong">Something went wrong..</string>
     <string name="add_your_notes_here">Add your notes here</string>
     <string name="add_this_book_to_a_shelf">Add this book to a shelf</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_your_notes_here">Enter your notes here</string>
+    <string name="add_this_book_to_your_library">ADD THIS BOOK TO YOUR LIBRARY</string>
+    <string name="work_hard">We are working hard for new features, please check later</string>
+    <string name="book_edit_warning">Add this book to your library to make changes.</string>
+    <string name="remove_this_book_from_your_library">REMOVE THIS BOOK FROM YOUR LIBRARY</string>
+    <string name="add_shelves">Add Shelves</string>
+    <string name="select_the_shelves_you_want_to_add">Select the shelves you want to add:</string>
+    <string name="welcome_to_ninova">WELCOME \n\nTO NINOVA</string>
+    <string name="search_through_all_books">Search through all books</string>
+    <string name="small_case_app_name">ninova</string>
+    <string name="upload_library_message">Do you want to upload your library before you sign out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="about_page_text">Hello everyone! \n\nI am very happy to be able to deliver this application to you as a result of long-term studies. I tried to develop an application that can help anyone who loves books. And I want it to become even more useful by adding new features over time. The application is completely free and ad-free. And I plan to always stay that way -but you never know what future brings-. \n\nEndless thanks to my wife Sümeyra, my brothers Fatih, Ahmet Haşim and my sister Eda, my mom Fatma and my dad Namık who have always supported me and believed in me throughout this process and of course my son Selim for always giving me strength and joy in life. \n\nThanks to Atıl Samancıoğlu, Akın Kaldıroğlu and Philipp Lackner, from whom I learned and understood a lot with his lectures, videos and articles during the software learning and development process -probably they don’t know about it though-. \n\nThanks also to the amazing people on Youtube and StackOverFlow whose names I can\'t remember. \n\nSpecial thanks to my brother Ahmet Haşim, who was my mentor throughout this whole process. \n\nI hope you like the application. You can always reach me at ofdelibas@gmail.com for complaints, requests, bug reports and similar things.</string>
+    <string name="credits">CREDITS</string>
+    <string name="credits_links">Firebase \nGlide Library \nGoogle Books API \nLink Builder \nLottie Animations \nRetrofit</string>
+    <string name="empty_text">-</string>
 </resources>

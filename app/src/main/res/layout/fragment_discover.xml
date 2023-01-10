@@ -6,7 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/Theme.Ninova"
+    android:gravity="center"
     tools:context=".ui.discover.DiscoverFragment">
+
+    <TextView
+        android:id="@+id/appNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/small_case_app_name"
+        android:fontFamily="@font/arista_pro_alternate_regular"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:textSize="32sp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/discoverSearchButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:enabled="true"
+        android:text="@string/search_through_all_books"
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_search"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
@@ -14,7 +39,6 @@
         android:layout_height="wrap_content"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/homenotfound"
-        android:layout_gravity="center"
+        app:lottie_rawRes="@raw/hardworking"
         android:visibility="gone" />
 </LinearLayout>
