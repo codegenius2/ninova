@@ -60,7 +60,6 @@ class BookToShelfRecyclerViewAdapter @Inject constructor(
             shelfRow.isChecked = checkedShelfList != null && checkedShelfList.isNotEmpty()
         }
 
-
         shelfRow.setOnCheckedChangeListener { _, isChecked ->
             val crossRef = BookShelfCrossRef(currentBookIdExtra!!, shelf.shelfId)
             if (isChecked) {

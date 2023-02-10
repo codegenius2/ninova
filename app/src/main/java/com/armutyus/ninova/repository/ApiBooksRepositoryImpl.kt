@@ -1,6 +1,8 @@
 package com.armutyus.ninova.repository
 
+import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.constants.Util.Companion.toLocalizedString
 import com.armutyus.ninova.model.BookDetails
 import com.armutyus.ninova.model.GoogleApiBooks
 import com.armutyus.ninova.service.GoogleBooksApiService
@@ -25,12 +27,13 @@ class ApiBooksRepositoryImpl @Inject constructor(
                     if (response.isSuccessful) {
                         response.body()?.let {
                             return@let emit(Response.Success(it))
-                        } ?: emit(Response.Failure("Something went wrong!"))
+                        }
+                            ?: emit(Response.Failure(R.string.something_went_wrong.toLocalizedString()))
                     } else {
-                        emit(Response.Failure("Something went wrong!"))
+                        emit(Response.Failure(R.string.something_went_wrong.toLocalizedString()))
                     }
                 } catch (e: Exception) {
-                    emit(Response.Failure("Error: ${e.localizedMessage}"))
+                    emit(Response.Failure(R.string.error_with_message.toLocalizedString(e.localizedMessage)))
                 }
             }
         }
@@ -44,12 +47,13 @@ class ApiBooksRepositoryImpl @Inject constructor(
                     if (response.isSuccessful) {
                         response.body()?.let {
                             return@let emit(Response.Success(it))
-                        } ?: emit(Response.Failure("Something went wrong!"))
+                        }
+                            ?: emit(Response.Failure(R.string.something_went_wrong.toLocalizedString()))
                     } else {
-                        emit(Response.Failure("Something went wrong!"))
+                        emit(Response.Failure(R.string.something_went_wrong.toLocalizedString()))
                     }
                 } catch (e: Exception) {
-                    emit(Response.Failure("Error: ${e.localizedMessage}"))
+                    emit(Response.Failure(R.string.error_with_message.toLocalizedString(e.localizedMessage)))
                 }
             }
         }

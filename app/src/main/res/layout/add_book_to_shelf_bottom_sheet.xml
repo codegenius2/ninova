@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/Theme.Ninova">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/select_the_shelves_you_want_to_add"
+        android:orientation="horizontal"
+        android:theme="@style/Theme.Ninova"
         android:paddingHorizontal="24dp"
-        android:paddingTop="16dp"/>
+        android:paddingTop="16dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="@string/select_the_shelves_you_want_to_add"
+            />
+
+        <ImageButton
+            android:id="@+id/add_shelf_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_add_button"
+            tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/addBookToShelfRecyclerView"

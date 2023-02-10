@@ -1,9 +1,9 @@
 <resources>
     <!-- Theme Preference -->
     <string-array name="theme_entries">
-        <item>Light</item>
-        <item>Dark</item>
-        <item>System</item>
+        <item>@string/light</item>
+        <item>@string/dark</item>
+        <item>@string/system</item>
     </string-array>
 
     <string-array name="theme_values">

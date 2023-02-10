@@ -7,6 +7,7 @@ import com.armutyus.ninova.repository.FirebaseRepositoryInterface
 import com.armutyus.ninova.repository.LocalBooksRepositoryInterface
 import com.armutyus.ninova.repository.ShelfRepositoryInterface
 import com.armutyus.ninova.roomdb.NinovaLocalDB
+import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val booksRepository: LocalBooksRepositoryInterface,
     private val shelfRepository: ShelfRepositoryInterface,
-    private val repository: FirebaseRepositoryInterface,
+    private val firebaseRepository: FirebaseRepositoryInterface,
     private val db: NinovaLocalDB
 ) : ViewModel() {
 
@@ -26,7 +27,7 @@ class SettingsViewModel @Inject constructor(
     ) = viewModelScope.launch {
         val localBooks = booksRepository.getLocalBooks()
         localBooks.forEach {
-            val response = repository.uploadUserBooksToFirestore(it)
+            val response = firebaseRepository.uploadUserBooksToFirestore(it)
             if (response is Response.Failure) {
                 onComplete(response)
                 return@launch
@@ -35,7 +36,7 @@ class SettingsViewModel @Inject constructor(
 
         val localCrossRef = booksRepository.getBookShelfCrossRef()
         localCrossRef.forEach {
-            val response = repository.uploadUserCrossRefToFirestore(it)
+            val response = firebaseRepository.uploadUserCrossRefToFirestore(it)
             if (response is Response.Failure) {
                 onComplete(response)
                 return@launch
@@ -44,7 +45,7 @@ class SettingsViewModel @Inject constructor(
 
         val localShelf = shelfRepository.getLocalShelves()
         localShelf.forEach {
-            val response = repository.uploadUserShelvesToFirestore(it)
+            val response = firebaseRepository.uploadUserShelvesToFirestore(it)
             if (response is Response.Failure) {
                 onComplete(response)
                 return@launch
@@ -53,8 +54,24 @@ class SettingsViewModel @Inject constructor(
         onComplete(Response.Success(true))
     }
 
+    fun deleteUserPermanently(credential: AuthCredential, onComplete: (Response<Boolean>) -> Unit) =
+        viewModelScope.launch {
+            val reAuthResponse = firebaseRepository.reAuthUser(credential)
+            if (reAuthResponse is Response.Failure) {
+                onComplete(reAuthResponse)
+                return@launch
+            }
+
+            val emailResponse = firebaseRepository.deleteUserPermanently()
+            if (emailResponse is Response.Failure) {
+                onComplete(emailResponse)
+                return@launch
+            }
+            onComplete(Response.Success(true))
+        }
+
     fun signOut(onComplete: (Response<Boolean>) -> Unit) = viewModelScope.launch {
-        val response = repository.signOut()
+        val response = firebaseRepository.signOut()
         onComplete(response)
     }
 

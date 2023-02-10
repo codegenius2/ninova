@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
                 is Response.Loading -> {
                     Toast.makeText(
                         this,
-                        "Checking user library, please wait..", Toast.LENGTH_SHORT
+                        R.string.checking_library, Toast.LENGTH_SHORT
                     ).show()
                     Log.i("booksDownload", "Books downloading")
                 }
@@ -271,7 +271,7 @@ class MainActivity : AppCompatActivity() {
                                 Log.i("shelvesDownload", "Shelves downloaded")
                                 Toast.makeText(
                                     this,
-                                    "Library successfully synced..",
+                                    R.string.library_synced,
                                     Toast.LENGTH_LONG
                                 )
                                     .show()

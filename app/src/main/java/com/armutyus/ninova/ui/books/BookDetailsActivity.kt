@@ -1,9 +1,9 @@
 package com.armutyus.ninova.ui.books
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Html
@@ -13,10 +13,13 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Cache.currentBook
 import com.armutyus.ninova.constants.Cache.currentBookIdExtra
 import com.armutyus.ninova.constants.Cache.currentLocalBook
@@ -27,24 +30,30 @@ import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.databinding.ActivityBookDetailsBinding
 import com.armutyus.ninova.databinding.AddBookToShelfBottomSheetBinding
+import com.armutyus.ninova.databinding.CustomDialogEditTextLayoutBinding
 import com.armutyus.ninova.model.BookDetailsInfo
 import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
+import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.armutyus.ninova.ui.shelves.adapters.BookToShelfRecyclerViewAdapter
 import com.bumptech.glide.RequestManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
 @AndroidEntryPoint
 class BookDetailsActivity : AppCompatActivity() {
 
-    var selectedPicture: Uri? = null
     private lateinit var binding: ActivityBookDetailsBinding
     private lateinit var bookToShelfBottomSheetBinding: AddBookToShelfBottomSheetBinding
+    private lateinit var customDialogEditTextLayoutBinding: CustomDialogEditTextLayoutBinding
     private lateinit var bookDetails: BookDetailsInfo
     private var notesTabDisabled = true
     private lateinit var tabLayout: TabLayout
@@ -237,12 +246,12 @@ class BookDetailsActivity : AppCompatActivity() {
 
     private fun setTabVisibilitiesForBookAdded(tab: TabLayout.Tab?) {
         when (tab?.text) {
-            "NOTES" -> {
+            getString(R.string.notes) -> {
                 binding.bookDetailNotesLinearLayout.visibility = View.VISIBLE
                 binding.bookDetailInfoLinearLayout.visibility = View.GONE
                 binding.linearLayoutDetailsError.visibility = View.GONE
             }
-            "INFO" -> {
+            getString(R.string.info) -> {
                 binding.bookDetailNotesLinearLayout.visibility = View.GONE
                 binding.bookDetailInfoLinearLayout.visibility = View.VISIBLE
                 binding.linearLayoutDetailsError.visibility = View.GONE
@@ -257,10 +266,10 @@ class BookDetailsActivity : AppCompatActivity() {
 
     private fun setTabVisibilitiesForBookRemoved(tab: TabLayout.Tab?) {
         when (tab?.text) {
-            "NOTES" -> {
-                Toast.makeText(this, "Add this book to your library to take notes.", Toast.LENGTH_LONG).show()
+            getString(R.string.notes) -> {
+                Toast.makeText(this, R.string.book_edit_warning, Toast.LENGTH_LONG).show()
             }
-            "INFO" -> {
+            getString(R.string.info) -> {
                 binding.bookDetailNotesLinearLayout.visibility = View.GONE
                 binding.bookDetailInfoLinearLayout.visibility = View.VISIBLE
                 binding.linearLayoutDetailsError.visibility = View.GONE
@@ -317,6 +326,34 @@ class BookDetailsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         bookToShelfAdapter.setViewModels(shelvesViewModel, booksViewModel)
 
+
+        val addToShelfButton = bookToShelfBottomSheetBinding.addShelfButton
+        addToShelfButton.setOnClickListener {
+            var shelfTitle: String
+            customDialogEditTextLayoutBinding =
+                CustomDialogEditTextLayoutBinding.inflate(layoutInflater)
+            val editTextInputField = customDialogEditTextLayoutBinding.customDialogShelfTitleText
+            shelfTitle = editTextInputField.text.toString()
+            val builder =
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(title)
+                    .setMessage(R.string.create_shelf_and_add_book)
+                    .setView(customDialogEditTextLayoutBinding.root)
+                    .setPositiveButton(R.string.create) { shelfDialog, _ ->
+                        launchCreateShelfDialog(shelfTitle, shelfDialog)
+                    }
+                    .setNegativeButton(R.string.cancelCaps, null)
+            val createShelfDialog = builder.create()
+            editTextInputField.doAfterTextChanged {
+                shelfTitle = editTextInputField.text.toString()
+                createShelfDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
+                    shelfTitle.isNotEmpty()
+            }
+            createShelfDialog.setCanceledOnTouchOutside(false)
+            createShelfDialog.show()
+            createShelfDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
+        }
+
         dialog.show()
     }
 
@@ -357,12 +394,13 @@ class BookDetailsActivity : AppCompatActivity() {
                     if (type == LOCAL_BOOK_TYPE) {
                         Toast.makeText(
                             this,
-                            "Something went wrong! Showing local details.",
+                            R.string.details_activity_load_error,
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
                         setVisibilitiesForBookNull()
-                        Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -391,6 +429,55 @@ class BookDetailsActivity : AppCompatActivity() {
                     Log.i("bookUpload", "Uploaded to firestore")
                 is Response.Failure ->
                     Log.e("bookUpload", response.errorMessage)
+            }
+        }
+    }
+
+    private fun uploadShelfToFirestore(localShelf: LocalShelf) {
+        shelvesViewModel.uploadShelfToFirestore(localShelf) { response ->
+            when (response) {
+                is Response.Loading ->
+                    Log.i("shelfUpload", "Uploading to firestore")
+                is Response.Success ->
+                    Log.i("shelfUpload", "Uploaded to firestore")
+                is Response.Failure ->
+                    Log.e("shelfUpload", response.errorMessage)
+            }
+        }
+    }
+
+    private fun uploadCrossRefToFirestore(crossRef: BookShelfCrossRef) {
+        shelvesViewModel.uploadCrossRefToFirestore(crossRef) { response ->
+            when (response) {
+                is Response.Loading ->
+                    Log.i("crossRefUpload", "Uploading to firestore")
+                is Response.Success ->
+                    Log.i("crossRefUpload", "Uploaded to firestore")
+                is Response.Failure ->
+                    Log.e("crossRefUpload", response.errorMessage)
+            }
+        }
+    }
+
+    private fun launchCreateShelfDialog(shelfTitle: String, shelfDialog: DialogInterface) {
+        val timeStamp = Date().time
+        val formattedDate =
+            SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(timeStamp)
+        val shelf =
+            LocalShelf(
+                UUID.randomUUID().toString(),
+                shelfTitle,
+                formattedDate,
+                "",
+            )
+        shelvesViewModel.insertShelf(shelf).invokeOnCompletion {
+            val crossRef = BookShelfCrossRef(currentBookIdExtra!!, shelf.shelfId)
+            uploadShelfToFirestore(shelf)
+            shelvesViewModel.loadShelfList()
+            shelvesViewModel.insertBookShelfCrossRef(crossRef).invokeOnCompletion {
+                uploadCrossRefToFirestore(crossRef)
+                booksViewModel.loadBookWithShelves(currentBookIdExtra!!)
+                shelfDialog.dismiss()
             }
         }
     }
@@ -542,8 +629,8 @@ class BookDetailsActivity : AppCompatActivity() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             ) {
-                Snackbar.make(view, "Permission needed!", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give Permission") {
+                Snackbar.make(view, R.string.permission_needed, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.give_permission) {
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }.show()
             } else {
@@ -578,7 +665,7 @@ class BookDetailsActivity : AppCompatActivity() {
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(galleryIntent)
             } else {
-                Toast.makeText(this, "Permission needed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_LONG).show()
             }
         }
     }

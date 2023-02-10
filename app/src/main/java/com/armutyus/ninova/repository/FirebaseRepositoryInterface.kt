@@ -24,6 +24,8 @@ interface FirebaseRepositoryInterface {
 
     suspend fun deleteUserShelfFromFirestore(shelfId: String): Response<Boolean>
 
+    suspend fun deleteUserPermanently(): Response<Boolean>
+
     suspend fun downloadUserBooksFromFirestore(): Response<List<DataModel.LocalBook>>
 
     suspend fun downloadUserShelvesFromFirestore(): Response<List<LocalShelf>>

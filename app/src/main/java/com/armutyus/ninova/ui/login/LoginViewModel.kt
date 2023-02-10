@@ -42,7 +42,11 @@ class LoginViewModel @Inject constructor(
         onComplete(response)
     }
 
-    fun reAuthUserAndChangeEmail(credential: AuthCredential, email: String, onComplete: (Response<Boolean>) -> Unit) =
+    fun reAuthUserAndChangeEmail(
+        credential: AuthCredential,
+        email: String,
+        onComplete: (Response<Boolean>) -> Unit
+    ) =
         viewModelScope.launch {
             val reAuthResponse = repository.reAuthUser(credential)
             if (reAuthResponse is Response.Failure) {
@@ -58,7 +62,11 @@ class LoginViewModel @Inject constructor(
             onComplete(Response.Success(true))
         }
 
-    fun reAuthUserAndChangePassword(credential: AuthCredential, password: String, onComplete: (Response<Boolean>) -> Unit) =
+    fun reAuthUserAndChangePassword(
+        credential: AuthCredential,
+        password: String,
+        onComplete: (Response<Boolean>) -> Unit
+    ) =
         viewModelScope.launch {
             val reAuthResponse = repository.reAuthUser(credential)
             if (reAuthResponse is Response.Failure) {

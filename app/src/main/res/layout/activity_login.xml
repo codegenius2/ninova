@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:textColor="?attr/colorControlHighlight"
-                android:text="or"
+                android:text="@string/or"
                 android:textStyle="italic"
                 android:layout_gravity="center"/>
 

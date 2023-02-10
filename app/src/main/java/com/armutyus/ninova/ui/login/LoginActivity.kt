@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         password = binding.userPasswordText.text.toString().trim()
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
+            Toast.makeText(this, R.string.wrong_information, Toast.LENGTH_LONG)
                 .show()
         } else {
             loginViewModel.signInUser(email, password) { response ->
@@ -135,7 +135,7 @@ class LoginActivity : AppCompatActivity() {
         val confirmPassword = bottomSheetBinding.registerConfirmPasswordText.text.toString().trim()
 
         if (email.isEmpty() || password.isEmpty() || password != confirmPassword) {
-            Toast.makeText(this, "Please enter your information correctly!", Toast.LENGTH_LONG)
+            Toast.makeText(this, R.string.wrong_information, Toast.LENGTH_LONG)
                 .show()
         } else {
             signUpUser()

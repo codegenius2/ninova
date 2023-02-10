@@ -36,11 +36,11 @@ class BooksFragment @Inject constructor(
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val layoutPosition = viewHolder.layoutPosition
-            val swipedBook = booksAdapter.mainBooksList[layoutPosition]
+            val position = viewHolder.layoutPosition
+            val swipedBook = booksAdapter.mainBooksList[position]
             booksViewModel.deleteBook(swipedBook).invokeOnCompletion {
-                Snackbar.make(requireView(), "Book deleted from your library", Snackbar.LENGTH_LONG)
-                    .setAction("UNDO") {
+                Snackbar.make(requireView(), R.string.book_deleted, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.undo) {
                         booksViewModel.insertBook(swipedBook).invokeOnCompletion {
                             uploadBookToFirestore(swipedBook)
                             booksViewModel.loadBookList()

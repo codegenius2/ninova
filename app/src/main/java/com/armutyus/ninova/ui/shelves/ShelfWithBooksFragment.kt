@@ -40,8 +40,8 @@ class ShelfWithBooksFragment @Inject constructor(
             val swipedBook = booksAdapter.mainBooksList[layoutPosition]
             val crossRef = BookShelfCrossRef(swipedBook.bookId, currentShelfId)
             shelvesViewModel.deleteBookShelfCrossRef(crossRef).invokeOnCompletion {
-                Snackbar.make(requireView(), "Book deleted from this shelf", Snackbar.LENGTH_LONG)
-                    .setAction("UNDO") {
+                Snackbar.make(requireView(), R.string.book_deleted_in_shelf, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.undo) {
                         shelvesViewModel.insertBookShelfCrossRef(crossRef).invokeOnCompletion {
                             uploadCrossRefToFirestore(crossRef)
                         }

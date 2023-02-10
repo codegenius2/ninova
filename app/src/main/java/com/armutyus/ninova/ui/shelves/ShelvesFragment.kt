@@ -58,10 +58,10 @@ class ShelvesFragment @Inject constructor(
             shelvesViewModel.deleteShelf(swipedShelf).invokeOnCompletion {
                 Snackbar.make(
                     requireView(),
-                    "Shelf deleted from your library",
+                    R.string.shelf_deleted,
                     Snackbar.LENGTH_LONG
                 )
-                    .setAction("UNDO") {
+                    .setAction(R.string.undo) {
                         shelvesViewModel.insertShelf(swipedShelf).invokeOnCompletion {
                             uploadShelfToFirestore(swipedShelf)
                             shelvesViewModel.loadShelfList()
@@ -110,12 +110,13 @@ class ShelvesFragment @Inject constructor(
         dialog.setContentView(bottomSheetBinding.root)
         dialog.show()
 
-        val addShelfButton = dialog.findViewById<MaterialButton>(R.id.addShelfButton)
-        addShelfButton?.setOnClickListener {
+        val createShelfButton = dialog.findViewById<MaterialButton>(R.id.createShelfButton)
+        createShelfButton?.setOnClickListener {
             val shelfTitle = bottomSheetBinding.shelfTitleText.text.toString()
 
             if (shelfTitle.isEmpty()) {
-                Toast.makeText(requireContext(), "Title cannot be empty!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), R.string.title_cannot_empty, Toast.LENGTH_LONG)
+                    .show()
             } else {
                 val timeStamp = Date().time
                 val formattedDate =
@@ -232,8 +233,8 @@ class ShelvesFragment @Inject constructor(
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             ) {
-                Snackbar.make(requireView(), "Permission needed!", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give Permission") {
+                Snackbar.make(requireView(), R.string.permission_needed, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.give_permission) {
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }.show()
             } else {
@@ -268,7 +269,8 @@ class ShelvesFragment @Inject constructor(
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(galleryIntent)
             } else {
-                Toast.makeText(requireContext(), "Permission needed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), R.string.permission_needed, Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }

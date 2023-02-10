@@ -131,6 +131,19 @@ class FirebaseRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun deleteUserPermanently(): Response<Boolean> =
+        withContext(coroutineContext) {
+            try {
+                Response.Loading
+                val uid = auth.currentUser?.uid!!
+                auth.currentUser!!.delete()
+                db.collection(USERS_REF).document(uid).delete()
+                Response.Success(true)
+            } catch (e: Exception) {
+                Response.Failure(e.localizedMessage ?: ERROR_MESSAGE)
+            }
+        }
+
     override suspend fun downloadUserBooksFromFirestore(): Response<List<DataModel.LocalBook>> =
         withContext(coroutineContext) {
             try {

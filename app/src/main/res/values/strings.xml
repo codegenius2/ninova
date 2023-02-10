@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ninova</string>
+    <string name="app_name" translatable="false">Ninova</string>
     <string name="title_books">Books</string>
     <string name="title_discover">Discover</string>
     <string name="title_shelves">Shelves</string>
@@ -13,24 +13,29 @@
     <string name="action_without_register">CONTINUE WITHOUT AN ACCOUNT</string>
     <string name="search_button_hint">Books, Authors and More</string>
     <string name="search_button_title">Search</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">Login failed</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_sign_out">Sign Out</string>
     <string name="title_search">Search</string>
+    <string name="permission_needed">Permission needed!</string>
+    <string name="give_permission">Give Permission</string>
     <string name="your_library">YOUR LIBRARY</string>
     <string name="from_ninova">FROM NINOVA</string>
     <string name="nothing_to_show_here">We look far and wide but.. Nothing to show here..</string>
     <string name="dusty_shelves">Dusty Shelves</string>
     <string name="name_of_the_book">Name of the Book</string>
     <string name="author_of_the_book">Author of the Book</string>
-    <string name="page_number">320</string>
-    <string name="release_date">01.01.2010</string>
+    <string name="page_number" translatable="false">320</string>
+    <string name="release_date" translatable="false">01.01.2010</string>
     <string name="register">Register</string>
     <string name="sign_out">Sign Out</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="about">About Ninova</string>
     <string name="upload_library">Upload Library</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_summary">Delete your account permanently.</string>
+    <string name="error_with_message">Error: %s</string>
     <string name="theme">Theme</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="reset_password">Reset Password</string>
@@ -48,6 +53,8 @@
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="enter_your_new_e_mail_address">Enter your new e-mail address</string>
     <string name="your_library_is_empty">Your library is empty..</string>
+    <string name="book_deleted">Book deleted from your library</string>
+    <string name="book_deleted_in_shelf">Book deleted from this shelf</string>
     <string name="your_shelf_is_empty">Your shelf is empty..</string>
     <string name="sort">Sort</string>
     <string name="add_new_shelf_to_your_library">Add new shelf to your library</string>
@@ -61,14 +68,14 @@
     <string name="notes">NOTES</string>
     <string name="first_second_third">First, Second, Third</string>
     <string name="your_notes">Your Notes</string>
-    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="lorem_ipsum" translatable="false">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="pages">Pages</string>
     <string name="categories">Categories</string>
     <string name="action_comedy_horror">Action, Comedy, Horror</string>
     <string name="publisher">Publisher</string>
-    <string name="awesome_inc">Awesome Inc.</string>
+    <string name="awesome_inc" translatable="false">Awesome Inc.</string>
     <string name="published_date">Published Date</string>
-    <string name="_01_01_0001">01.01.0001</string>
+    <string name="_01_01_0001" translatable="false">01.01.0001</string>
     <string name="description">Description</string>
     <string name="something_went_wrong">Something went wrong..</string>
     <string name="add_your_notes_here">Add your notes here</string>
@@ -78,17 +85,42 @@
     <string name="work_hard">We are working hard for new features, please check later</string>
     <string name="book_edit_warning">Add this book to your library to make changes.</string>
     <string name="remove_this_book_from_your_library">REMOVE THIS BOOK FROM YOUR LIBRARY</string>
+    <string name="details_activity_load_error">Something went wrong! Showing local details.</string>
+    <string name="shelf_deleted">Shelf deleted from your library</string>
+    <string name="checking_library">Checking user library, please wait..</string>
+    <string name="library_synced">Library successfully synced..</string>
+    <string name="library_uploading">Library uploading, please wait..</string>
+    <string name="library_uploaded">Library uploaded</string>
+    <string name="please_wait">Please wait..</string>
+    <string name="signed_out">Signed out!</string>
     <string name="add_shelves">Add Shelves</string>
+    <string name="link_your_library">Link your library with your account: %s</string>
     <string name="select_the_shelves_you_want_to_add">Select the shelves you want to add:</string>
+    <string name="create_shelf_and_add_book">Write the shelf title and press the create button to add your book.</string>
+    <string name="title_cannot_empty">Title cannot be empty!</string>
     <string name="welcome_to_ninova">WELCOME \n\nTO NINOVA</string>
     <string name="search_through_all_books">Search through all books</string>
-    <string name="small_case_app_name">ninova</string>
+    <string name="small_case_app_name" translatable="false">ninova</string>
+    <string name="delete_account_warning">Are you sure you want to delete your account? Account deletion is permanent and cannot be recovered later. Please, enter your current password to delete your account.</string>
     <string name="upload_library_message">Do you want to upload your library before you sign out?</string>
+    <string name="wrong_information">Please enter your information correctly!</string>
+    <string name="successful_email_update">E-mail updated successfully.</string>
+    <string name="password_changed_login">Password changed, please login again.</string>
+    <string name="reset_email_sent">Reset password e-mail sent.</string>
+    <string name="account_deleted">Account deleted.</string>
+    <string name="cancelCaps">CANCEL</string>
+    <string name="undo">UNDO</string>
+    <string name="app_version">Version: %s</string>
     <string name="cancel">Cancel</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
+    <string name="unexpected_error">Unexpected error!</string>
     <string name="about_page_text">Hello everyone! \n\nI am very happy to be able to deliver this application to you as a result of long-term studies. I tried to develop an application that can help anyone who loves books. And I want it to become even more useful by adding new features over time. The application is completely free and ad-free. And I plan to always stay that way -but you never know what future brings-. \n\nEndless thanks to my wife Sümeyra, my brothers Fatih, Ahmet Haşim and my sister Eda, my mom Fatma and my dad Namık who have always supported me and believed in me throughout this process and of course my son Selim for always giving me strength and joy in life. \n\nThanks to Atıl Samancıoğlu, Akın Kaldıroğlu and Philipp Lackner, from whom I learned and understood a lot with his lectures, videos and articles during the software learning and development process -probably they don’t know about it though-. \n\nThanks also to the amazing people on Youtube and StackOverFlow whose names I can\'t remember. \n\nSpecial thanks to my brother Ahmet Haşim, who was my mentor throughout this whole process. \n\nI hope you like the application. You can always reach me at ofdelibas@gmail.com for complaints, requests, bug reports and similar things.</string>
     <string name="credits">CREDITS</string>
-    <string name="credits_links">Firebase \nGlide Library \nGoogle Books API \nLink Builder \nLottie Animations \nRetrofit</string>
-    <string name="empty_text">-</string>
+    <string name="credits_links" translatable="false">Firebase \nGlide Library \nGoogle Books API \nLink Builder \nLottie Animations \nRetrofit</string>
+    <string name="empty_text" translatable="false">-</string>
+    <string name="or">or</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="system">System</string>
 </resources>

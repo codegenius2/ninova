@@ -1,13 +1,15 @@
 package com.armutyus.ninova.constants
 
 import com.armutyus.ninova.BuildConfig
+import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Util.Companion.toLocalizedString
 
 object Constants {
 
     const val VERSION_NAME = BuildConfig.VERSION_NAME
 
     //Messages
-    const val ERROR_MESSAGE = "Unexpected error!"
+    val ERROR_MESSAGE = R.string.unexpected_error.toLocalizedString()
 
     //Intents
     const val ABOUT_INTENT = "aboutIntent"

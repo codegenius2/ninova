@@ -47,6 +47,14 @@
         </Preference>
 
         <Preference
+            app:key="delete_account"
+            app:title="@string/delete_account"
+            app:summary="@string/delete_account_summary"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_delete_account">
+        </Preference>
+
+        <Preference
             app:key="sign_out"
             app:title="@string/sign_out"
             app:allowDividerBelow="true"
