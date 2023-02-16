@@ -51,3 +51,12 @@ I tried to use many up-to-date approaches and technologies while developing this
 <p align="center" width="100%">
     <img width="32%" src="https://play-lh.googleusercontent.com/NfEpG0-Msj0CR-mx2BcxgbBmOM2vmXSuuJV11O3FzqoQaTAIGpzmtVPfC6dbgEdO1ao=w5120-h2880-rw">
 </p>
+
+## Credits
+
+*[Firebase](https://firebase.google.com/)
+*[Glide](https://github.com/bumptech/glide)
+*[Google Books API](https://developers.google.com/books)
+*[Link Builder](https://github.com/klinker24/Android-TextView-LinkBuilder)
+*[Lottie](https://lottiefiles.com/)
+*[Retrofit](https://square.github.io/retrofit/)
