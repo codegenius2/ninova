@@ -66,11 +66,13 @@ class BookToShelfRecyclerViewAdapter @Inject constructor(
                 shelvesViewModel.insertBookShelfCrossRef(crossRef).invokeOnCompletion {
                     uploadCrossRefToFirestore(crossRef)
                     booksViewModel.loadBookWithShelves(currentBookIdExtra!!)
+                    shelvesViewModel.loadShelfWithBookList()
                 }
             } else {
                 shelvesViewModel.deleteBookShelfCrossRef(crossRef).invokeOnCompletion {
                     deleteCrossRefFromFirestore(crossRef.bookId + crossRef.shelfId)
                     booksViewModel.loadBookWithShelves(currentBookIdExtra!!)
+                    shelvesViewModel.loadShelfWithBookList()
                 }
             }
         }

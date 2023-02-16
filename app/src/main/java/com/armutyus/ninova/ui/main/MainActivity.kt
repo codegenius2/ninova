@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity() {
     private fun bottomNavItemChangeListener(navView: BottomNavigationView) {
         navView.setOnItemSelectedListener { item ->
             if (item.itemId != navView.selectedItemId) {
+                navController.popBackStack(item.itemId, inclusive = true, saveState = false)
                 navController.navigate(item.itemId)
             }
             true
@@ -292,7 +293,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp()
+        return navController.popBackStack()
                 || super.onSupportNavigateUp()
     }
 

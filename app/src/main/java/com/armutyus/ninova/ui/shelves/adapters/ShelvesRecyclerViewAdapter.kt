@@ -16,6 +16,8 @@ import com.armutyus.ninova.ui.shelves.ShelvesFragment
 import com.armutyus.ninova.ui.shelves.ShelvesFragmentDirections
 import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.bumptech.glide.RequestManager
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class ShelvesRecyclerViewAdapter @Inject constructor(
@@ -68,7 +70,17 @@ class ShelvesRecyclerViewAdapter @Inject constructor(
         holder.itemView.apply {
             glide.load(shelf.shelfCover).centerCrop().into(shelfCover)
             shelfTitle.text = shelf.shelfTitle
-            shelfCreatedDate.text = shelf.createdAt
+            shelfCreatedDate.text = if (shelf.createdAt!!.length > 10) {
+                val shelfCreatedDateText = shelf.createdAt?.substring(0..9)
+                val inputFormat = SimpleDateFormat(
+                    "yyyy-MM-dd",
+                    Locale.getDefault()
+                ).parse(shelfCreatedDateText!!)
+                val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                outputFormat.format(inputFormat!!)
+            } else {
+                shelf.createdAt
+            }
             booksInShelf.text = shelf.getBookCount(viewModel).toString()
         }
 

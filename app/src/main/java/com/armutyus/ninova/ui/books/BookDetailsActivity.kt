@@ -462,7 +462,7 @@ class BookDetailsActivity : AppCompatActivity() {
     private fun launchCreateShelfDialog(shelfTitle: String, shelfDialog: DialogInterface) {
         val timeStamp = Date().time
         val formattedDate =
-            SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(timeStamp)
+            SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault()).format(timeStamp)
         val shelf =
             LocalShelf(
                 UUID.randomUUID().toString(),
@@ -477,6 +477,7 @@ class BookDetailsActivity : AppCompatActivity() {
             shelvesViewModel.insertBookShelfCrossRef(crossRef).invokeOnCompletion {
                 uploadCrossRefToFirestore(crossRef)
                 booksViewModel.loadBookWithShelves(currentBookIdExtra!!)
+                shelvesViewModel.loadShelfWithBookList()
                 shelfDialog.dismiss()
             }
         }

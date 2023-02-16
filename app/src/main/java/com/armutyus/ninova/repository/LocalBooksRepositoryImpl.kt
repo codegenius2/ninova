@@ -37,7 +37,7 @@ class LocalBooksRepositoryImpl @Inject constructor(
 
     override suspend fun getLocalBooks(): List<DataModel.LocalBook> =
         withContext(coroutineContext) {
-            ninovaDao.getLocalBooks()
+            ninovaDao.getLocalBooks().sortedBy { it.bookTitle }
         }
 
     override suspend fun getBookWithShelves(bookId: String): List<BookWithShelves> =

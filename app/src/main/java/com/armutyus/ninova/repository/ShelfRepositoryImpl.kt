@@ -6,6 +6,8 @@ import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.armutyus.ninova.roomdb.entities.ShelfWithBooks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -26,7 +28,16 @@ class ShelfRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLocalShelves(): List<LocalShelf> = withContext(coroutineContext) {
-        ninovaDao.getLocalShelves()
+        ninovaDao.getLocalShelves().sortedByDescending {
+            if (it.createdAt!!.length > 10) {
+                it.createdAt
+            } else {
+                val inputFormat =
+                    SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse(it.createdAt!!)
+                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                outputFormat.format(inputFormat!!)
+            }
+        }
     }
 
     override suspend fun searchLocalShelves(searchString: String): List<LocalShelf> =

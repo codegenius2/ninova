@@ -1,9 +1,15 @@
 package com.armutyus.ninova.ui.shelves
 
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -35,6 +41,70 @@ class ShelfWithBooksFragment @Inject constructor(
             return true
         }
 
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+
+            val deleteIcon =
+                AppCompatResources.getDrawable(requireContext(), R.drawable.ic_delete_account)
+            val intrinsicWidth = deleteIcon!!.intrinsicWidth
+            val intrinsicHeight = deleteIcon.intrinsicHeight
+            val swipeBackground = ColorDrawable()
+            val swipeBackgroundColor = R.color.md_theme_dark_errorContainer
+            val deleteIconColor = R.color.md_theme_dark_onErrorContainer
+            val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.DARKEN) }
+            val itemView = viewHolder.itemView
+            val itemHeight = itemView.bottom - itemView.top
+            val isCanceled = dX == 0f || !isCurrentlyActive
+
+            if (isCanceled) {
+                c.drawRect(
+                    itemView.right + dX,
+                    itemView.top.toFloat() - 44,
+                    itemView.right.toFloat(),
+                    itemView.bottom.toFloat() - 44,
+                    clearPaint
+                )
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+                return
+            }
+
+            swipeBackground.color = resources.getColor(swipeBackgroundColor, context!!.theme)
+            swipeBackground.setBounds(
+                itemView.right + dX.toInt(),
+                itemView.top - 44,
+                itemView.right,
+                itemView.bottom - 44
+            )
+            swipeBackground.draw(c)
+
+            val iconMargin = (itemHeight - intrinsicHeight) / 2
+            val iconTop = itemView.top - ((itemHeight / 2.5) - (intrinsicHeight * 3))
+            val iconLeft = itemView.right - intrinsicWidth - (iconMargin / 2)
+            val iconRight = itemView.right - (iconMargin / 3)
+            val iconBottom = itemView.bottom - ((itemHeight * 0.7) - (intrinsicHeight))
+
+            deleteIcon.setBounds(iconLeft, iconTop.toInt(), iconRight, iconBottom.toInt())
+            deleteIcon.setTint(resources.getColor(deleteIconColor, context!!.theme))
+            deleteIcon.draw(c)
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+
+        }
+
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val layoutPosition = viewHolder.layoutPosition
             val swipedBook = booksAdapter.mainBooksList[layoutPosition]
@@ -44,9 +114,11 @@ class ShelfWithBooksFragment @Inject constructor(
                     .setAction(R.string.undo) {
                         shelvesViewModel.insertBookShelfCrossRef(crossRef).invokeOnCompletion {
                             uploadCrossRefToFirestore(crossRef)
+                            shelvesViewModel.loadShelfWithBookList()
                         }
                     }.show()
                 deleteCrossRefFromFirestore(crossRef.bookId + crossRef.shelfId)
+                shelvesViewModel.loadShelfWithBookList()
             }
         }
     }
@@ -87,7 +159,7 @@ class ShelfWithBooksFragment @Inject constructor(
                 } else {
                     fragmentBinding?.linearLayoutShelfWithBooksError?.visibility = View.GONE
                     fragmentBinding?.shelfWithBooksRecyclerView?.visibility = View.VISIBLE
-                    booksAdapter.mainBooksList = it
+                    booksAdapter.mainBooksList = it.sortedBy { localBook -> localBook.bookTitle }
                 }
             }
         }
