@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -52,6 +54,7 @@ class ShelvesFragment @Inject constructor(
     private lateinit var bottomSheetBinding: AddNewShelfBottomSheetBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     private val swipeCallBack = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -297,32 +300,40 @@ class ShelvesFragment @Inject constructor(
     }
 
     override fun onClick() {
-        onBookCoverClicked()
+        onShelfCoverClicked()
     }
 
-    private fun onBookCoverClicked() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            ) {
-                Snackbar.make(requireView(), R.string.permission_needed, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.give_permission) {
-                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }.show()
-            } else {
-                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
+    private fun onShelfCoverClicked() {
+        if (isPhotoPickerAvailable()) {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         } else {
-            val galleryIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            activityResultLauncher.launch(galleryIntent)
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                ) {
+                    Snackbar.make(requireView(), R.string.permission_needed, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.give_permission) {
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }.show()
+                } else {
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            } else {
+                val galleryIntent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(galleryIntent)
+            }
         }
+    }
+
+    private fun isPhotoPickerAvailable(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
     }
 
     private fun registerLauncher() {
@@ -330,9 +341,9 @@ class ShelvesFragment @Inject constructor(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                val intentFromResult = result.data?.data
-                if (intentFromResult != null) {
-                    currentShelf?.shelfCover = intentFromResult.toString()
+                val uri = result.data?.data
+                if (uri != null) {
+                    currentShelf?.shelfCover = uri.toString()
                     shelvesViewModel.updateShelf(currentShelf!!)
                     shelvesAdapter.notifyDataSetChanged()
                     uploadShelfToFirestore(currentShelf!!)
@@ -349,6 +360,19 @@ class ShelvesFragment @Inject constructor(
             } else {
                 Toast.makeText(requireContext(), R.string.permission_needed, Toast.LENGTH_LONG)
                     .show()
+            }
+        }
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                Log.d("PhotoPicker", "Selected URI: $uri")
+                val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                requireContext().contentResolver.takePersistableUriPermission(uri, flag)
+                currentShelf?.shelfCover = uri.toString()
+                shelvesViewModel.updateShelf(currentShelf!!)
+                shelvesAdapter.notifyDataSetChanged()
+                uploadShelfToFirestore(currentShelf!!)
+            } else {
+                Log.d("PhotoPicker", "No media selected")
             }
         }
     }

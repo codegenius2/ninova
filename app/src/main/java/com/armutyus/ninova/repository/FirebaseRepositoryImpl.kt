@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -27,6 +28,7 @@ import kotlin.coroutines.CoroutineContext
 class FirebaseRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore,
+    private val storage: FirebaseStorage,
     private val coroutineContext: CoroutineContext = Dispatchers.IO
 ) : FirebaseRepositoryInterface {
 

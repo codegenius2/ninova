@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,12 +42,16 @@ object NetworkModule {
     @Provides
     fun provideFirebaseFirestore() = FirebaseFirestore.getInstance()
 
+    @Provides
+    fun provideFirebaseStorage() = FirebaseStorage.getInstance()
+
     @Singleton
     @Provides
     fun provideAuthRepository(
         auth: FirebaseAuth,
-        db: FirebaseFirestore
-    ) = FirebaseRepositoryImpl(auth, db) as FirebaseRepositoryInterface
+        db: FirebaseFirestore,
+        storage: FirebaseStorage
+    ) = FirebaseRepositoryImpl(auth, db, storage) as FirebaseRepositoryInterface
 
     @Singleton
     @Provides
