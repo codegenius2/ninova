@@ -317,7 +317,11 @@ class ShelvesFragment @Inject constructor(
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     )
                 ) {
-                    Snackbar.make(requireView(), R.string.permission_needed, Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.make(
+                        requireView(),
+                        R.string.permission_needed,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
                         .setAction(R.string.give_permission) {
                             permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                         }.show()
