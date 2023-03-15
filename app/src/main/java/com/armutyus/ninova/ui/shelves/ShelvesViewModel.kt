@@ -1,5 +1,6 @@
 package com.armutyus.ninova.ui.shelves
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -84,6 +85,12 @@ class ShelvesViewModel @Inject constructor(
     fun deleteShelfFromFirestore(shelfId: String, onComplete: (Response<Boolean>) -> Unit) =
         viewModelScope.launch {
             val response = firebaseRepository.deleteUserShelfFromFirestore(shelfId)
+            onComplete(response)
+        }
+
+    fun uploadCustomShelfCoverToFirestore(uri: Uri, onComplete: (Response<Uri>) -> Unit) =
+        viewModelScope.launch {
+            val response = firebaseRepository.uploadCustomShelfCoverToFirestore(uri)
             onComplete(response)
         }
 

@@ -1,5 +1,6 @@
 package com.armutyus.ninova.repository
 
+import android.net.Uri
 import com.armutyus.ninova.constants.Constants.BOOKSHELF_CROSS_REF
 import com.armutyus.ninova.constants.Constants.BOOKS_REF
 import com.armutyus.ninova.constants.Constants.CREATED_AT
@@ -22,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -201,6 +203,29 @@ class FirebaseRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun uploadCustomBookCoverToFirestore(uri: Uri): Response<Uri> =
+        withContext(coroutineContext) {
+            val uuid = UUID.randomUUID()
+            val imageName = "$uuid.jpg"
+            try {
+                Response.Loading
+                val reference = storage.reference
+                val imageReference = reference.child(auth.uid!!).child("bookCover").child(imageName)
+                val uploadTask = imageReference.putFile(uri)
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    imageReference.downloadUrl
+                }
+                return@withContext Response.Success(urlTask.await())
+            } catch (e: Exception) {
+                Response.Failure(e.localizedMessage ?: ERROR_MESSAGE)
+            }
+        }
+
     override suspend fun uploadUserBooksToFirestore(localBook: DataModel.LocalBook): Response<Boolean> =
         withContext(coroutineContext) {
             try {
@@ -226,6 +251,30 @@ class FirebaseRepositoryImpl @Inject constructor(
                 uploadBooks.let {
                     return@let Response.Success(true)
                 }
+            } catch (e: Exception) {
+                Response.Failure(e.localizedMessage ?: ERROR_MESSAGE)
+            }
+        }
+
+    override suspend fun uploadCustomShelfCoverToFirestore(uri: Uri): Response<Uri> =
+        withContext(coroutineContext) {
+            val uuid = UUID.randomUUID()
+            val imageName = "$uuid.jpg"
+            try {
+                Response.Loading
+                val reference = storage.reference
+                val imageReference =
+                    reference.child(auth.uid!!).child("shelfCover").child(imageName)
+                val uploadTask = imageReference.putFile(uri)
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    imageReference.downloadUrl
+                }
+                return@withContext Response.Success(urlTask.await())
             } catch (e: Exception) {
                 Response.Failure(e.localizedMessage ?: ERROR_MESSAGE)
             }

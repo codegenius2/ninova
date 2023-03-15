@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -105,6 +106,10 @@ class BookDetailsActivity : AppCompatActivity() {
             }
         })
 
+        shelvesViewModel.loadShelfList()
+        observeShelfListChanges()
+        observeBookDetailsResponse()
+
         when (type) {
             LOCAL_BOOK_TYPE -> {
                 supportActionBar?.title = currentLocalBook?.bookTitle
@@ -126,9 +131,11 @@ class BookDetailsActivity : AppCompatActivity() {
                 }
 
                 binding.removeBookFromLibraryButton.setOnClickListener {
-                    booksViewModel.deleteBook(currentLocalBook!!).invokeOnCompletion {
-                        deleteBookFromFirestore(currentLocalBook?.bookId!!)
-                        setVisibilitiesForBookRemoved()
+                    if (currentLocalBook != null) {
+                        booksViewModel.deleteBook(currentLocalBook!!).invokeOnCompletion {
+                            deleteBookFromFirestore(currentLocalBook?.bookId!!)
+                            setVisibilitiesForBookRemoved()
+                        }
                     }
                 }
 
@@ -145,28 +152,32 @@ class BookDetailsActivity : AppCompatActivity() {
                 setVisibilitiesForBookRemoved()
 
                 binding.addBookToLibraryButton.setOnClickListener {
-                    val book =
-                        DataModel.LocalBook(
-                            currentBook?.id!!,
-                            bookDetails.authors ?: listOf(),
-                            bookDetails.categories ?: listOf(),
-                            bookDetails.imageLinks?.smallThumbnail,
-                            bookDetails.imageLinks?.thumbnail,
-                            Html.fromHtml(
-                                bookDetails.description ?: "",
-                                Html.FROM_HTML_OPTION_USE_CSS_COLORS
-                            ).toString(),
-                            "",
-                            bookDetails.pageCount.toString(),
-                            bookDetails.publishedDate,
-                            bookDetails.publisher,
-                            bookDetails.subtitle,
-                            bookDetails.title
-                        )
-                    booksViewModel.insertBook(book).invokeOnCompletion {
-                        uploadBookToFirestore(book)
-                        setVisibilitiesForBookAdded()
-                        booksViewModel.loadBookList()
+                    if (this::bookDetails.isInitialized) {
+                        val book =
+                            DataModel.LocalBook(
+                                currentBook?.id!!,
+                                bookDetails.authors ?: listOf(),
+                                bookDetails.categories ?: listOf(),
+                                bookDetails.imageLinks?.smallThumbnail,
+                                bookDetails.imageLinks?.thumbnail,
+                                Html.fromHtml(
+                                    bookDetails.description ?: "",
+                                    Html.FROM_HTML_OPTION_USE_CSS_COLORS
+                                ).toString(),
+                                "",
+                                bookDetails.pageCount.toString(),
+                                bookDetails.publishedDate,
+                                bookDetails.publisher,
+                                bookDetails.subtitle,
+                                bookDetails.title
+                            )
+                        booksViewModel.insertBook(book).invokeOnCompletion {
+                            uploadBookToFirestore(book)
+                            setVisibilitiesForBookAdded()
+                            booksViewModel.loadBookList()
+                        }
+                    } else {
+                        Log.i("bookDetails", "bookDetails not initialized.")
                     }
                 }
 
@@ -185,9 +196,6 @@ class BookDetailsActivity : AppCompatActivity() {
             else -> {}
         }
 
-        shelvesViewModel.loadShelfList()
-        observeShelfListChanges()
-        observeBookDetailsResponse()
     }
 
     override fun onResume() {
@@ -418,6 +426,24 @@ class BookDetailsActivity : AppCompatActivity() {
                     Log.i("bookDelete", "Deleted from firestore")
                 is Response.Failure ->
                     Log.e("bookDelete", response.errorMessage)
+            }
+        }
+    }
+
+    private fun uploadCustomBookCoverToFirestore(uri: Uri) {
+        booksViewModel.uploadCustomBookCoverToFirestore(uri) { response ->
+            when (response) {
+                is Response.Loading ->
+                    Log.i("bookCoverUpload", "Uploading to firestore")
+                is Response.Success -> {
+                    val downloadUrl = response.data.toString()
+                    currentLocalBook?.bookCoverSmallThumbnail = downloadUrl
+                    booksViewModel.updateBook(currentLocalBook!!)
+                    uploadBookToFirestore(currentLocalBook!!)
+                    Log.i("bookCoverUpload", "Uploaded to firestore")
+                }
+                is Response.Failure ->
+                    Log.e("bookCoverUpload", response.errorMessage)
             }
         }
     }
@@ -663,9 +689,7 @@ class BookDetailsActivity : AppCompatActivity() {
                 val uri = result.data?.data
                 if (uri != null) {
                     glide.load(uri).centerCrop().into(binding.bookCoverImageView)
-                    currentLocalBook?.bookCoverSmallThumbnail = uri.toString()
-                    booksViewModel.updateBook(currentLocalBook!!)
-                    uploadBookToFirestore(currentLocalBook!!)
+                    uploadCustomBookCoverToFirestore(uri)
                 }
             }
         }
@@ -686,9 +710,7 @@ class BookDetailsActivity : AppCompatActivity() {
                 val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 this.contentResolver.takePersistableUriPermission(uri, flag)
                 glide.load(uri).centerCrop().into(binding.bookCoverImageView)
-                currentLocalBook?.bookCoverSmallThumbnail = uri.toString()
-                booksViewModel.updateBook(currentLocalBook!!)
-                uploadBookToFirestore(currentLocalBook!!)
+                uploadCustomBookCoverToFirestore(uri)
             } else {
                 Log.d("PhotoPicker", "No media selected")
             }

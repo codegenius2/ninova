@@ -1,5 +1,6 @@
 package com.armutyus.ninova.repository
 
+import android.net.Uri
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.model.DataModel
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
@@ -32,7 +33,11 @@ interface FirebaseRepositoryInterface {
 
     suspend fun downloadUserCrossRefFromFirestore(): Response<List<BookShelfCrossRef>>
 
+    suspend fun uploadCustomBookCoverToFirestore(uri: Uri): Response<Uri>
+
     suspend fun uploadUserBooksToFirestore(localBook: DataModel.LocalBook): Response<Boolean>
+
+    suspend fun uploadCustomShelfCoverToFirestore(uri: Uri): Response<Uri>
 
     suspend fun uploadUserShelvesToFirestore(shelf: LocalShelf): Response<Boolean>
 

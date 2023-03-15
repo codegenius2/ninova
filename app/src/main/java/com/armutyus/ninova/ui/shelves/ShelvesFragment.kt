@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -286,6 +287,25 @@ class ShelvesFragment @Inject constructor(
         }
     }
 
+    private fun uploadCustomBookCoverToFirestore(uri: Uri) {
+        shelvesViewModel.uploadCustomShelfCoverToFirestore(uri) { response ->
+            when (response) {
+                is Response.Loading ->
+                    Log.i("shelfCoverUpload", "Uploading to firestore")
+                is Response.Success -> {
+                    val downloadUrl = response.data.toString()
+                    currentShelf?.shelfCover = downloadUrl
+                    shelvesViewModel.updateShelf(currentShelf!!)
+                    shelvesAdapter.notifyDataSetChanged()
+                    uploadShelfToFirestore(currentShelf!!)
+                    Log.i("shelfCoverUpload", "Uploaded to firestore")
+                }
+                is Response.Failure ->
+                    Log.e("shelfCoverUpload", response.errorMessage)
+            }
+        }
+    }
+
     private fun uploadShelfToFirestore(localShelf: LocalShelf) {
         shelvesViewModel.uploadShelfToFirestore(localShelf) { response ->
             when (response) {
@@ -347,10 +367,7 @@ class ShelvesFragment @Inject constructor(
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 val uri = result.data?.data
                 if (uri != null) {
-                    currentShelf?.shelfCover = uri.toString()
-                    shelvesViewModel.updateShelf(currentShelf!!)
-                    shelvesAdapter.notifyDataSetChanged()
-                    uploadShelfToFirestore(currentShelf!!)
+                    uploadCustomBookCoverToFirestore(uri)
                 }
             }
         }
@@ -371,10 +388,7 @@ class ShelvesFragment @Inject constructor(
                 Log.d("PhotoPicker", "Selected URI: $uri")
                 val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 requireContext().contentResolver.takePersistableUriPermission(uri, flag)
-                currentShelf?.shelfCover = uri.toString()
-                shelvesViewModel.updateShelf(currentShelf!!)
-                shelvesAdapter.notifyDataSetChanged()
-                uploadShelfToFirestore(currentShelf!!)
+                uploadCustomBookCoverToFirestore(uri)
             } else {
                 Log.d("PhotoPicker", "No media selected")
             }

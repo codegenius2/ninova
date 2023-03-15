@@ -1,5 +1,6 @@
 package com.armutyus.ninova.ui.books
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -102,6 +103,12 @@ class BooksViewModel @Inject constructor(
     fun deleteBookFromFirestore(bookId: String, onComplete: (Response<Boolean>) -> Unit) =
         viewModelScope.launch {
             val response = firebaseRepository.deleteUserBookFromFirestore(bookId)
+            onComplete(response)
+        }
+
+    fun uploadCustomBookCoverToFirestore(uri: Uri, onComplete: (Response<Uri>) -> Unit) =
+        viewModelScope.launch {
+            val response = firebaseRepository.uploadCustomBookCoverToFirestore(uri)
             onComplete(response)
         }
 
