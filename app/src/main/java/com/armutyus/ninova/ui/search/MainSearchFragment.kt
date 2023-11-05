@@ -15,7 +15,7 @@ import com.armutyus.ninova.constants.Cache
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.constants.Util.Companion.fadeIn
 import com.armutyus.ninova.databinding.FragmentMainSearchBinding
-import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.ui.books.BooksViewModel
 import com.armutyus.ninova.ui.search.adapters.MainSearchRecyclerViewAdapter
 import com.armutyus.ninova.ui.search.listeners.OnBookAddButtonClickListener
@@ -57,6 +57,7 @@ class MainSearchFragment @Inject constructor(
                         val list = mainSearchViewModel.currentLocalBookList.value ?: listOf()
                         mainSearchViewModel.setCurrentLocalBookList(list)
                     }
+
                     R.id.apiSearchButton -> {
                         val list = mainSearchViewModel.currentList.value ?: listOf()
                         mainSearchViewModel.setCurrentList(list)
@@ -154,7 +155,7 @@ class MainSearchFragment @Inject constructor(
         }
 
         booksViewModel.localBookList.observe(viewLifecycleOwner) {
-            Cache.currentBook?.isBookAddedCheck(booksViewModel).also {
+            Cache.currentGoogleBook?.isBookAddedCheck(booksViewModel).also {
                 searchFragmentAdapter.notifyDataSetChanged()
             }
         }
@@ -165,8 +166,10 @@ class MainSearchFragment @Inject constructor(
             when (response) {
                 is Response.Loading ->
                     Log.i("bookDelete", "Deleting from firestore")
+
                 is Response.Success ->
                     Log.i("bookDelete", "Deleted from firestore")
+
                 is Response.Failure ->
                     Log.e("bookDelete", response.errorMessage)
             }
@@ -178,8 +181,10 @@ class MainSearchFragment @Inject constructor(
             when (response) {
                 is Response.Loading ->
                     Log.i("bookUpload", "Uploading to firestore")
+
                 is Response.Success ->
                     Log.i("bookUpload", "Uploaded to firestore")
+
                 is Response.Failure ->
                     Log.e("bookUpload", response.errorMessage)
             }

@@ -1,7 +1,7 @@
 package com.armutyus.ninova.service
 
-import com.armutyus.ninova.model.BookDetails
-import com.armutyus.ninova.model.GoogleApiBooks
+import com.armutyus.ninova.model.googlebooksmodel.BookDetails
+import com.armutyus.ninova.model.googlebooksmodel.GoogleApiBooks
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

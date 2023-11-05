@@ -2,6 +2,7 @@ package com.armutyus.ninova.di
 
 import androidx.fragment.app.Fragment
 import com.armutyus.ninova.ui.books.BooksFragment
+import com.armutyus.ninova.ui.discover.DiscoverCategoryFragment
 import com.armutyus.ninova.ui.discover.DiscoverFragment
 import com.armutyus.ninova.ui.search.MainSearchFragment
 import com.armutyus.ninova.ui.settings.SettingsFragment
@@ -26,6 +27,11 @@ abstract class FragmentFactoryModule {
     @IntoMap
     @FragmentKey(DiscoverFragment::class)
     abstract fun bindDiscoverFragment(fragment: DiscoverFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(DiscoverCategoryFragment::class)
+    abstract fun bindDiscoverCategoryFragment(fragment: DiscoverCategoryFragment): Fragment
 
     @Binds
     @IntoMap

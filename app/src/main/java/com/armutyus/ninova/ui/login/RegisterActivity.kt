@@ -1,12 +1,15 @@
 package com.armutyus.ninova.ui.login
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants.CHANGE_EMAIL
 import com.armutyus.ninova.constants.Constants.CHANGE_PASSWORD
@@ -16,6 +19,7 @@ import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.REGISTER
 import com.armutyus.ninova.constants.Constants.SETTINGS_ACTION_KEY
 import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.constants.Util.Companion.checkAndApplyTheme
 import com.armutyus.ninova.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
@@ -38,6 +42,9 @@ class RegisterActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivityRegisterBinding
     private val viewModel by viewModels<LoginViewModel>()
+
+    private val themePreferences: SharedPreferences
+        get() = PreferenceManager.getDefaultSharedPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +78,12 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    override fun getTheme(): Resources.Theme {
+        val theme = super.getTheme()
+        checkAndApplyTheme(themePreferences, theme)
+        return theme
+    }
+
     private var email = ""
     private var password = ""
 
@@ -94,6 +107,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                         }
+
                         is Response.Failure -> {
                             Log.e(
                                 "RegisterActivity",
@@ -135,6 +149,7 @@ class RegisterActivity : AppCompatActivity() {
                             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             signOut()
                         }
+
                         is Response.Failure -> {
                             Log.e(
                                 "RegisterActivity",
@@ -173,6 +188,7 @@ class RegisterActivity : AppCompatActivity() {
                 is Response.Success -> {
                     createUserProfile()
                 }
+
                 is Response.Failure -> {
                     Log.e("RegisterActivity", "AnonymousSignUp Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG).show()
@@ -195,6 +211,7 @@ class RegisterActivity : AppCompatActivity() {
                     goToMainActivity()
                     binding.progressBar.visibility = View.GONE
                 }
+
                 is Response.Failure -> {
                     Log.e("RegisterActivity", "CreateProfile Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
@@ -218,6 +235,7 @@ class RegisterActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.GONE
                         goToLogInActivity()
                     }
+
                     is Response.Failure -> {
                         Log.e(
                             "RegisterActivity",

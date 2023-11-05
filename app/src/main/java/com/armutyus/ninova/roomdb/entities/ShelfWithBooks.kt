@@ -3,7 +3,7 @@ package com.armutyus.ninova.roomdb.entities
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 
 data class ShelfWithBooks(
     @Embedded val shelf: LocalShelf,

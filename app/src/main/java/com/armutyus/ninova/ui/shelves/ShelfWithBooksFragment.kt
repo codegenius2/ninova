@@ -170,8 +170,10 @@ class ShelfWithBooksFragment @Inject constructor(
             when (response) {
                 is Response.Loading ->
                     Log.i("crossRefDelete", "Deleting from firestore")
+
                 is Response.Success ->
                     Log.i("crossRefDelete", "Deleted from firestore")
+
                 is Response.Failure ->
                     Log.e("crossRefDelete", response.errorMessage)
             }
@@ -183,8 +185,10 @@ class ShelfWithBooksFragment @Inject constructor(
             when (response) {
                 is Response.Loading ->
                     Log.i("crossRefUpload", "Uploading to firestore")
+
                 is Response.Success ->
                     Log.i("crossRefUpload", "Uploaded to firestore")
+
                 is Response.Failure ->
                     Log.e("crossRefUpload", response.errorMessage)
             }

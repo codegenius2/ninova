@@ -11,7 +11,7 @@ import com.armutyus.ninova.constants.Constants.PHOTO_URL
 import com.armutyus.ninova.constants.Constants.SHELVES_REF
 import com.armutyus.ninova.constants.Constants.USERS_REF
 import com.armutyus.ninova.constants.Response
-import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.google.firebase.auth.AuthCredential
@@ -23,7 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

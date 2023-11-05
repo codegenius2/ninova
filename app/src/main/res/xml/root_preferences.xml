@@ -13,7 +13,7 @@
             app:allowDividerBelow="true"/>
 
         <com.armutyus.ninova.ui.settings.CustomListPreference
-            app:defaultValue="system"
+            app:defaultValue="ninova_light"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:key="theme"

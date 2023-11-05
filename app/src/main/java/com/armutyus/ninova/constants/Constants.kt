@@ -8,6 +8,12 @@ object Constants {
 
     const val VERSION_NAME = BuildConfig.VERSION_NAME
 
+    //Firebase
+    const val DELETED_FIRESTORE = "Deleted from firestore"
+    const val DELETING_FIRESTORE = "Deleting from firestore"
+    const val UPLOADING_FIRESTORE = "Uploading to firestore"
+    const val UPLOADED_FIRESTORE = "Uploaded to firestore"
+
     //Messages
     val ERROR_MESSAGE = R.string.unexpected_error.toLocalizedString()
 
@@ -21,17 +27,20 @@ object Constants {
     //Preferences
     const val CHANGE_EMAIL = "change_email"
     const val CHANGE_PASSWORD = "change_password"
-    const val DARK_THEME = "dark"
+    const val NINOVA_DARK_THEME = "ninova_dark"
+    const val NINOVA_LIGHT_THEME = "ninova_light"
+    const val BERGAMA_LIGHT_THEME = "bergama_light"
+    const val BERGAMA_DARK_THEME = "bergama_dark"
+    const val ALEXANDRIA_LIGHT_THEME = "alexandria_light"
+    const val ALEXANDRIA_DARK_THEME = "alexandria_dark"
     const val MAIN_SHARED_PREF = "main_shared_preferences"
     const val FORGOT_PASSWORD = "forgot_password"
-    const val LIGHT_THEME = "light"
     const val REGISTER = "register"
     const val SETTINGS_ACTION_KEY = "action"
-    const val SYSTEM_THEME = "system"
-
 
     //References
-    const val BASE_URL = "https://www.googleapis.com/books/v1/"
+    const val GOOGLE_BOOKS_BASE_URL = "https://www.googleapis.com/books/v1/"
+    const val OPEN_LIBRARY_BASE_URL = "https://openlibrary.org/"
     const val BOOKS_REF = "Books"
     const val BOOKSHELF_CROSS_REF = "BookShelfCrossRef"
     const val FIREBASE_URL = "https://firebase.google.com/"
@@ -39,6 +48,8 @@ object Constants {
     const val GOOGLE_BOOKS_API_URL = "https://developers.google.com/books"
     const val LINK_BUILDER_URL = "https://github.com/klinker24/Android-TextView-LinkBuilder"
     const val LOTTIE_FILES_URL = "https://lottiefiles.com/"
+    const val NINOVA_LOGO_URL =
+        "https://play-lh.googleusercontent.com/ZeOfg2rgd6wCdWDlBjepSHK4dLenmvSd0wQz0mNIZmRXie95GIhNLWZhKm3iU81xww=w480-h960-rw"
     const val PRIVACY_POLICY_URL = "https://sites.google.com/view/ninova-bookshelf-app"
     const val RETROFIT_URL = "https://square.github.io/retrofit/"
     const val SHELVES_REF = "Shelves"
@@ -54,6 +65,54 @@ object Constants {
     const val BOOK_TYPE_FOR_DETAILS = "bookTypeForDetails"
     const val GOOGLE_BOOK_TYPE = 0
     const val LOCAL_BOOK_TYPE = 1
+    const val OPEN_LIB_BOOK_TYPE = 2
+
+    //DiscoverScreenCategories
+    val discoverScreenCategories = listOf(
+        "Drama",
+        "Fantasy",
+        "Historical Fiction",
+        "Horror",
+        "Humor",
+        "Literature",
+        "Magic",
+        "Mystery and Detective Stories",
+        "Plays",
+        "Poetry",
+        "Romance",
+        "Science Fiction",
+        "Short Stories",
+        "Thriller",
+        "Young Adult Fiction",
+        "Science",
+        "Business",
+        "Cooking",
+        "Cookbooks",
+        "Mental Health",
+        "Exercise",
+        "Nutrition",
+        "Self-help",
+        "History",
+        "Anthropology",
+        "Religion",
+        "Political Science",
+        "Psychology",
+        "Biography",
+        "Architecture",
+        "Art & Art Instruction",
+        "Art History",
+        "Dance",
+        "Design",
+        "Fashion",
+        "Film",
+        "Graphic Design",
+        "Music",
+        "Music Theory",
+        "Painting",
+        "Photography",
+        "Bedtime",
+        "Children"
+    )
 
     //RandomWordsList
     val randomWordList = listOf(

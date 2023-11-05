@@ -2,7 +2,7 @@ package com.armutyus.ninova.repository
 
 import android.net.Uri
 import com.armutyus.ninova.constants.Response
-import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.LocalShelf
 import com.google.firebase.auth.AuthCredential

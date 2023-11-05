@@ -1,7 +1,13 @@
 package com.armutyus.ninova.roomdb
 
-import androidx.room.*
-import com.armutyus.ninova.model.DataModel
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.BookWithShelves
 import com.armutyus.ninova.roomdb.entities.LocalShelf

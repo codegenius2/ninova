@@ -17,7 +17,7 @@ import com.armutyus.ninova.ui.shelves.ShelvesFragmentDirections
 import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.bumptech.glide.RequestManager
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 class ShelvesRecyclerViewAdapter @Inject constructor(

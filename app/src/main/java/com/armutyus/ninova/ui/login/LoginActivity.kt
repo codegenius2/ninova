@@ -3,17 +3,20 @@ package com.armutyus.ninova.ui.login
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.constants.Constants.MAIN_INTENT
 import com.armutyus.ninova.constants.Constants.REGISTER_INTENT
 import com.armutyus.ninova.constants.Response
+import com.armutyus.ninova.constants.Util.Companion.checkAndApplyTheme
 import com.armutyus.ninova.constants.Util.Companion.fadeIn
 import com.armutyus.ninova.databinding.ActivityLoginBinding
 import com.armutyus.ninova.databinding.RegisterUserBottomSheetBinding
@@ -39,6 +42,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var bottomSheetBinding: RegisterUserBottomSheetBinding
     private val sharedPreferences: SharedPreferences
         get() = this.getSharedPreferences(Constants.MAIN_SHARED_PREF, Context.MODE_PRIVATE)
+
+    private val themePreferences: SharedPreferences
+        get() = PreferenceManager.getDefaultSharedPreferences(this)
 
     private val loginViewModel by viewModels<LoginViewModel>()
     private val settingsViewModel by viewModels<SettingsViewModel>()
@@ -70,6 +76,12 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    override fun getTheme(): Resources.Theme {
+        val theme = super.getTheme()
+        checkAndApplyTheme(themePreferences, theme)
+        return theme
+    }
+
     private var email = ""
     private var password = ""
 
@@ -88,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
                         goToMainActivity()
                         binding.progressBar.visibility = View.GONE
                     }
+
                     is Response.Failure -> {
                         Log.e("LoginActivity", "SignIn Error: " + response.errorMessage)
                         Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
@@ -106,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
                 is Response.Success -> {
                     createUserProfile()
                 }
+
                 is Response.Failure -> {
                     Log.e("LoginActivity", "AnonymousSignIn Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
@@ -150,6 +164,7 @@ class LoginActivity : AppCompatActivity() {
                 is Response.Success -> {
                     createUserProfile()
                 }
+
                 is Response.Failure -> {
                     Log.e("LoginActivity", "SignUp Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)
@@ -168,6 +183,7 @@ class LoginActivity : AppCompatActivity() {
                     goToMainActivity()
                     binding.progressBar.visibility = View.GONE
                 }
+
                 is Response.Failure -> {
                     Log.e("LoginActivity", "CreateProfile Error: " + response.errorMessage)
                     Toast.makeText(this, response.errorMessage, Toast.LENGTH_LONG)

@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.armutyus.ninova.constants.Response
-import com.armutyus.ninova.model.BookDetails
-import com.armutyus.ninova.model.DataModel
-import com.armutyus.ninova.repository.ApiBooksRepositoryInterface
+import com.armutyus.ninova.model.googlebooksmodel.BookDetails
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.repository.FirebaseRepositoryInterface
+import com.armutyus.ninova.repository.GoogleBooksRepositoryInterface
 import com.armutyus.ninova.repository.LocalBooksRepositoryInterface
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.BookWithShelves
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BooksViewModel @Inject constructor(
-    private val apiBooksRepository: ApiBooksRepositoryInterface,
+    private val apiBooksRepository: GoogleBooksRepositoryInterface,
     private val booksRepository: LocalBooksRepositoryInterface,
     private val firebaseRepository: FirebaseRepositoryInterface
 ) : ViewModel() {

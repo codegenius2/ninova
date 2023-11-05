@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
 import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.databinding.FragmentBooksBinding
-import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.ui.books.adapters.BooksRecyclerViewAdapter
 import com.armutyus.ninova.ui.shelves.ShelvesViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -160,8 +160,10 @@ class BooksFragment @Inject constructor(
             when (response) {
                 is Response.Loading ->
                     Log.i("bookDelete", "Deleting from firestore")
+
                 is Response.Success ->
                     Log.i("bookDelete", "Deleted from firestore")
+
                 is Response.Failure ->
                     Log.e("bookDelete", response.errorMessage)
             }
@@ -173,8 +175,10 @@ class BooksFragment @Inject constructor(
             when (response) {
                 is Response.Loading ->
                     Log.i("bookUpload", "Uploading to firestore")
+
                 is Response.Success ->
                     Log.i("bookUpload", "Uploaded to firestore")
+
                 is Response.Failure ->
                     Log.e("bookUpload", response.errorMessage)
             }

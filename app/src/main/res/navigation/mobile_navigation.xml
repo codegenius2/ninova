@@ -16,7 +16,21 @@
         android:id="@+id/navigation_discovery"
         android:name="com.armutyus.ninova.ui.discover.DiscoverFragment"
         android:label="@string/title_discover"
-        tools:layout="@layout/fragment_discover" />
+        tools:layout="@layout/fragment_discover" >
+        <action
+            android:id="@+id/action_navigation_discovery_to_navigation_discovery_category"
+            app:destination="@id/navigation_discovery_category" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_discovery_category"
+        android:name="com.armutyus.ninova.ui.discover.DiscoverCategoryFragment"
+        android:label="@string/title_discover"
+        tools:layout="@layout/fragment_discover_category" >
+        <argument
+            android:name="categoryTitle"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_shelves"

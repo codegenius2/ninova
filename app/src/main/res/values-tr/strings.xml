@@ -112,7 +112,11 @@
     <string name="credits">REFERANSLAR</string>
     <string name="or">veya</string>
     <string name="about_page_text">Herkese merhaba! \n\nUzun süreli çalışmalar sonucunda bu uygulamayı sizlere ulaştırabildiğim için çok mutluyum. Kitapları seven herkese yardımcı olabilecek bir uygulama geliştirmeye çalıştım. Ve zamanla yeni özellikler ekleyerek daha da kullanışlı hale gelmesini istiyorum. Uygulama tamamen ücretsiz ve reklamsızdır. Ve hep böyle kalmasını planlıyorum -ama zaman ne gösterir bilinmez-. \n\nBu süreçte bana her zaman destek olan ve bana inanan eşim Sümeyra\'ya, kardeşlerim Fatih, Ahmet Haşim ve Eda\'ya, annem Fatma ve babam Namık\'a ve tabii ki hayatıma her zaman güç ve neşe katan oğlum Selim\'e sonsuz teşekkürler. \n\nYazılım öğrenme ve geliştirme sürecinde anlatımları, videoları ve makaleleri ile çok şey öğrendiğim ve anladığım Atıl Samancıoğlu, Akın Kaldıroğlu ve Philipp Lackner\'a teşekkürler -gerçi muhtemelen bilmiyorlar-. \n\nAdlarını hatırlayamadığım Youtube ve StackOverFlow\'daki harika insanlara da teşekkürler. \n\nTüm bu süreçte akıl hocam olan kardeşim Ahmet Haşim\'e ayrıca teşekkür ederim. \n\nUmarım uygulamayı beğenirsiniz. Şikayet, istek, hata raporları ve benzeri şeyler için ofdelibas@gmail.com adresinden bana her zaman ulaşabilirsiniz.</string>
-    <string name="light">Açık</string>
-    <string name="dark">Koyu</string>
-    <string name="system">Sistem</string>
+    <string name="ninova_light">Ninova Açık</string>
+    <string name="ninova_dark">Ninova Koyu</string>
+    <string name="bergama_light">Bergama Açık</string>
+    <string name="bergama_dark">Bergama Koyu</string>
+    <string name="alexandria_light">Alexandria Açık</string>
+    <string name="alexandria_dark">Alexandria Koyu</string>
+    <string name="some_details_not_loaded">Bazı detaylar yüklenemedi</string>
 </resources>

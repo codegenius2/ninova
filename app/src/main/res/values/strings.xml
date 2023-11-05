@@ -120,7 +120,11 @@
     <string name="credits_links" translatable="false">Firebase \nGlide Library \nGoogle Books API \nLink Builder \nLottie Animations \nRetrofit</string>
     <string name="empty_text" translatable="false">-</string>
     <string name="or">or</string>
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="system">System</string>
+    <string name="ninova_light">Ninova Light</string>
+    <string name="ninova_dark">Ninova Dark</string>
+    <string name="bergama_light">Bergama Light</string>
+    <string name="bergama_dark">Bergama Dark</string>
+    <string name="alexandria_light">Alexandria Light</string>
+    <string name="alexandria_dark">Alexandria Dark</string>
+    <string name="some_details_not_loaded">Some details could not be loaded</string>
 </resources>

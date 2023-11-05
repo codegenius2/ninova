@@ -1,6 +1,6 @@
 package com.armutyus.ninova.repository
 
-import com.armutyus.ninova.model.DataModel
+import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.roomdb.NinovaDao
 import com.armutyus.ninova.roomdb.entities.BookShelfCrossRef
 import com.armutyus.ninova.roomdb.entities.BookWithShelves

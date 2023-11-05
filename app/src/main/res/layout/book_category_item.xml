@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/bookImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:padding="1dp"
+            android:src="@drawable/ic_placeholder_book_icon"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            app:strokeColor="?attr/colorOnSurfaceInverse"
+            app:strokeWidth="1dp"
+            app:shapeAppearance="@style/circleImageViewStyle"
+            android:contentDescription="@string/title_books"
+
+            />
+
+        <TextView
+            android:id="@+id/bookCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:text="@string/categories"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,7 +7,7 @@ import com.armutyus.ninova.roomdb.entities.ShelfWithBooks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
