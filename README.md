@@ -3,10 +3,12 @@
 </p>
 
 # Ninova
-Ninova is a bookshelf application similar to IMDb that allows users to search among millions of books using the Google Books API.
+Ninova is a bookshelf application similar to IMDb that allows users to search among millions of books using the Google Books API and OpenLibrary API.
 
 ## Features
 Search for books using keywords or phrases
+
+Discover books by categories
 
 Save books to your device for offline access
 
@@ -15,6 +17,8 @@ View book details and reviews
 Take notes or quotes for books
 
 Data synchronization with firebase
+
+Ninova is now more colorful with three theme options (six with light-dark options).
 
 ## Built With
 
