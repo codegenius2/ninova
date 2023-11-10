@@ -87,3 +87,9 @@ r
 Bapp/src/main/java/com/armutyus/ninova/ui/splash/SplashViewModel.kt,8/f/8f0539679561f32ee390b9fa9e8fec5542fa3ffb
 k
 ;app/src/main/java/com/armutyus/ninova/constants/Response.kt,9/3/933b44566cbfaa88b4d3605f26ff1c10fbab2a94
+X
+(gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+C
+settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
