@@ -179,7 +179,6 @@ class BookDetailsActivity : AppCompatActivity() {
                 observeGoogleBookDetailsResponse()
                 setupGoogleBookInfo()
                 isGoogleBookAddedCheck()
-                setVisibilitiesForBookRemoved()
 
                 binding.addBookToLibraryButton.setOnClickListener {
                     if (this::googleBookDetails.isInitialized) {
@@ -229,7 +228,6 @@ class BookDetailsActivity : AppCompatActivity() {
                 observeOpenLibBookDetailsResponse()
                 setupOpenLibBookInfo()
                 isOpenLibBookAddedCheck()
-                setVisibilitiesForBookRemoved()
 
                 val bookKey = currentOpenLibBook?.key!!.substringAfterLast("/")
 
@@ -294,18 +292,21 @@ class BookDetailsActivity : AppCompatActivity() {
         }
         currentGoogleBook?.let { googleBookItem ->
             booksViewModel.loadBookWithShelves(googleBookItem.id!!)
-            booksViewModel.loadBookList()
-            val userNotesFromLocal =
-                booksViewModel.localBookList.value?.firstOrNull { it.bookId == googleBookItem.id }?.bookNotes
-            binding.userBookNotesEditText.setText(userNotesFromLocal)
+            booksViewModel.loadBookList().invokeOnCompletion {
+                val userNotesFromLocal =
+                    booksViewModel.localBookList.value?.firstOrNull { it.bookId == googleBookItem.id }?.bookNotes
+                binding.userBookNotesEditText.setText(userNotesFromLocal)
+            }
         }
         currentOpenLibBook?.let { openLibBookItem ->
-            val bookId = openLibBookItem.key + openLibBookItem.lending_edition
+            val bookId =
+                openLibBookItem.key.substringAfterLast("/") + openLibBookItem.lending_edition
             booksViewModel.loadBookWithShelves(bookId)
-            booksViewModel.loadBookList()
-            val userNotesFromLocal =
-                booksViewModel.localBookList.value?.firstOrNull { it.bookId == bookId }?.bookNotes
-            binding.userBookNotesEditText.setText(userNotesFromLocal)
+            booksViewModel.loadBookList().invokeOnCompletion {
+                val userNotesFromLocal =
+                    booksViewModel.localBookList.value?.firstOrNull { it.bookId == bookId }?.bookNotes
+                binding.userBookNotesEditText.setText(userNotesFromLocal)
+            }
         }
     }
 

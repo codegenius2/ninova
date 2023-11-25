@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
+import com.armutyus.ninova.constants.Cache.currentGoogleBook
+import com.armutyus.ninova.constants.Cache.currentLocalBook
 import com.armutyus.ninova.constants.Cache.currentOpenLibBook
 import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.constants.Constants.BOOK_TYPE_FOR_DETAILS
@@ -66,6 +68,8 @@ class DiscoverCategoryRecyclerViewAdapter @Inject constructor(
                     OPEN_LIB_BOOK_TYPE
                 )
                 currentOpenLibBook = book
+                currentGoogleBook = null
+                currentLocalBook = null
                 holder.itemView.context.startActivity(bookDetailsIntent)
             }
         }

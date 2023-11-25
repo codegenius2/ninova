@@ -8,7 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Cache
+import com.armutyus.ninova.constants.Cache.currentGoogleBook
+import com.armutyus.ninova.constants.Cache.currentLocalBook
+import com.armutyus.ninova.constants.Cache.currentOpenLibBook
 import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.armutyus.ninova.ui.books.BooksViewModel
@@ -88,8 +90,9 @@ class GoogleBookRowViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     Constants.BOOK_TYPE_FOR_DETAILS,
                     Constants.GOOGLE_BOOK_TYPE
                 )
-                Cache.currentGoogleBook = book
-                Cache.currentLocalBook = null
+                currentGoogleBook = book
+                currentLocalBook = null
+                currentOpenLibBook = null
                 itemView.context.startActivity(bookDetailsIntent)
             }
         }

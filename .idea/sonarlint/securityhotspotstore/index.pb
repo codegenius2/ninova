@@ -93,3 +93,13 @@ C
 settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
 A
 gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+p
+@app/src/main/java/com/armutyus/ninova/ui/login/LoginViewModel.kt,8/4/84d5549a23982257046a8171cef604e68c48468f
+F
+app/proguard-rules.pro,9/e/9e08934d811afe28fbc77aaa3c0d747b94348db9
+ƒ
+Sapp/src/main/java/com/armutyus/ninova/ui/search/adapters/GoogleBookRowViewHolder.kt,5/4/5407d55d022116c76b939f7e4e2f8eba0b0f1090
+‹
+[app/src/main/java/com/armutyus/ninova/ui/shelves/adapters/BookToShelfRecyclerViewAdapter.kt,6/8/68bf16f3daa9abe470b11f6e2b2e5d6680f7cec6
+y
+Iapp/src/main/java/com/armutyus/ninova/model/googlebooksmodel/DataModel.kt,e/9/e90031a2ef29d48c1ffa3e6f57047a8512110936

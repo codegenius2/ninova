@@ -6,7 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Cache
+import com.armutyus.ninova.constants.Cache.currentGoogleBook
+import com.armutyus.ninova.constants.Cache.currentLocalBook
+import com.armutyus.ninova.constants.Cache.currentOpenLibBook
 import com.armutyus.ninova.constants.Constants
 import com.armutyus.ninova.model.googlebooksmodel.DataModel
 import com.bumptech.glide.RequestManager
@@ -31,8 +33,9 @@ class LocalBookRowViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     Constants.BOOK_TYPE_FOR_DETAILS,
                     Constants.LOCAL_BOOK_TYPE
                 )
-                Cache.currentLocalBook = book
-                Cache.currentGoogleBook = null
+                currentLocalBook = book
+                currentGoogleBook = null
+                currentOpenLibBook = null
                 itemView.context.startActivity(bookDetailsIntent)
             }
         }
