@@ -23,7 +23,17 @@
             android:text="@string/welcome_to_ninova"
             android:textSize="28sp"
             android:paddingHorizontal="24dp"
-            android:paddingVertical="24dp"/>
+            android:paddingVertical="24dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/smallWelcomeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/small_welcome_text"
+            android:textSize="20sp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="24dp"
+            android:visibility="gone"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userEmail"

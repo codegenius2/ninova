@@ -2,9 +2,16 @@ package com.armutyus.ninova.constants
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.content.res.Resources.Theme
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.os.Build
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.armutyus.ninova.NinovaApplication
@@ -33,6 +40,22 @@ class Util {
 
         fun Int.toLocalizedString(vararg formatArgs: Any? = emptyArray()): String =
             NinovaApplication.instance.getString(this, *formatArgs)
+
+        private fun isDarkModeEnabled(context: Context): Boolean {
+            val currentNightMode =
+                context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            return currentNightMode == Configuration.UI_MODE_NIGHT_YES
+        }
+
+        fun ImageView.setImageTint(context: Context) {
+            val tintColor = if (isDarkModeEnabled(context)) Color.WHITE else Color.BLACK
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                this.colorFilter =
+                    BlendModeColorFilter(tintColor, BlendMode.SRC_ATOP)
+            } else {
+                this.setColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP)
+            }
+        }
 
         fun checkAndApplyTheme(themePreferences: SharedPreferences, theme: Theme) {
             when (themePreferences.getString("theme", Constants.NINOVA_LIGHT_THEME)) {

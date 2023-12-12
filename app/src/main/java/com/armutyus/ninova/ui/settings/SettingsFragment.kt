@@ -71,7 +71,7 @@ class SettingsFragment @Inject constructor(
     lateinit var aboutIntent: Intent
 
     private val settingsViewModel by activityViewModels<SettingsViewModel>()
-    private val user = auth.currentUser!!
+    private val user = auth.currentUser
     private lateinit var customDialogPasswordLayoutBinding: CustomDialogPasswordLayoutBinding
 
     private val sharedPreferences: SharedPreferences
@@ -79,7 +79,7 @@ class SettingsFragment @Inject constructor(
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        if (user.isAnonymous) {
+        if (user?.isAnonymous == true) {
             setPreferencesFromResource(R.xml.anonymous_preferences, "anonymous_preference")
         } else {
             setPreferencesFromResource(R.xml.root_preferences, "root_preference")
@@ -140,7 +140,8 @@ class SettingsFragment @Inject constructor(
             true
         }
         uploadLibrary?.onPreferenceClickListener = uploadLibraryListener
-        uploadLibrary?.summary = context?.getString(R.string.link_your_library, user.email)
+        val userEmail = user?.email ?: ""
+        uploadLibrary?.summary = context?.getString(R.string.link_your_library, userEmail)
 
         val registerListener = Preference.OnPreferenceClickListener {
             registerIntent.putExtra(SETTINGS_ACTION_KEY, REGISTER)
@@ -303,7 +304,8 @@ class SettingsFragment @Inject constructor(
     }
 
     private fun deleteAccountPermanently(password: String) {
-        val credential = EmailAuthProvider.getCredential(user.email!!, password)
+        val userEmail = user?.email ?: ""
+        val credential = EmailAuthProvider.getCredential(userEmail, password)
         settingsViewModel.deleteUserPermanently(credential) { response ->
             when (response) {
                 is Response.Loading -> Toast.makeText(

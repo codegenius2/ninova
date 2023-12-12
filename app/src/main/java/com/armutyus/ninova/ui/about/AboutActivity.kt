@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.armutyus.ninova.constants.Constants.FIREBASE_URL
+import com.armutyus.ninova.constants.Constants.FLATICON_URL
 import com.armutyus.ninova.constants.Constants.GLIDE_URL
 import com.armutyus.ninova.constants.Constants.GOOGLE_BOOKS_API_URL
 import com.armutyus.ninova.constants.Constants.LINK_BUILDER_URL
@@ -50,6 +51,12 @@ class AboutActivity : AppCompatActivity() {
         val textColor = Color.parseColor("#005FAF")
         val highlightColor = Color.parseColor("#001C3A")
 
+        val flatIconUrl = Link("FlatIcon")
+            .setTextColor(textColor)
+            .setTextColorOfHighlightedLink(highlightColor)
+            .setHighlightAlpha(0f)
+            .setOnClickListener { openLink(FLATICON_URL) }
+
         val firebaseUrl = Link("Firebase")
             .setTextColor(textColor)
             .setTextColorOfHighlightedLink(highlightColor)
@@ -87,6 +94,7 @@ class AboutActivity : AppCompatActivity() {
             .setOnClickListener { openLink(RETROFIT_URL) }
 
         return listOf(
+            flatIconUrl,
             firebaseUrl,
             glideUrl,
             googleBooksApiUrl,

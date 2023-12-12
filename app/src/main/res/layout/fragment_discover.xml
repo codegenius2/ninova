@@ -8,19 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.discover.DiscoverFragment">
 
-    <LinearLayout
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:gravity="top"
-        android:visibility="visible">
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"/>
-    </LinearLayout>
-
     <TextView
         android:id="@+id/appNameTextView"
         android:layout_width="match_parent"

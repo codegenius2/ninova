@@ -93,7 +93,7 @@
     <string name="select_the_shelves_you_want_to_add">Seleccione las estanterías que desea agregar:</string>
     <string name="create_shelf_and_add_book">Escriba el título de la estantería y presione el botón crear para agregar su libro.</string>
     <string name="title_cannot_empty">El título no puede estar vacío</string>
-    <string name="welcome_to_ninova">BIENVENIDO \n\nA NINOVA</string>
+    <string name="welcome_to_ninova">BIENVENIDO   A NINOVA</string>
     <string name="search_through_all_books">Buscar entre todos los libros</string>
     <string name="delete_account_warning">¿Seguro que desea eliminar su cuenta? La eliminación de la cuenta es permanente y no se puede recuperar más tarde. Por favor, ingrese su contraseña actual para eliminar su cuenta.</string>
     <string name="upload_library_message">¿Desea cargar su biblioteca antes de cerrar sesión?</string>
@@ -119,6 +119,7 @@
     <string name="alexandria_light">Alexandria Claro</string>
     <string name="alexandria_dark">Alexandria Oscure</string>
     <string name="some_details_not_loaded">Algunos detalles no se pudieron cargar</string>
+    <string name="small_welcome_text">BIENVENIDO A NINOVA</string>
 </resources>
 
 

@@ -117,7 +117,7 @@
     <string name="unexpected_error">Unexpected error!</string>
     <string name="about_page_text">Hello everyone! \n\nI am very happy to be able to deliver this application to you as a result of long-term studies. I tried to develop an application that can help anyone who loves books. And I want it to become even more useful by adding new features over time. The application is completely free and ad-free. And I plan to always stay that way -but you never know what future brings-. \n\nEndless thanks to my wife Sümeyra, my brothers Fatih, Ahmet Haşim and my sister Eda, my mom Fatma and my dad Namık who have always supported me and believed in me throughout this process and of course my son Selim for always giving me strength and joy in life. \n\nThanks to Atıl Samancıoğlu, Akın Kaldıroğlu and Philipp Lackner, from whom I learned and understood a lot with his lectures, videos and articles during the software learning and development process -probably they don’t know about it though-. \n\nThanks also to the amazing people on Youtube and StackOverFlow whose names I can\'t remember. \n\nSpecial thanks to my brother Ahmet Haşim, who was my mentor throughout this whole process. \n\nI hope you like the application. You can always reach me at ofdelibas@gmail.com for complaints, requests, bug reports and similar things.</string>
     <string name="credits">CREDITS</string>
-    <string name="credits_links" translatable="false">Firebase \nGlide Library \nGoogle Books API \nLink Builder \nLottie Animations \nRetrofit</string>
+    <string name="credits_links" translatable="false">FlatIcon \nFirebase \nGlide Library \nGoogle Books API \nLink Builder \nLottie Animations \nRetrofit \n\nDiscover Category Icons made by Freepik, Eucalyp, Smashicons, ultimatearm, Good Ware, Andrean Prabowo, max.icons, photo3idea_studio, BZZRINCANTATION, Wichai.wi, Vitaly Gorbachev, nawicon, Icons_Field, lutfix</string>
     <string name="empty_text" translatable="false">-</string>
     <string name="or">or</string>
     <string name="ninova_light">Ninova Light</string>
@@ -127,4 +127,5 @@
     <string name="alexandria_light">Alexandria Light</string>
     <string name="alexandria_dark">Alexandria Dark</string>
     <string name="some_details_not_loaded">Some details could not be loaded</string>
+    <string name="small_welcome_text">WELCOME TO NINOVA</string>
 </resources>

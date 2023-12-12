@@ -93,7 +93,7 @@
     <string name="select_the_shelves_you_want_to_add">Sélectionnez les étagères que vous souhaitez ajouter :</string>
     <string name="create_shelf_and_add_book">Entrez le titre de l\'étagère et appuyez sur le bouton de création pour ajouter votre livre.</string>
     <string name="title_cannot_empty">Le titre ne peut pas être vide !</string>
-    <string name="welcome_to_ninova">BIENVENUE \n\nÀ NINOVA</string>
+    <string name="welcome_to_ninova">BIENVENUE   À NINOVA</string>
     <string name="search_through_all_books">Recherchez parmi tous les livres</string>
     <string name="delete_account_warning">Êtes-vous sûr de vouloir supprimer votre compte ? La suppression du compte est définitive et ne peut pas être récupérée ultérieurement. Veuillez entrer votre mot de passe actuel pour supprimer votre compte.</string>
     <string name="upload_library_message">Voulez-vous télécharger votre bibliothèque avant de vous déconnecter ?</string>
@@ -119,4 +119,5 @@
     <string name="alexandria_light">Alexandria Clair</string>
     <string name="alexandria_dark">Alexandria Sombre</string>
     <string name="some_details_not_loaded">Certaines informations n\'ont pas pu être chargées</string>
+    <string name="small_welcome_text">BIENVENUE À NINOVA</string>
 </resources>

@@ -103,3 +103,5 @@ Sapp/src/main/java/com/armutyus/ninova/ui/search/adapters/GoogleBookRowViewHolde
 [app/src/main/java/com/armutyus/ninova/ui/shelves/adapters/BookToShelfRecyclerViewAdapter.kt,6/8/68bf16f3daa9abe470b11f6e2b2e5d6680f7cec6
 y
 Iapp/src/main/java/com/armutyus/ninova/model/googlebooksmodel/DataModel.kt,e/9/e90031a2ef29d48c1ffa3e6f57047a8512110936
+t
+Dapp/src/main/java/com/armutyus/ninova/ui/shelves/ShelvesViewModel.kt,d/8/d88a47face5a2a2aae7af6c928a80431efc1c37a

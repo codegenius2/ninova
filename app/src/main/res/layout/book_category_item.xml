@@ -19,11 +19,10 @@
             android:src="@drawable/ic_placeholder_book_icon"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="8dp"
-            app:strokeColor="?attr/colorOnSurfaceInverse"
-            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorSecondaryContainer"
+            app:strokeWidth="2dp"
             app:shapeAppearance="@style/circleImageViewStyle"
             android:contentDescription="@string/title_books"
-
             />
 
         <TextView

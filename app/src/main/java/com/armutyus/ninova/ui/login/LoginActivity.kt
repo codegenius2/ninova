@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.welcomeTextView.fadeIn(1500)
+        setWelcomeTextView()
         binding.loginLayout.fadeIn(2000)
 
         binding.forgotPasswordText.setOnClickListener {
@@ -80,6 +80,18 @@ class LoginActivity : AppCompatActivity() {
         val theme = super.getTheme()
         checkAndApplyTheme(themePreferences, theme)
         return theme
+    }
+
+    private fun setWelcomeTextView() {
+        val height = resources.displayMetrics.heightPixels / resources.displayMetrics.density
+
+        if (height < 700.0f) {
+            binding.smallWelcomeTextView.visibility = View.VISIBLE
+            binding.smallWelcomeTextView.fadeIn(1500)
+        } else {
+            binding.welcomeTextView.visibility = View.VISIBLE
+            binding.welcomeTextView.fadeIn(1500)
+        }
     }
 
     private var email = ""

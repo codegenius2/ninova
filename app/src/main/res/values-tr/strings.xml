@@ -93,7 +93,7 @@
     <string name="select_the_shelves_you_want_to_add">Eklemek istediğin rafları seç:</string>
     <string name="create_shelf_and_add_book">Kitabı eklemek için raf ismini yaz ve oluştur butonuna bas.</string>
     <string name="title_cannot_empty">Raf ismi boş olamaz!</string>
-    <string name="welcome_to_ninova">NİNOVA\'YA \n\nHOŞGELDİNİZ</string>
+    <string name="welcome_to_ninova">NİNOVA\'YA   HOŞGELDİNİZ</string>
     <string name="search_through_all_books">Tüm kitaplar içinde ara</string>
     <string name="delete_account_warning">Hesabını silmek istediğine emin misin? Hesap silme kalıcı bir işlemdir ve sonradan kurtarılamaz. Hesabını silmek için lütfen mevcut şifreni gir.</string>
     <string name="upload_library_message">Çıkış yapmadan önce kütüphaneni yüklemek ister misin?</string>
@@ -119,4 +119,5 @@
     <string name="alexandria_light">Alexandria Açık</string>
     <string name="alexandria_dark">Alexandria Koyu</string>
     <string name="some_details_not_loaded">Bazı detaylar yüklenemedi</string>
+    <string name="small_welcome_text">NİNOVA\'YA HOŞGELDİNİZ</string>
 </resources>

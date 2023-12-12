@@ -1,15 +1,12 @@
 package com.armutyus.ninova.ui.discover
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.armutyus.ninova.R
-import com.armutyus.ninova.constants.Response
 import com.armutyus.ninova.constants.Util.Companion.fadeIn
 import com.armutyus.ninova.databinding.FragmentDiscoverBinding
 import com.armutyus.ninova.ui.discover.adapters.DiscoverRecyclerViewAdapter
@@ -20,8 +17,6 @@ class DiscoverFragment @Inject constructor(
 ) : Fragment(R.layout.fragment_discover) {
 
     private var fragmentBinding: FragmentDiscoverBinding? = null
-
-    private val discoverViewModel by activityViewModels<DiscoverViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,36 +41,11 @@ class DiscoverFragment @Inject constructor(
                 }
             }
         })
-
-        runObservers()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentBinding = null
-    }
-
-    private fun runObservers() {
-        discoverViewModel.bookCoverFromApiResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Response.Loading -> {
-                    fragmentBinding?.progressBar?.visibility = View.VISIBLE
-                }
-
-                is Response.Failure -> {
-                    Log.i("OpenLibraryError", response.errorMessage)
-                }
-
-                is Response.Success -> {
-                    fragmentBinding?.progressBar?.visibility = View.GONE
-                }
-            }
-        }
-        discoverViewModel.categoryCoverId.observe(viewLifecycleOwner) {
-            it?.let {
-                discoverAdapter.updateData(it)
-            }
-        }
     }
 
 }

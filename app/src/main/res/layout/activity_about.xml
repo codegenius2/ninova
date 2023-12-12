@@ -70,7 +70,8 @@
                 android:text="@string/credits_links"
                 android:textAlignment="center"
                 android:padding="8dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/md_theme_light_onPrimaryContainer">
             </TextView>
         </LinearLayout>
 
