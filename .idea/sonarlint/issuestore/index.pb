@@ -105,3 +105,7 @@ y
 Iapp/src/main/java/com/armutyus/ninova/model/googlebooksmodel/DataModel.kt,e/9/e90031a2ef29d48c1ffa3e6f57047a8512110936
 t
 Dapp/src/main/java/com/armutyus/ninova/ui/shelves/ShelvesViewModel.kt,d/8/d88a47face5a2a2aae7af6c928a80431efc1c37a
+m
+=app/src/main/java/com/armutyus/ninova/roomdb/NinovaLocalDB.kt,2/5/253007b49ba2b6e3446ccf42a363b26d1f0b0270
+I
+gradle/libs.versions.toml,d/7/d7595319a0658be6f1ed500ad590d42e4b28bc4f
