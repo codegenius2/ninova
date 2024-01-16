@@ -6,6 +6,6 @@ import dagger.hilt.android.components.ActivityComponent
 
 @EntryPoint
 @InstallIn(ActivityComponent::class)
-interface NinovaFragmentFactoryEntryPoint {
+fun interface NinovaFragmentFactoryEntryPoint {
     fun getFragmentFactory(): NinovaFragmentFactory
 }
